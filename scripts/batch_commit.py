@@ -191,8 +191,13 @@ def main():
 
     # Push
     if args.push:
-        print(f"\n🚀 Pushing to origin/main …")
-        out = git(["push", "origin", "main"], dry_run=args.dry_run)
+        # Detect current branch name (master or main)
+        current_branch = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            cwd=str(ROOT), capture_output=True, text=True
+        ).stdout.strip() or "master"
+        print(f"\n🚀 Pushing to origin/{current_branch} …")
+        out = git(["push", "origin", current_branch], dry_run=args.dry_run)
         if out:
             print(f"  {out}")
 
