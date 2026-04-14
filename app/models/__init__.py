@@ -4,14 +4,16 @@ from app.models.chat import (
     MessageRole, StreamChunk, StreamChunkType,
 )
 from app.models.search import (
-    LocationFilter, SearchHit, SearchMeta,
-    SearchRequest, SearchResponse, SearchHealthResponse,
+    GeoCoordinate, LocationFilter, LocationSearchRequest, LocationSearchResponse,
+    SearchHit, SearchMeta, SearchRequest, SearchResponse, SearchHealthResponse,
+    YogaLocationResult,
 )
 
 __all__ = [
     "ChatMessage", "ChatRequest", "ChatResponse",
     "ContextSource", "GenerationConfig", "HealthResponse",
     "MessageRole", "StreamChunk", "StreamChunkType",
-    "LocationFilter", "SearchHit", "SearchMeta",
-    "SearchRequest", "SearchResponse", "SearchHealthResponse",
+    "GeoCoordinate", "LocationFilter", "LocationSearchRequest", "LocationSearchResponse",
+    "SearchHit", "SearchMeta", "SearchRequest", "SearchResponse", "SearchHealthResponse",
+    "YogaLocationResult",
 ]

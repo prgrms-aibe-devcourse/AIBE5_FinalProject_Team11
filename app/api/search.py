@@ -2,10 +2,11 @@
 Search router — /search
 
 Endpoints:
-  POST /search          — keyword search with location / topic filters
-  GET  /search/suggest  — autocomplete suggestions
-  GET  /search/health   — liveness probe
-  GET  /search/filters  — available filter values (platforms, regions, topics)
+  POST /search           — keyword search with location / topic filters
+  GET  /search/suggest   — autocomplete suggestions
+  GET  /search/health    — liveness probe
+  GET  /search/filters   — available filter values (platforms, regions, topics)
+  POST /search/locations — find yoga spots by proximity, amenity, or type
 """
 from __future__ import annotations
 
@@ -15,9 +16,16 @@ from typing import List
 from fastapi import APIRouter, Depends, Query
 
 from app.config import get_settings
-from app.models.search import SearchHealthResponse, SearchRequest, SearchResponse
+from app.models.search import (
+    LocationSearchRequest, LocationSearchResponse,
+    SearchHealthResponse, SearchRequest, SearchResponse,
+    YogaLocationResult,
+)
+from app.services.agent import ElbeeAgent
 from app.services.loader import GeoDataStore, get_store
+from app.services.location_service import YogaLocationStore, get_location_store
 from app.services.search_service import SearchService
+from app.services.templates import get_template
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -96,3 +104,82 @@ async def filters(store: GeoDataStore = Depends(get_store)) -> dict:
         "total_pages":   store.size,
         "brand":         settings.brand,
     }
+
+
+# ── Location search ────────────────────────────────────────────────────────────
+
+@router.post(
+    "/locations",
+    response_model=LocationSearchResponse,
+    summary="Find yoga spots by proximity, amenity, or type (elbee brand)",
+)
+async def search_locations(
+    body: LocationSearchRequest,
+    loc_store: YogaLocationStore = Depends(get_location_store),
+) -> LocationSearchResponse:
+    """
+    Returns elbee-brand yoga locations filtered by:
+    - **coord** — lat/lng + radius_km for proximity search
+    - **location_type** — `official_elbee_club` | `public_yoga_spot` | `wellness_cafe`
+    - **amenities** — must-have list, e.g. `["shower", "mat_rental"]`
+    - **weather** — `clear`/`sunny` prefers outdoor; `rain`/`rainy` restricts to indoor
+    - **tags** / **district** — optional keyword filters
+
+    All responses include a Korean contextual message (해요체) and `brand_logo`.
+    """
+    agent = ElbeeAgent(loc_store.locations)
+    district = body.district or ""
+    weather = body.weather or "clear"
+
+    if body.coord:
+        nearby = loc_store.find_nearby(
+            body.coord.lat,
+            body.coord.lng,
+            body.coord.radius_km,
+            location_type=body.location_type,
+            amenities=body.amenities or None,
+            weather=body.weather,
+        )
+        results: List[YogaLocationResult] = []
+        for loc, dist in nearby:
+            invite = agent.generate_proximity_message(
+                body.coord.lat,
+                body.coord.lng,
+                district_name=loc.get("district", ""),
+                weather=weather,
+            )
+            results.append(
+                YogaLocationResult(
+                    **{k: v for k, v in loc.items()},
+                    distance_km=dist,
+                    invite_message=invite,
+                )
+            )
+        contextual_msg = (
+            agent.generate_proximity_message(
+                body.coord.lat, body.coord.lng, district, weather
+            )
+            if results
+            else get_template("no_result", location=district)
+        )
+    else:
+        # No coordinates: filter by type / tags / district
+        locs = loc_store.locations
+        if body.location_type:
+            locs = [l for l in locs if l.get("type") == body.location_type]
+        if body.tags:
+            tag_set = set(body.tags)
+            locs = [l for l in locs if tag_set.intersection(l.get("tags", []))]
+        if body.district:
+            locs = [l for l in locs if body.district in l.get("district", "")]
+        if body.amenities:
+            required = set(body.amenities)
+            locs = [l for l in locs if required.issubset(set(l.get("amenities", [])))]
+        results = [YogaLocationResult(**l) for l in locs]
+        contextual_msg = agent.generate_time_message(district or "서울")
+
+    return LocationSearchResponse(
+        results=results,
+        total=len(results),
+        message=contextual_msg,
+    )

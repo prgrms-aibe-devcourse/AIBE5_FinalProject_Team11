@@ -21,6 +21,7 @@ from fastapi.responses import JSONResponse
 from app.api import chat_router, search_router
 from app.config import get_settings
 from app.services.loader import init_store
+from app.services.location_service import init_location_store
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -43,6 +44,14 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
             "⚠️  Data store is EMPTY — run the OCR pipeline first.\n"
             "    Expected path: %s", settings.ocr_db_path
         )
+
+    loc_path = settings.base_dir / "data" / "yoga_locations.json"
+    loc_store = init_location_store(loc_path)
+    if loc_store.is_ready:
+        logger.info("📍 Location store loaded: %d yoga spots indexed", loc_store.size)
+    else:
+        logger.warning("⚠️  yoga_locations.json not found — /search/locations will return empty results")
+
     yield
     logger.info("🛑 Shutting down %s", settings.app_name)
 

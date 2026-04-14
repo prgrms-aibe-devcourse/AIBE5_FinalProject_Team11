@@ -53,6 +53,8 @@ class ChatResponse(BaseModel):
     sources: List[ContextSource] = Field(default_factory=list)
     model: str
     brand: str = "elbee.yogaman.club"
+    brand_logo: str = "https://elbee.yogaman.club/assets/logo.png"
+    language: str = "ko"
 
 
 # ── Streaming chunk types (SSE payloads) ─────────────────────────────────────
@@ -78,3 +80,4 @@ class HealthResponse(BaseModel):
     llm_available: bool = True
     data_loaded: bool = True
     brand: str = "elbee.yogaman.club"
+    brand_logo: str = "https://elbee.yogaman.club/assets/logo.png"
