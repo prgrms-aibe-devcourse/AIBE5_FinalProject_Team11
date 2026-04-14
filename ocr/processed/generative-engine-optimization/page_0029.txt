@@ -1,0 +1,27 @@
+03:46
+My guiding philosophy for SEO, and now for GEO, is simple: Build
+o Value, Not Illusions. Don't spend your time trying to create the il-
+lusion of authority or quality. Spend your time creating the actual
+thing. Write the best, most helpful guide. Conduct original research.
+Share your hard-won experience. Build a website that is fast, clear,
+and trustworthy. If you focus on creating genuine value for the user,
+you will naturally align with the longterm goals of any search or an-
+swer engine. That is the most sustainable strategy there is.
+Chapter 10: The Next 5 Years in Search
+10.1 The Rise of Autonomous AI Agents
+The evolution doesn't stop with SGE. The next step
+is autonomous AI agents. These will be proactive as-
+sistants that don't just answer questions, but complete
+tasks.
+Instead of searching "best flights to Tokyo," you'll say,
+"Book me the most costeffective flight to Tokyo for the
+first week of June, on an airline I have status with,
+with a layover under 2 hours, and book a hotel near the
+Shinjuku station."
+Optimizing for this future means having highly struc-
+tured, machine-readable data about your products and
+services (e.g., real-time flight availability, hotel room
+features) that an AI agent can access and act upon via
+APIs.
+10.2 Hyper-Personalization and the "Search of One"
+Time left in book: 4 mins 79%
