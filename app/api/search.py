@@ -24,6 +24,7 @@ from app.models.search import (
 from app.services.agent import ElbeeAgent
 from app.services.loader import GeoDataStore, get_store
 from app.services.location_service import YogaLocationStore, get_location_store
+from app.services.maps_service import MapsService
 from app.services.search_service import SearchService
 from app.services.templates import get_template
 
@@ -120,17 +121,64 @@ async def search_locations(
     """
     Returns elbee-brand yoga locations filtered by:
     - **coord** — lat/lng + radius_km for proximity search
+    - **source** — `kakao` (default) | `google` | `seed` (local JSON only)
     - **location_type** — `official_elbee_club` | `public_yoga_spot` | `wellness_cafe`
     - **amenities** — must-have list, e.g. `["shower", "mat_rental"]`
     - **weather** — `clear`/`sunny` prefers outdoor; `rain`/`rainy` restricts to indoor
     - **tags** / **district** — optional keyword filters
+
+    Each result includes a `map_redirect_url` that opens the location directly
+    in Kakao Maps (mobile app or web) or Google Maps.
 
     All responses include a Korean contextual message (해요체) and `brand_logo`.
     """
     agent = ElbeeAgent(loc_store.locations)
     district = body.district or ""
     weather = body.weather or "clear"
+    source = body.source  # "kakao" | "google" | "seed"
 
+    # ── Live map API path (Kakao or Google) ───────────────────────────────
+    if body.coord and source in ("kakao", "google"):
+        maps_svc = MapsService(
+            kakao_key=settings.kakao_rest_key,
+            google_key=settings.google_places_key,
+            cache_ttl=settings.maps_cache_ttl,
+        )
+        # Check API key availability; fall back to seed if unconfigured
+        has_key = (source == "kakao" and settings.kakao_rest_key) or \
+                  (source == "google" and settings.google_places_key)
+
+        if has_key:
+            raw = await maps_svc.search_nearby(
+                body.coord.lat,
+                body.coord.lng,
+                body.coord.radius_km,
+                keyword="요가 스튜디오",
+                source=source,
+            )
+            results: List[YogaLocationResult] = []
+            for loc in raw:
+                invite = agent.generate_proximity_message(
+                    body.coord.lat, body.coord.lng,
+                    district_name=loc.get("district", "") or district,
+                    weather=weather,
+                )
+                results.append(YogaLocationResult(**loc, invite_message=invite))
+            contextual_msg = (
+                agent.generate_proximity_message(body.coord.lat, body.coord.lng, district, weather)
+                if results else get_template("no_result", location=district)
+            )
+            return LocationSearchResponse(
+                results=results,
+                total=len(results),
+                message=contextual_msg,
+                source=source,
+            )
+        else:
+            logger.warning("/search/locations: no API key for source='%s' — falling back to seed", source)
+            source = "seed"
+
+    # ── Seed data path (local yoga_locations.json) ────────────────────────
     if body.coord:
         nearby = loc_store.find_nearby(
             body.coord.lat,
@@ -140,30 +188,25 @@ async def search_locations(
             amenities=body.amenities or None,
             weather=body.weather,
         )
-        results: List[YogaLocationResult] = []
+        results = []
         for loc, dist in nearby:
             invite = agent.generate_proximity_message(
-                body.coord.lat,
-                body.coord.lng,
+                body.coord.lat, body.coord.lng,
                 district_name=loc.get("district", ""),
                 weather=weather,
             )
-            results.append(
-                YogaLocationResult(
-                    **{k: v for k, v in loc.items()},
-                    distance_km=dist,
-                    invite_message=invite,
-                )
-            )
+            redirect = MapsService.seed_redirect_url(loc["name"], loc["lat"], loc["lng"])
+            results.append(YogaLocationResult(
+                **{k: v for k, v in loc.items()},
+                distance_km=dist,
+                invite_message=invite,
+                map_redirect_url=redirect,
+            ))
         contextual_msg = (
-            agent.generate_proximity_message(
-                body.coord.lat, body.coord.lng, district, weather
-            )
-            if results
-            else get_template("no_result", location=district)
+            agent.generate_proximity_message(body.coord.lat, body.coord.lng, district, weather)
+            if results else get_template("no_result", location=district)
         )
     else:
-        # No coordinates: filter by type / tags / district
         locs = loc_store.locations
         if body.location_type:
             locs = [l for l in locs if l.get("type") == body.location_type]
@@ -175,11 +218,18 @@ async def search_locations(
         if body.amenities:
             required = set(body.amenities)
             locs = [l for l in locs if required.issubset(set(l.get("amenities", [])))]
-        results = [YogaLocationResult(**l) for l in locs]
+        results = [
+            YogaLocationResult(
+                **l,
+                map_redirect_url=MapsService.seed_redirect_url(l["name"], l["lat"], l["lng"]),
+            )
+            for l in locs
+        ]
         contextual_msg = agent.generate_time_message(district or "서울")
 
     return LocationSearchResponse(
         results=results,
         total=len(results),
         message=contextual_msg,
+        source="seed",
     )

@@ -3,6 +3,7 @@ from app.services.rag_service import RagService
 from app.services.llm_service import LLMService
 from app.services.search_service import SearchService
 from app.services.location_service import YogaLocationStore, get_location_store, init_location_store
+from app.services.maps_service import MapsService
 from app.services.agent import ElbeeAgent
 from app.services.templates import get_template, get_time_trigger, josa_eun_neun, josa_i_ga
 

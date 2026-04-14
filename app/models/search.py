@@ -167,6 +167,14 @@ class YogaLocationResult(BaseModel):
     description: str = ""
     distance_km: Optional[float] = Field(None, description="Distance from user if coords provided")
     invite_message: Optional[str] = Field(None, description="Korean contextual marketing message")
+    # Map links
+    place_url: Optional[str] = Field(None, description="Kakao Maps place page URL")
+    phone: Optional[str] = Field(None, description="Phone number from map API")
+    map_redirect_url: Optional[str] = Field(
+        None,
+        description="Deeplink to open this location in Kakao Maps or Google Maps",
+        examples=["https://map.kakao.com/link/map/성수elbee요가스튜디오,37.5443,127.0556"],
+    )
 
 
 class LocationSearchRequest(BaseModel):
@@ -194,6 +202,10 @@ class LocationSearchRequest(BaseModel):
     district: Optional[str] = Field(
         None, description="District name for 조사-aware Korean messages (e.g. 성수동, 강남)"
     )
+    source: Literal["kakao", "google", "seed"] = Field(
+        "kakao",
+        description="Map data source: kakao (default) | google | seed (local JSON only)",
+    )
 
     model_config = {"json_schema_extra": {
         "examples": [{
@@ -211,3 +223,4 @@ class LocationSearchResponse(BaseModel):
     message: Optional[str] = Field(None, description="Korean contextual marketing message")
     brand: str = "elbee.yogaman.club"
     brand_logo: str = "https://elbee.yogaman.club/assets/logo.png"
+    source: str = Field("seed", description="Data source used: kakao | google | seed")

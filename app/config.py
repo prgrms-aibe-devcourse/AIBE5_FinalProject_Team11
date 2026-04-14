@@ -75,6 +75,12 @@ class Settings(BaseSettings):
     search_per_page: int = 10
     search_max_per_page: int = 50
 
+    # ── Maps API ──────────────────────────────────────────────────────────
+    kakao_rest_key: str = ""           # KAKAO_REST_KEY in .env
+    google_places_key: str = ""        # GOOGLE_PLACES_KEY in .env
+    maps_source: str = "kakao"         # MAPS_SOURCE = kakao | google | seed
+    maps_cache_ttl: int = 300          # seconds to cache map API responses
+
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
