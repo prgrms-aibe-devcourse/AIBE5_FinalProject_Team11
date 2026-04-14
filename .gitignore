@@ -1,0 +1,25 @@
+# Raw screenshots — may contain copyrighted material
+screenshots/
+
+# Intermediate OCR output
+ocr/raw/
+
+# Python env
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.key
+
+# Keep processed + content + data
+!ocr/processed/.gitkeep
+!content/.gitkeep
+!data/json/.gitkeep

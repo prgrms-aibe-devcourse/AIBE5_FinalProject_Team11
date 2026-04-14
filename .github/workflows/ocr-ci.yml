@@ -1,0 +1,40 @@
+name: OCR Pipeline CI
+
+on:
+  push:
+    paths:
+      - '**.py'
+      - 'data/json/**'
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install flake8
+      - run: flake8 --max-line-length=110 ocr_pipeline.py scripts/
+
+  validate-json:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate all ocr_database.json files
+        run: |
+          python3 -c "
+          import json, sys, pathlib
+          errors = []
+          for f in pathlib.Path('data/json').rglob('ocr_database.json'):
+              try:
+                  d = json.loads(f.read_text())
+                  assert 'metadata' in d and 'pages' in d, 'missing keys'
+                  print(f'  ✅ {f}  ({len(d[\"pages\"])} pages)')
+              except Exception as e:
+                  errors.append(f'  ❌ {f}: {e}')
+          if errors:
+              [print(e) for e in errors]
+              sys.exit(1)
+          "
