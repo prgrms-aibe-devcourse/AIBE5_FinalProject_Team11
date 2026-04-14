@@ -1,0 +1,25 @@
+04:17
+paradigm demands a nuanced approach to tracking
+| user behavior. We must move beyond direct click-
+through rates and instead focus on indirect signals and
+brand lift. Understanding these less direct pathways
+helps connect AI citations to measurable business out-
+comes.
+Challenges in AI Attribution
+The primary hurdle involves the opaque nature of AI
+interactions. Unlike a direct organic search result, an
+Al-generated answer does not always provide a click-
+able link back to the source. This means users might
+encounter a brand name, product, or service within an
+AI response without ever leaving the chatbot environ-
+ment.
+Another major issue stems from the user's journey
+after an AI citation. While some users might seek out
+the cited brand, many do not. This makes traditional
+last-click or first-click attribution models largely in-
+effective. We need new strategies to bridge this data gap
+and demonstrate value.
+Implementing Indirect Conversion Tracking
+Proving the ROI of GEO initiatives requires creative
+methods to track user actions following an AI citation.
+Time left in book: 10 mins 82%

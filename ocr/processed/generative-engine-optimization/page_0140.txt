@@ -1,0 +1,26 @@
+04:17
+This data forms the foundation for calculating citation
+| frequency and understanding model biases.
+Most top-tier brands in competitive categories target a
+citation frequency exceeding 30% for their core offer-
+ings. This benchmark indicates significant generative
+engine dominance and suggests the LLM consistently
+recognizes and prioritizes the brand. Falling below this
+threshold signals a need for immediate strategic ad-
+justments in your GEO efforts.
+Identifying Citation Gaps
+Once you establish baseline SOMV metrics, the next
+step involves identifying and filling Citation Gaps.
+These gaps represent instances where competitors re-
+ceive citations for prompts where your brand should
+ideally be mentioned. Analyzing these gaps reveals spe-
+cific knowledge deficits or perceived weaknesses in the
+LLM's understanding of your brand's relevance.
+For example, if a prompt about "best enterprise CRM
+software" consistently cites a competitor but not your
+CRM solution, a clear citation gap exists. This indicates
+the LLM either lacks sufficient training data connecting
+your brand to that specific query or it prioritizes com-
+petitor information for other reasons. Understanding
+the why behind these omissions is critical.
+Time left in book: 11 mins 79%
