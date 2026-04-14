@@ -1,0 +1,50 @@
+03:43
+
+Implicit queries are the questions a user has but doesn't
+| type. They are the natural follow-ups. If a user searches
+
+"how to start an SEO campaign," their implicit queries
+
+are:
+
+"..for a small business?"
+
+",..on a tight budget?"
+
+",..how long does it take to see results?"
+
+",..what tools do I need?"
+
+By creating dedicated sections in your content that an-
+
+swer these implicit queries (e.g., an H2 titled "How
+
+Long Does SEO Take to Show Results?"), you are directly
+
+feeding the AI the exact information it needs to build a
+
+complete answer.
+
+4.3 The Role of FAQs and "People Also Ask" in GEO
+
+Google's "People Also Ask" (PAA) boxes and the FAQ
+
+sections on competitors' pages are a goldmine for GEO.
+
+They are a direct look into the most common implicit
+
+and follow-up queries that users have.
+
+1. Harvest these questions: Gather all relevant PAA
+
+questions for your target topic.
+
+2.Answer them definitively: Create a comprehensive
+
+FAQ section at the end of your article or weave the an-
+
+swers naturally throughout your content.
+
+3.Use FAQPage Schema: Mark up your FAQ section
+
+Time left in book: 21 mins 42%

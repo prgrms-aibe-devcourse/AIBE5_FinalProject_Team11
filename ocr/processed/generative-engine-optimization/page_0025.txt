@@ -1,0 +1,52 @@
+03:45
+
+Google's Rich Results Test: The official tool from Google. Use it to
+6] validate your schema code and ensure it's implemented correctly be-
+
+fore (and after) you publish.
+
+Chapter 8: Measuring Success in a GEO World
+
+8.1 The New KPIs: Moving beyond simple rank track-
+
+ing
+
+Rank tracking is not dead, but it's no longer the only
+
+metric that matters. Your new dashboard must include
+
+GEO-specific Key Performance Indicators (KPIs). Visi-
+
+bility in AI Snapshots/Features: Is your domain being
+
+cited as a source
+
+in SGE or other AI answers?
+
+Cited Mentions: Tracking how often your brand or con-
+
+tent is mentioned as a
+
+source.
+
+Click-Through Rate (CTR) from Featured Snippets &
+
+AI Snapshots: When
+
+you are featured, are people clicking through?
+
+"Answered Queries" Coverage: What percentage of
+
+your target "hidden
+
+prompts" and FAQs does your content now cover?
+
+8.2 Tracking Visibility in SGE and AI Chatbots
+
+This is the cutting edge of measurement, and tools are
+
+still evolving. For now, it's a mix of manual and auto-
+
+mated methods:
+
+Time left in book: 9 mins 69%

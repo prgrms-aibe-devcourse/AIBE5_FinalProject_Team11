@@ -1,0 +1,50 @@
+03:44
+
+VideoObject: Helps AI understand the content of your
+| embedded videos.
+
+Implementing schema is non-negotiable for GEO. It's
+
+the most direct way to speak the language of AI.
+
+5.2 Site Architecture for AI Agents
+
+An AI agent doesn't just read one page; it tries to under-
+
+stand your entire website. A messy, disorganized site
+
+is confusing. A logical site architecture helps AI under-
+
+stand context and hierarchy.
+
+Create Information Silos: Group related content to-
+
+gether. For example, all your blog posts about "Con-
+
+tent Marketing" should live under a single category
+
+(e.g., yourdomain.com/blog/content-marketing/) and
+
+link heavily to each other. This creates a topical hub of
+
+expertise.
+
+Use Breadcrumbs: Breadcrumb navigation (e.g., Home
+
+> Blog > SEO > This Post) helps both users and AI agents
+
+understand where they are in your site's hierarchy.
+
+Strategic Internal Linking: Link from your high-au-
+
+thority pages to new content you want to boost. Use
+
+descriptive anchor text (e.g., link to your schema guide
+
+with the text "learn more about schema markup") to
+
+provide context.
+
+5.3 Page Speed and Core Web Vitals
+
+Time left in book: 17 mins 50%

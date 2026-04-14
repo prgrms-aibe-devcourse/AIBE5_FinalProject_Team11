@@ -1,0 +1,26 @@
+03:41
+Conversational & Complex: "Plan a 3-day itinerary for
+8) a family with two young kids in London on a budget,
+focusing on museums but avoiding crowds."
+No single webpage could ever perfectly answer that
+query. It requires synthesis, reasoning, and combining
+information from multiple sources. This is the domain
+where Generative Engines excel, and it's where our old
+models of keyword-based optimization begin to fall
+apart. We must now optimize not just for the initial
+question, but for the entire conversation.
+1.2 How Large Language Models (LLMs) "Think"
+You don't need a Ph.D. in computer science to under-
+stand the basics of LLMs. Let's demystify it. Imagine an
+incredibly powerful intern who has been forced to read
+the entire internet—every Wikipedia page, every blog
+post, every news article, every book.
+This intern doesn't "understand" in the human sense.
+Instead, it has learned the statistical patterns of lan-
+guage. It knows that the word "queen" is often followed
+by "of England" or "Elizabeth." It knows that a list of in-
+structions is usually formatted with numbers or bullet
+points.
+When you give an LLM a prompt, it's essentially a mas-
+sive game of "what word comes next?" It predicts the
+Time left in book: 30 mins 19%

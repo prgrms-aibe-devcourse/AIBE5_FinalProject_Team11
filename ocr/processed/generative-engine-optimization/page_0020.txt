@@ -1,0 +1,54 @@
+03:44
+
+This is simple: a slow, clunky website is a low-trust
+8] website. Google has explicitly stated that Core Web Vi-
+
+tals (a set of metrics related to loading speed, inter-
+
+activity, and visual stability) are a ranking factor. For
+
+AI, this is even more critical.
+
+AI systems need to process vast amounts of data
+
+quickly. A slow site is an inefficient data source. Priori-
+
+tizing a fast, stable user experience is a primary trust
+
+signal that tells both Google and its AI models that
+
+your site is high-quality and reliable.
+
+5.4 The GEO Technical Audit Checklist
+
+Use this checklist to audit your site's technical readiness for GEO:
+
+HTTPS is enabled: The site is secure.
+
+Mobile-Friendly: The site works perfectly on all devices.
+
+Core Web Vitals Pass: Use Google PageSpeed Insights to test your
+
+scores. Key Schema is Implemented: At minimum, Article, Organ-
+
+ization, and Person schema should be present. Use FAQPage and
+
+HowTo where relevant.
+
+XML Sitemap is Clean and Submitted: Your sitemap tells crawlers
+
+what pages to find.
+
+No Major Crawl Errors: Check Google Search Console for any issues.
+
+Logical Site Architecture: Content is organized into clear categor-
+
+ies/silos. Internal Linking is Strategic: Important pages are well-
+
+linked with contextual anchor text.
+
+Chapter 6: Pillar 4 - E-E-A-T in the Age of AI
+
+6.1 Why E-E-A-T is Now Your #1 Differentiator
+
+Time left in book: 16 mins 53%
