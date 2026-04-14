@@ -1,0 +1,46 @@
+03:53
+
+don't just read words; they interpret meaning, identify
+8) entities, and build knowledge graphs.
+
+These AI agents evaluate content based on its semantic
+
+richness and its contribution to an entity's comprehen-
+
+sive profile. They prioritize content that offers clear,
+
+verifiable facts and insights, moving beyond simple
+
+keyword matching.
+
+Five Core Differences: Legacy Search vs.
+
+Generative Engine Optimization
+
+Understanding these fundamental distinctions is crit-
+
+ical for practitioners. The shift from traditional search
+
+engines to generative AI platforms necessitates a re-
+
+evaluation of every aspect of digital strategy. Here isa
+
+summary of the core differences:
+
+Aspect Legacy Search (SEO) Generative Engine Opti-
+
+mization (GEO)
+
+Primary Focus Page-centric Entity-centric
+
+Authority Signals Backlinks, PageRank Semantic sig-
+
+nals, Trust layers
+
+Content Goal Keyword ranking Authoritative inclusion
+
+Content Structure Keyword density, Readability
+
+Citation-ready, Factual depth
+
+Time left in book: 46 mins 11%
