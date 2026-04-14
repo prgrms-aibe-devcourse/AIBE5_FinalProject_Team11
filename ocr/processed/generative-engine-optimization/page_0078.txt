@@ -1,0 +1,24 @@
+03:59
+
+5) Verifying Entity Relationships
+with AI Knowledge Graphs
+Fact: AI engines like Claude and Gemini utilize in-
+ternal knowledge graphs to verify brand existence.
+This means your entity-building efforts must align
+with how these graphs operate. Regularly check how
+your brand appears in Al-generated summaries or dir-
+ect questions. Are the relationships accurate? Is your
+brand positioned as
+an authority?
+A critical insight reveals that 90% of AlI-generated
+brand recommendations are based on existing en-
+tity relationships. This data point underscores the im-
+mense importance of a well-constructed brand graph.
+If your brand lacks these defined relationships, it will
+rarely appear in AI recommendations.
+Therefore, entity building is not a suggestion; it is a
+prerequisite for generative visibility. Brands must ac-
+tively cultivate and monitor their presence within
+these knowledge graphs. This proactive management
+directly impacts their generative search performance.
+Time left in book: 34 mins 32%
