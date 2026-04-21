@@ -20,3 +20,12 @@ Thumbs.db
 !ocr/processed/.gitkeep
 !content/.gitkeep
 !data/json/.gitkeep
+
+# --- Orphan review: un-tracked 2026-04-21, pending deletion decision ---
+# 166 OCR source screenshots (~25 MB of binary PNGs)
+# Use Git LFS or object storage instead.
+screenshots/*.png
+
+# Generated data files — rebuild with: scripts/enrich_poses.py + generate_pose_insert_sql.py
+data/poses/poses_eat_schema.json
+data/poses/pose_enriched_ingest.sql
