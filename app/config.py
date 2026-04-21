@@ -5,6 +5,7 @@ All defaults are safe for local development.
 from __future__ import annotations
 
 import json
+import sys
 from functools import lru_cache
 from pathlib import Path
 from typing import List
@@ -42,7 +43,19 @@ class Settings(BaseSettings):
     @property
     def allowed_origins(self) -> List[str]:
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+    @staticmethod
+    def _is_wsl() -> bool:
+        if sys.platform != "linux":
+            return False
+        proc = Path("/proc/version")
+        return proc.exists() and "microsoft" in proc.read_text("utf-8").lower()
 
+    @property
+    def resolved_ollama_base_url(self) -> str:
+        url = self.ollama_base_url.rstrip("/")
+        if url == "http://localhost:11434" and self._is_wsl():
+            return "http://host.docker.internal:11434"
+        return url
     # ── Data paths ────────────────────────────────────────────────────────
     # Absolute path resolved at import time relative to this file
     base_dir: Path = Path(__file__).resolve().parent.parent

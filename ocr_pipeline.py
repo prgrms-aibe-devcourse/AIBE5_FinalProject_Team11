@@ -45,6 +45,14 @@ try:
 except ImportError as e:
     sys.exit(f"[ERROR] Missing dependency: {e}\nRun: pip install pytesseract Pillow opencv-python")
 
+TESSERACT_CMD = os.environ.get("TESSERACT_CMD")
+if TESSERACT_CMD:
+    pytesseract.pytesseract.tesseract_cmd = TESSERACT_CMD
+elif sys.platform == "win32":
+    default_tesseract = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    if Path(default_tesseract).exists():
+        pytesseract.pytesseract.tesseract_cmd = default_tesseract
+
 # ── Paths ──────────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent
 SCREENSHOTS = ROOT / "screenshots"

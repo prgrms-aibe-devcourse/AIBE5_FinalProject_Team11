@@ -49,6 +49,21 @@ python3 scripts/integrate.py --book "Light on Yoga"
 python3 scripts/watch.py --book "Light on Yoga"
 ```
 
+## Windows / WSL2 notes
+
+- In WSL2, install Linux Python and Tesseract inside the distro:
+  ```bash
+  sudo apt update && sudo apt install -y python3.11 python3-pip python3-venv tesseract-ocr
+  ```
+- If Ollama runs on the Windows host and the API runs in WSL2, override the host URL:
+  ```bash
+  export OLLAMA_BASE_URL=http://host.docker.internal:11434
+  ```
+- If using native Windows Python and Tesseract is not on PATH, set:
+  ```powershell
+  setx TESSERACT_CMD "C:\Program Files\Tesseract-OCR\tesseract.exe"
+  ```
+
 ## Output schema
 
 Each book produces three JSON files in `data/json/<slug>/`:

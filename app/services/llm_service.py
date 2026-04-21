@@ -31,7 +31,7 @@ class LLMService:
         model: Optional[str] = None,
         timeout: Optional[int] = None,
     ) -> None:
-        self.base_url = (base_url or settings.ollama_base_url).rstrip("/")
+        self.base_url = (base_url or settings.resolved_ollama_base_url).rstrip("/")
         self.model = model or settings.ollama_model
         self.timeout = timeout or settings.ollama_timeout
 
