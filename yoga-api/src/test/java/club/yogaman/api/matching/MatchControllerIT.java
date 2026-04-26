@@ -97,4 +97,28 @@ class MatchControllerIT {
         assertThat(results).hasSize(2);
         results.forEach(r -> assertThat(r.getScore()).isEqualTo(0.0));
     }
+
+    // ── Goal-tag expansion test (T-001 regression) ───────────────────────────
+
+    @Test
+    @Sql("/match-seed.sql")
+    void goalTagMapExpandsSpinalMobilityToNonZeroScore() {
+        // "Spinal_Mobility" must expand to ["mobility","back","flexibility","release","posture"]
+        // lotus has flexibility weight=2.0 → score > 0
+        MatchRequest request = new MatchRequest();
+        request.setHealthFlags(List.of());
+        request.setGoals(List.of("Spinal_Mobility"));
+        request.setTopK(10);
+
+        ResponseEntity<MatchResponse> response =
+                restTemplate.postForEntity("/api/v1/match", request, MatchResponse.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        List<MatchResult> results = response.getBody().getResults();
+        assertThat(results).isNotEmpty();
+        // At least one pose must score > 0 — verifies GOAL_TAG_MAP expansion works
+        assertThat(results.stream().mapToDouble(MatchResult::getScore).max().getAsDouble())
+                .isGreaterThan(0.0);
+    }
 }

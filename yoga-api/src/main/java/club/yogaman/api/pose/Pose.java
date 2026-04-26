@@ -41,6 +41,10 @@ public class Pose {
     @Fetch(FetchMode.SUBSELECT)
     private List<String> geoKeywords;
 
+    // Added by V2 migration — LLM-readable plain-text description
+    @Column(columnDefinition = "TEXT")
+    private String naturalDescription;
+
     // Getters and setters
 
     public String getPoseId() {
@@ -113,5 +117,13 @@ public class Pose {
 
     public void setGeoKeywords(List<String> geoKeywords) {
         this.geoKeywords = geoKeywords;
+    }
+
+    public String getNaturalDescription() {
+        return naturalDescription;
+    }
+
+    public void setNaturalDescription(String naturalDescription) {
+        this.naturalDescription = naturalDescription;
     }
 }
