@@ -13,3 +13,17 @@ pydantic-settings>=2.2.0
 
 # ── Already in requirements.txt (OCR pipeline deps) ───────────────────────
 # Pillow, opencv-python, pytesseract, numpy, watchdog
+
+# ── Agentic pipeline (Issue #4) ────────────────────────────────────────────
+# LangGraph — state machine orchestration
+langgraph>=0.2
+langchain-core>=0.3
+langchain-community>=0.3
+
+# LlamaIndex — semantic pose retrieval (replaces keyword rag_service.py)
+llama-index>=0.11
+llama-index-embeddings-ollama>=0.3
+llama-index-llms-ollama>=0.3
+
+# CrewAI — Analyst + Matcher + Writer role-based agents
+crewai>=0.80

@@ -931,6 +931,11 @@ GET /api/v1/sitemap.xml  → lists all pose, article, and glossary URLs
 | T-028 | P9 | 🔴 Open | Fix pose_qa quality (expand with LLM) |
 | T-029 | P9 | 🔴 Open | Sitemap + crawlable AEO URL inventory |
 | T-030 | P2 | 🔴 Open | Instructor trust score daily batch recalc (Python cron) |
+| T-031 | P10 | 🔴 Open | LangGraph state machine scaffold (`app/agents/graph.py`) |
+| T-032 | P10 | 🔴 Open | LlamaIndex pose index — replaces keyword `rag_service.py` |
+| T-033 | P10 | 🔴 Open | CrewAI crew: Analyst + Matcher + Writer agents |
+| T-034 | P10 | 🔴 Open | Geofencing trigger: real-time Korean GEO copy on proximity |
+| T-035 | P10 | 🔴 Open | GitHub Actions CI: full pipeline lint + smoke test |
 
 ---
 
@@ -991,3 +996,227 @@ print(f"Updated {len(rows)} instructors")
 - All rows in `instructors` have `updated_at = NOW()` after the run
 - `instructor_trust_score` values are in range `[0.0, 1.000]`
 - Script is idempotent — safe to run multiple times
+
+---
+
+## Priority 10 — Agentic Automation Pipeline (Issue #4)
+
+> **Source:** [Issue #4](https://github.com/aiegoo/aeogeo/issues/4) — LangGraph + LlamaIndex + CrewAI + AutoGen  
+> **Context:** Replace the current stateless keyword RAG + simple Ollama loop with a production-grade multi-agent orchestration pipeline.
+
+### T-031 LangGraph state machine scaffold
+**Status:** 🔴 Open  
+**File to create:** `app/agents/graph.py`
+
+**Purpose:** Define the full pipeline as a typed state graph. Each node is a discrete, testable function. Cycles are explicit (e.g., if kill-switch fires, short-circuit to `return_blocked`).
+
+**State schema:**
+```python
+from typing import TypedDict, List, Optional
+
+class AgentState(TypedDict):
+    # Input
+    lat: float
+    lng: float
+    goals: List[str]
+    health_flags: List[str]
+    experience_level: str
+    available_minutes: int
+    # Intermediate
+    expanded_goals: List[str]
+    nearby_studios: List[dict]
+    blocked_poses: List[str]
+    retrieved_chunks: List[dict]
+    match_results: List[dict]
+    # Output
+    crew_copy_ko: str
+    crew_copy_en: str
+    top_poses: List[dict]
+    top_studio: Optional[dict]
+```
+
+**Graph edges:**
+```
+parse_input → parallel_fetch → score_and_rank → crew_generate → return_response
+                   │
+                   ├─ find_nearby_studios (calls /api/v1/studios/nearby)
+                   ├─ run_kill_switch_check
+                   └─ llama_index_retrieve
+```
+
+**Install:** `pip install langgraph langchain-core`
+
+**Acceptance criteria:**
+- `python -c "from app.agents.graph import build_graph; g = build_graph(); print(g)"` runs without error
+- Graph can be drawn: `g.get_graph().draw_mermaid()` outputs a valid Mermaid diagram
+- Smoke test input `{"lat": 37.5665, "lng": 126.9780, "goals": ["Spinal_Mobility"], "health_flags": [], "experience_level": "BEGINNER", "available_minutes": 30}` completes in < 10 s
+
+---
+
+### T-032 LlamaIndex pose index
+**Status:** 🔴 Open  
+**File to create:** `app/agents/pose_index.py`  
+**Replaces:** `app/services/rag_service.py` (keyword BM25 → semantic vector retrieval)
+
+**Purpose:** Index all `natural_description` + `schema_org_jsonld` text from the `poses` table using `nomic-embed-text` embeddings. At query time, retrieve the top-K most semantically relevant pose chunks.
+
+**Implementation:**
+```python
+from llama_index.core import VectorStoreIndex, Document
+from llama_index.embeddings.ollama import OllamaEmbedding
+
+def build_pose_index(poses: list[dict]) -> VectorStoreIndex:
+    embed_model = OllamaEmbedding(
+        model_name="nomic-embed-text",
+        base_url="http://localhost:11434",
+    )
+    docs = [
+        Document(
+            text=p["natural_description"] or p["canonical_name"],
+            metadata={"pose_id": p["pose_id"], "difficulty": p["difficulty_rank"]},
+        )
+        for p in poses
+    ]
+    return VectorStoreIndex.from_documents(docs, embed_model=embed_model)
+```
+
+**Index persistence:** Save to `data/pose_index/` using `index.storage_context.persist()`. Rebuild only when pose count changes (check row count vs saved manifest).
+
+**Install:** `pip install llama-index llama-index-embeddings-ollama`
+
+**Acceptance criteria:**
+- `python -c "from app.agents.pose_index import build_pose_index"` imports without error
+- Index builds from 944 poses in < 60 s
+- Query `"best poses for lower back pain"` returns ≥ 3 relevant poses with cosine similarity > 0.6
+
+---
+
+### T-033 CrewAI role-based crew
+**Status:** 🔴 Open  
+**File to create:** `app/agents/crew.py`
+
+**Purpose:** Three specialised agents that collaborate to produce a personalised GEO marketing message. Each agent has a distinct role, goal, and backstory — mirroring the issue #4 description.
+
+**Crew composition:**
+
+| Agent | Role | Goal | Backstory |
+|-------|------|------|-----------|
+| `analyst` | GEO Context Analyst | Read user location + time of day + season + nearby landmark type | "당신은 도시 상권 전문가입니다. 위경도와 시간대를 보고 그 장소가 어떤 컨텍스트인지 파악합니다." |
+| `matcher` | Yoga Pose Matcher | Select the top 3 poses and 1 nearby studio from the match results | "당신은 FYT100 자격증을 가진 요가 전문가입니다. 매칭 점수와 금기사항을 보고 최적 포즈를 선택합니다." |
+| `writer` | Korean Copy Writer | Generate natural 해요체 Korean marketing copy for the selected poses and studio | "당신은 한국어 마케팅 전문가입니다. GEO 컨텍스트에 맞는 자연스러운 한국어 문구를 작성합니다." |
+
+**Sample output** (비 오는 강남역 점심시간):
+```
+비 오는 강남역 점심, 뻐근한 어깨를 풀어드릴게요 🧘
+오늘 추천 포즈: 고양이-소 자세 · 어깨 개방 자세 · 다운독
+도보 3분: 강남 요가 센터 — 오늘 12:30 수업 잔여석 3
+```
+
+**Install:** `pip install crewai crewai-tools`
+
+**Acceptance criteria:**
+- `python -c "from app.agents.crew import build_crew; c = build_crew()"` runs without error
+- Crew produces Korean copy string of ≥ 50 characters for a sample GEO context
+- Copy passes a basic 해요체 check (ends sentences in `~요`, `~어요`, `~드릴게요`)
+
+---
+
+### T-034 Geofencing trigger: proximity-based Korean copy
+**Status:** 🔴 Open  
+**File to create:** `app/agents/geofence.py`
+
+**Purpose:** Implement the Geofencing + Geo-conquesting logic from issue #4. When a user enters a defined zone (e.g., within 500 m of a partner studio, or within 1 km of a competitor), the agent pipeline fires and generates a push-notification-ready Korean message.
+
+**Zone types:**
+
+| Zone | Trigger | Copy template |
+|------|---------|---------------|
+| Partner studio (< 500 m) | User enters radius | "지금 {distance}m 앞! {studio} 오늘 {time} 수업 시작해요 🧘 지금 예약하면 {discount}% 할인" |
+| Competitor vicinity (< 1 km) | User near competitor | "{competitor} 근처시군요? {our_studio}는 여기서 {distance}m — 더 저렴하고 쾌적해요 💜" |
+| High-traffic zone (lunch) | Time 11:30–13:30 + CBD | "점심시간 {location} — 10분 스트레칭으로 오후를 준비하세요. 추천 포즈: {pose}" |
+
+**Implementation:**
+```python
+from app.services.agent import _haversine_km
+
+def check_geofence(user_lat: float, user_lng: float, studios: list[dict]) -> dict | None:
+    """Returns the closest zone trigger within threshold, or None."""
+    for studio in studios:
+        dist = _haversine_km(user_lat, user_lng, studio["latitude"], studio["longitude"])
+        if dist <= 0.5:
+            return {"type": "partner", "studio": studio, "distance_m": int(dist * 1000)}
+    return None
+```
+
+**Acceptance criteria:**
+- `check_geofence(37.4979, 127.0276, studios)` returns `{"type": "partner", ...}` for Gangnam Yoga Center
+- Triggered zones are passed to the CrewAI `writer` agent (T-033) to generate copy
+- Returns `None` for coordinates outside all zone radii
+
+---
+
+### T-035 GitHub Actions CI — full pipeline
+**Status:** 🔴 Open  
+**File to create:** `.github/workflows/ci.yml`
+
+**Purpose:** Automated testing on every push and PR. Covers Python linting, Java build, JSON schema validation, and a smoke test of the agent pipeline.
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  python-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install ruff
+      - run: ruff check scripts/ app/
+
+  java-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { java-version: "17", distribution: "temurin" }
+      - run: cd yoga-api && ./mvnw -q package -DskipTests
+
+  validate-schemas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install jsonschema
+      - run: |
+          python -c "
+          import json, jsonschema
+          schema = json.load(open('schemas/pose_eat_schema.json'))
+          print('Schema valid:', schema.get('@type', schema.get('title', 'OK')))
+          "
+
+  agent-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -r requirements.txt langgraph llama-index crewai
+      - run: |
+          python -c "
+          from app.agents.graph import build_graph
+          g = build_graph()
+          print('Graph nodes:', list(g.get_graph().nodes.keys()))
+          "
+```
+
+**Acceptance criteria:**
+- All 4 jobs pass on `master` push
+- `python-lint` catches any ruff violations
+- `agent-smoke-test` confirms `build_graph()` is importable without a live DB or Ollama connection (use mocks/stubs)

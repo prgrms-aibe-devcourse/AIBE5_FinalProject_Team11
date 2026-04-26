@@ -82,6 +82,63 @@
 
 ---
 
+---
+
+## Phase 6 — Agentic Automation Pipeline (target: 2026-05-20)
+
+> **Source:** [Issue #4 tech stack discussion](https://github.com/aiegoo/aeogeo/issues/4)  
+> **Goal:** Replace the current stateless FastAPI/Ollama loop with a production-grade multi-agent orchestration layer using LangGraph + LlamaIndex + CrewAI.
+
+### Architecture
+
+```
+User request (lat/lng + goals + health flags)
+           │
+           ▼
+┌─────────────────────────────────────────────────────────┐
+│          LangGraph State Machine (app/agents/)          │
+│                                                         │
+│  State 1: parse_input                                   │
+│     └─ validate goals, expand via GOAL_TAG_MAP          │
+│                                                         │
+│  State 2: parallel_fetch (3 branches)                   │
+│     ├─ a) find_nearby_studios → GET /api/v1/studios/nearby │
+│     ├─ b) kill_switch_check  → contraindication filter  │
+│     └─ c) llama_index_retrieve → semantic pose chunks   │
+│                                                         │
+│  State 3: score_and_rank                                │
+│     └─ POST /api/v1/match → ranked MatchResult[]        │
+│                                                         │
+│  State 4: crew_generate (CrewAI)                        │
+│     ├─ Analyst agent  → reads location + time + weather │
+│     ├─ Matcher agent  → selects top 3 poses + 1 studio  │
+│     └─ Writer agent   → generates Korean GEO copy       │
+│                                                         │
+│  State 5: return_response                               │
+│     └─ { poses, studio, copy_ko, copy_en, json_ld }     │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Framework roles
+
+| Framework | Role in this project |
+|-----------|---------------------|
+| **LangGraph** | Orchestrates the full pipeline as a typed state machine; handles retries and cycles |
+| **LlamaIndex** | Indexes pose `natural_description` + `schema_org_jsonld` for semantic retrieval; replaces keyword `rag_service.py` |
+| **CrewAI** | Three-agent crew: Analyst (context) → Matcher (poses) → Writer (Korean copy) |
+| **AutoGen** | (Optional) Code-executing agent for trust score recalc validation + schema tests |
+| **Ollama** | Local LLM backend (`mistral:latest`) — shared by LangGraph + CrewAI |
+
+### Phase 6 checklist
+
+- [ ] T-031 — LangGraph state machine scaffold (`app/agents/graph.py`)
+- [ ] T-032 — LlamaIndex pose index (`app/agents/pose_index.py`) — replaces `rag_service.py`
+- [ ] T-033 — CrewAI crew: Analyst + Matcher + Writer agents (`app/agents/crew.py`)
+- [ ] T-034 — Geofencing trigger: real-time Korean copy on proximity event
+- [ ] T-035 — GitHub Actions CI: lint + build + agent smoke test on every push
+
+---
+
 ## Key metrics to track
 
 | Metric | Baseline | Target |
@@ -91,3 +148,5 @@
 | Search latency | — | < 200ms |
 | Books integrated | 0 | 3+ |
 | Chat answers sourced from geo | 0% | > 30% |
+| Agent pipeline e2e latency | — | < 5s |
+| Korean copy naturalness (human eval) | — | ≥ 4/5 |
