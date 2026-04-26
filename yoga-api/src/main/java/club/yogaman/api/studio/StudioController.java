@@ -29,6 +29,22 @@ public class StudioController {
         return ResponseEntity.ok(service.listAll());
     }
 
+    /**
+     * GET /api/v1/studios/nearby?lat=37.5665&lng=126.9780&radius=5
+     *
+     * Returns studios within {@code radius} km of the given coordinates,
+     * sorted by ascending distance. {@code radius} defaults to 10 km.
+     *
+     * Each result includes the full Studio object plus {@code distanceKm}.
+     */
+    @GetMapping("/nearby")
+    public ResponseEntity<List<StudioDistance>> findNearby(
+            @RequestParam double lat,
+            @RequestParam double lng,
+            @RequestParam(defaultValue = "10") double radius) {
+        return ResponseEntity.ok(service.findNearby(lat, lng, radius));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Studio> getById(@PathVariable Long id) {
         return service.findById(id)
