@@ -66,11 +66,19 @@ def is_artefact(pose: dict[str, Any]) -> bool:
 def build_inserts(poses: list[dict[str, Any]]) -> tuple[list[str], int]:
     sql_lines: list[str] = []
     skipped = 0
+    seen_ids: set[str] = set()
     for pose in poses:
         if is_artefact(pose):
             skipped += 1
             continue
         pose_id = normalize_text(pose.get("pose_id"))
+        if not pose_id:
+            skipped += 1
+            continue
+        if pose_id in seen_ids:
+            skipped += 1
+            continue
+        seen_ids.add(pose_id)
         canonical_name = normalize_text(pose.get("canonical_name"))
         common_name = normalize_text(pose.get("common_name"))
         difficulty_rank = int(pose.get("difficulty_rank") or 0)

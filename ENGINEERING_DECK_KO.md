@@ -53,6 +53,7 @@
 - **Maven Wrapper** (`./mvnw`) — Spring Boot 컴파일 + 패키징
 - **Flyway** — V1–V6 마이그레이션 자동 실행 (앱 기동 시)
 - **pip** — FastAPI 의존성 (`requirements.txt` / `requirements-api.txt`)
+- **Python 스크립트** — `scripts/enrich_poses.py` 및 `scripts/generate_pose_insert_sql.py`로 `yoga` 리포지토리 소스에서 E-E-A-T 포즈 JSON과 DB ingest SQL을 생성
 
 ---
 
@@ -69,6 +70,7 @@ aeogeo/
 │   └── api/                  # /search, /chat 엔드포인트
 ├── content/                  # OCR 파이프라인 원본 마크다운
 ├── data/                     # JSON 시드 (요가 위치, 포즈)
+│   └── poses/                # E-E-A-T 포즈 export + SQL ingest artifacts
 ├── scripts/                  # 배치 스크립트 (enrich_poses, integrate 등)
 ├── ENGINEERING_DECK.md       # 영문 빌드 덱
 └── ENGINEERING_DECK_KO.md    # 본 문서
@@ -104,6 +106,21 @@ OCR로 추출한 원본 마크다운(`content/`)을 Python 스크립트(`scripts
 ```
 
 **결과물**: V2 마이그레이션, 2700+ 포즈 레코드.
+
+- 현재 파이프라인: `scripts/enrich_poses.py`가 `yoga/references/2700-asanas/json/poses_database.json`에서
+  `data/poses/poses_eat_schema.json`을 생성하고,
+  `scripts/generate_pose_insert_sql.py`가 `data/poses/pose_enriched_ingest.sql`을 생성합니다.
+- 최근 실행 결과: 1471개 E-E-A-T 포즈 항목 생성, 944개 clean pose row, 4571개 SQL 문 생성.
+- 데이터 적용 방법: `PostgreSQL`에 `data/poses/pose_enriched_ingest.sql`을 로드하면 `yoga-api`의 `poses`, `pose_focus`, `pose_keywords`,
+  `pose_benefits`, `pose_contraindications` 테이블에 enrich된 pose 메타데이터가 삽입됩니다.
+- 예시 명령:
+
+  ```bash
+  cd /home/aiegoo/repos/aiegoo/aeogeo
+  docker compose up -d postgres
+  docker exec -i $(docker compose ps -q postgres) \
+    psql -U ${DB_USER:-postgres} -d yogadb < data/poses/pose_enriched_ingest.sql
+  ```
 
 ---
 

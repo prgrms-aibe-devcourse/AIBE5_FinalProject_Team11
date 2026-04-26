@@ -51,6 +51,22 @@ python3 scripts/generate_pose_insert_sql.py
 The generated SQL file is written to `data/poses/pose_enriched_ingest.sql`.
 Import that file into the Java backend database using an ingestion step or a separate loader component.
 
+If using Docker Compose, the SQL load command looks like this:
+
+```bash
+cd /home/aiegoo/repos/aiegoo/aeogeo
+docker compose up -d postgres
+docker exec -i $(docker compose ps -q postgres) \
+  psql -U ${DB_USER:-postgres} -d yogadb < data/poses/pose_enriched_ingest.sql
+```
+
+If connecting to a local Postgres instance, use:
+
+```bash
+psql -h localhost -p 5432 -U postgres -d yogadb \
+  -f data/poses/pose_enriched_ingest.sql
+```
+
 ## API Endpoints
 
 - `GET /api/v1/poses` — list all poses

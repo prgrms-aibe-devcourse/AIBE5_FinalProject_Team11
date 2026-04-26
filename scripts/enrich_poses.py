@@ -66,6 +66,21 @@ def slugify(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", text.lower()).strip("_")
 
 
+def unique_slug(base: str, seen: set[str]) -> str:
+    if not base:
+        base = "pose"
+    slug = slugify(base)
+    if not slug:
+        slug = "pose"
+    candidate = slug
+    suffix = 1
+    while candidate in seen:
+        suffix += 1
+        candidate = f"{slug}_{suffix}"
+    seen.add(candidate)
+    return candidate
+
+
 def choose_text(raw: dict[str, Any], keys: list[str]) -> str:
     for key in keys:
         value = raw.get(key)
@@ -166,10 +181,10 @@ def build_schema_org(raw: dict[str, Any], canonical: str, common: str, summary: 
     }
 
 
-def build_pose_item(raw: dict[str, Any]) -> dict[str, Any]:
+def build_pose_item(raw: dict[str, Any], seen_ids: set[str]) -> dict[str, Any]:
     canonical = choose_text(raw, ["canonical_name", "name", "english_name", "common_name"]) or "Unknown Pose"
     common = choose_text(raw, ["common_name", "name", "english_name", "canonical_name"]) or canonical
-    pose_id = slugify(raw.get("pose_id") or canonical)
+    pose_id = unique_slug(raw.get("pose_id") or canonical, seen_ids)
     summary = choose_text(raw, ["summary", "description", "instructions", "overview"])
 
     item = {
@@ -233,7 +248,8 @@ def main() -> int:
     dropped = len(source) - len(pose_entries)
     print(f"Loaded {len(source)} source entries; keeping {len(pose_entries)} pose entries, dropping {dropped} non-pose entries.")
 
-    enriched = [build_pose_item(raw) for raw in pose_entries]
+    seen_ids: set[str] = set()
+    enriched = [build_pose_item(raw, seen_ids) for raw in pose_entries]
 
     if args.preview:
         print(json.dumps(enriched[0] if enriched else {}, ensure_ascii=False, indent=2))
