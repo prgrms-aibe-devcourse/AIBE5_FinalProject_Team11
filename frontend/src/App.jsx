@@ -2,6 +2,8 @@ import { useState } from 'react'
 import ChatPanel from './components/ChatPanel'
 import SearchPanel from './components/SearchPanel'
 import MatchPanel from './components/MatchPanel'
+import JsonLd from './components/JsonLd'
+import { buildFaqPageSchema, buildWebSiteSchema } from './schemas/faqSchema'
 
 const TABS = [
   { id: 'chat',   label: '🧘 Chat',   desc: 'Ask Elbee anything about yoga matching & onboarding' },
@@ -9,11 +11,16 @@ const TABS = [
   { id: 'match',  label: '✨ Match',  desc: 'Get personalised pose recommendations' },
 ]
 
+const FAQ_SCHEMA    = buildFaqPageSchema()
+const WEBSITE_SCHEMA = buildWebSiteSchema()
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('chat')
 
   return (
     <div className="app">
+      <JsonLd schema={FAQ_SCHEMA}     id="schema-faqpage" />
+      <JsonLd schema={WEBSITE_SCHEMA} id="schema-website" />
       <header className="app-header">
         <div className="header-brand">
           <span className="brand-icon">🧘</span>
