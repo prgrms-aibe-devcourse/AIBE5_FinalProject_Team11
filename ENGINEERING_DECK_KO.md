@@ -329,6 +329,26 @@ GET /api/v1/studios/nearby?lat={위도}&lng={경도}&radius={반경km, 기본값
 | POST | `/search` | 쿼리 → RAG → 유사 포즈 반환 |
 | POST | `/chat` | 컨텍스트 + 쿼리 → LLM 응답 생성 |
 
+### Vite 프론트엔드 (`:5173`)
+
+탭 기반 SPA — 세 개의 패널이 단일 페이지에서 전환된다.
+
+| 탭 | 컴포넌트 | 프록시 대상 | 기능 |
+|----|----------|------------|------|
+| 🧘 Chat | `ChatPanel` | `/chat` → `:8000` | 자연어 질의 → LLM 응답 |
+| 🔍 Search | `SearchPanel` | `/search` → `:8000` | 포즈 벡터 검색 |
+| ✨ Match | `MatchPanel` | `/api/v1` → `:19090` | 목표·조건 기반 포즈 매칭 |
+
+**Vite 프록시 규칙** (`vite.config.js`):
+
+```
+/api/v1  →  http://localhost:19090   (Spring Boot)
+/search  →  http://localhost:8000    (FastAPI, SEARCH_PORT 환경변수로 오버라이드 가능)
+/chat    →  http://localhost:8000    (FastAPI, CHAT_PORT 환경변수로 오버라이드 가능)
+```
+
+Docker 환경에서는 `DOCKER_HOST=host.docker.internal`로 설정하면 위 세 대상이 자동 전환된다.
+
 ---
 
 ## ▌ 6. 데이터 흐름
