@@ -6,7 +6,7 @@
 ## Priority 1 — Critical Bugs
 
 ### T-001 Fix match scoring always returns 0.0
-**Status:** 🔴 Open  
+**Status:** ✅ Done — commit `cd5e1b0`  
 **File:** `yoga-api/src/main/java/club/yogaman/api/matching/MatchService.java`
 
 **Root cause:** `MatchService.score()` compares goal strings from the request
@@ -81,8 +81,8 @@ dashboard is purely cosmetic. Both `mistral:latest` (4.4 GB) and
 ## Priority 2 — Data / Database
 
 ### T-003 Seed sessions table with sample data
-**Status:** 🔴 Open  
-**Table:** `sessions` (0 rows — V3 migration created the table but no data)
+**Status:** ✅ Done — V5 migration, commit `b4067c6`  
+**Table:** `sessions` (16 rows — seeded by V5__seed_sessions_and_studios.sql)
 
 **Purpose:** `/api/v1/sessions` returns `[]`; the dashboard "Sessions" row shows `Array(0)`;
 the matching engine cannot score session history.
@@ -112,8 +112,8 @@ INSERT INTO sessions (user_id, pose_id, started_at, completed_at) VALUES
 ---
 
 ### T-004 Seed studios table with sample data
-**Status:** 🔴 Open  
-**Table:** `studios` (0 rows — V3 migration)
+**Status:** ✅ Done — V5 migration + V6 instructors, commits `b4067c6` / `159764f`  
+**Table:** `studios` (10 rows, 5 cities: Seoul·Busan·Daegu·Daejeon·Gwangju); `instructors` (10 Seoul instructors seeded with trust scores via V6)
 
 **Implementation:** Add to the same `V4__seed_sample_data.sql` above:
 ```sql
@@ -322,9 +322,9 @@ private int topK = 10;
 ---
 
 ### T-012 Add `/api/v1/studios/nearby` location-based search
-**Status:** 🔴 Open  
+**Status:** ✅ Done — commit `534d3e5`  
 **Phase:** 4 (Studio API)  
-**Prerequisite:** T-004 (studios seeded)
+**Prerequisite:** T-004 (studios seeded ✅)
 
 **Goal:** `GET /api/v1/studios/nearby?lat=37.5665&lng=126.9780&radiusKm=10` returns studios
 within the radius using Haversine distance (no PostGIS extension required).
@@ -563,7 +563,9 @@ python scripts/db_table.py summary
 ---
 
 ### T-022 Expose `FAQPage` JSON-LD per pose endpoint
-**Status:** 🔴 Open — **highest AEO impact**  
+**Status:** � Partial — commit `1a15b4f`
+- ✅ **Done:** Homepage `FAQPage` + `WebSite` JSON-LD injected via React `<JsonLd>` component (frontend/src/components/JsonLd.jsx + schemas/faqSchema.js); `SchemaOrgService.java` builder methods implemented in Spring Boot
+- 🔴 **Still open:** Per-pose `GET /api/v1/poses/{id}/faq` endpoint (PoseQa JPA entity + PoseQaRepository + PoseController handler not yet wired)  
 **Gap:** `pose_qa` rows (2,505) exist in PostgreSQL but are never exposed as crawlable structured data. AI answer engines specifically index `FAQPage` markup.  
 **File:** `yoga-api/src/main/java/club/yogaman/api/pose/PoseController.java`
 
@@ -899,10 +901,10 @@ GET /api/v1/sitemap.xml  → lists all pose, article, and glossary URLs
 
 | ID | Priority | Status | Title |
 |----|----------|--------|-------|
-| T-001 | P1 | 🔴 Open | Fix match scoring 0.0 (goal↔tag alignment) |
+| T-001 | P1 | ✅ Done (`cd5e1b0`) | Fix match scoring 0.0 (goal↔tag alignment) |
 | T-002 | P1 | 🟡 Low | Fix Ollama healthcheck (cosmetic) |
-| T-003 | P2 | 🔴 Open | Seed sessions table |
-| T-004 | P2 | 🔴 Open | Seed studios table |
+| T-003 | P2 | ✅ Done (`b4067c6`) | Seed sessions table (16 rows, V5) |
+| T-004 | P2 | ✅ Done (`b4067c6`/`159764f`) | Seed studios (10) + instructors (10, V5/V6) |
 | T-005 | P2 | 🟡 Verify | Check natural_description coverage |
 | T-006 | P3 | 🔴 Open | Create PR for feat/frontend-vite-scaffold |
 | T-007 | P3 | 🟡 Optional | Delete stale remote branches |
@@ -910,7 +912,7 @@ GET /api/v1/sitemap.xml  → lists all pose, article, and glossary URLs
 | T-009 | P4 | 🔴 Open | Experience level + time budget filtering |
 | T-010 | P4 | 🟡 Minor | topK default and max enforcement |
 | T-011 | P4 | 🔴 Open | JSON-LD `/poses/{id}/jsonld` endpoint |
-| T-012 | P4 | 🔴 Open | `/studios/nearby` Haversine search |
+| T-012 | P4 | ✅ Done (`534d3e5`) | `/studios/nearby` Haversine search |
 | T-013 | P4 | 🔴 Open | Integration tests for /api/v1/match |
 | T-014 | P5 | 🔴 Open | Pose browser in frontend |
 | T-015 | P5 | 🔴 Open | Match request form in frontend |
@@ -920,7 +922,7 @@ GET /api/v1/sitemap.xml  → lists all pose, article, and glossary URLs
 | T-019 | P7 | 🟡 Verify | Test mistral end-to-end chat response |
 | T-020 | P8 | 🔴 Planned | Register /api/v1/match as GPT Action |
 | T-021 | P8 | 🔴 Planned | Deploy elbee.yogaman.club subdomain |
-| T-022 | P9 | 🔴 Open | FAQPage JSON-LD endpoint per pose |
+| T-022 | P9 | 🟡 Partial (`1a15b4f`) | FAQPage+WebSite JSON-LD on homepage ✅; per-pose /faq endpoint 🔴 |
 | T-023 | P9 | 🔴 Open | Upgrade ExerciseAction → HowTo with steps |
 | T-024 | P9 | 🔴 Open | DefinedTerm glossary endpoint (Sanskrit) |
 | T-025 | P9 | 🔴 Open | Article table + blog cluster seed data |
@@ -928,3 +930,64 @@ GET /api/v1/sitemap.xml  → lists all pose, article, and glossary URLs
 | T-027 | P9 | 🟡 Medium | Review / testimonial table + JSON-LD |
 | T-028 | P9 | 🔴 Open | Fix pose_qa quality (expand with LLM) |
 | T-029 | P9 | 🔴 Open | Sitemap + crawlable AEO URL inventory |
+| T-030 | P2 | 🔴 Open | Instructor trust score daily batch recalc (Python cron) |
+
+---
+
+## Priority 2 — Data (continued)
+
+### T-030 Instructor trust score daily batch recalc
+**Status:** 🔴 Open  
+**Purpose:** V6 seeds pre-computed trust scores at a fixed point in time. As `avg_rating`, `ig_followers`, and `lineage_depth` change, the `instructor_trust_score` column goes stale. A daily cron job recalculates and updates all rows.
+
+**Formula:**
+```
+trust_score =
+    cert_weight                             # E-RYT-500=1.0, E-RYT-200=0.8, RYT-500=0.6, RYT-200=0.4, YACEP=0.2
+  + (avg_rating / 5.0) * 0.3
+  + min(lineage_depth, 4) * 0.05
+  + min(log10(ig_followers) / 7.0, 0.1)
+  [capped at 1.000]
+```
+
+**File to create:** `scripts/recalc_trust_scores.py`
+
+```python
+import math, psycopg2, os
+from datetime import datetime, timezone
+
+CERT_WEIGHT = {
+    "E-RYT-500": 1.0, "E-RYT-200": 0.8,
+    "RYT-500":   0.6, "RYT-200":   0.4,
+    "YACEP":     0.2,
+}
+
+def calc_trust(cert, avg_rating, lineage_depth, ig_followers):
+    score = CERT_WEIGHT.get(cert, 0.2)
+    score += (avg_rating / 5.0) * 0.3
+    score += min(lineage_depth, 4) * 0.05
+    score += min(math.log10(max(ig_followers, 1)) / 7.0, 0.1)
+    return min(round(score, 3), 1.000)
+
+conn = psycopg2.connect(os.environ["DATABASE_URL"])
+cur = conn.cursor()
+cur.execute("SELECT instructor_id, certification, avg_rating, lineage_depth, ig_followers FROM instructors")
+rows = cur.fetchall()
+now = datetime.now(timezone.utc)
+for row in rows:
+    iid, cert, rating, depth, followers = row
+    score = calc_trust(cert, float(rating or 0), int(depth or 0), int(followers or 0))
+    cur.execute(
+        "UPDATE instructors SET instructor_trust_score=%s, updated_at=%s WHERE instructor_id=%s",
+        (score, now, iid)
+    )
+conn.commit()
+cur.close(); conn.close()
+print(f"Updated {len(rows)} instructors")
+```
+
+**Acceptance criteria:**
+- Script runs without error: `DATABASE_URL=... python scripts/recalc_trust_scores.py`
+- All rows in `instructors` have `updated_at = NOW()` after the run
+- `instructor_trust_score` values are in range `[0.0, 1.000]`
+- Script is idempotent — safe to run multiple times
