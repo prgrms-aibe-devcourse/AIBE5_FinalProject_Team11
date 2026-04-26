@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     # ── CORS ──────────────────────────────────────────────────────────────
     # Comma-separated list in .env:  CORS_ORIGINS=https://a.com,https://b.com
     cors_origins: str = (
+        "http://localhost:5173,"
         "http://localhost:4000,"
         "http://localhost:3000,"
         "https://aiegoo.github.io,"

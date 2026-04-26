@@ -29,3 +29,25 @@ screenshots/*.png
 # Generated data files — rebuild with: scripts/enrich_poses.py + generate_pose_insert_sql.py
 data/poses/poses_eat_schema.json
 data/poses/pose_enriched_ingest.sql
+
+# Instructor scraper outputs — rebuild with: scripts/scrape_instructors.py
+data/instructors/instructors_raw.json
+data/instructors/instructors_seed.sql
+# Keep the directory itself
+!data/instructors/.gitkeep
+
+# instaloader session files (contain auth tokens — never commit)
+.instaloader/
+*.instaloader-session
+
+# Copilot / AI-generated status/log files
+COPILOT_STATUS.md
+
+# FastAPI / uvicorn logs
+/tmp/*.log
+*.log
+
+# Node / frontend build artifacts (covered by frontend/.gitignore but belt-and-suspenders)
+frontend/node_modules/
+frontend/dist/
+frontend/.env*
