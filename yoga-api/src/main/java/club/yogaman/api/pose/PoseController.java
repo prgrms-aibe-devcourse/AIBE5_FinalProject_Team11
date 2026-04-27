@@ -40,4 +40,9 @@ public class PoseController {
                 .map(p -> ResponseEntity.ok(schemaOrgService.buildPoseJsonLd(p.getPoseId())))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping(value = "/{id}/jsonld", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getPoseJsonLdAlias(@PathVariable String id) {
+        return getPoseJsonLd(id);
+    }
 }

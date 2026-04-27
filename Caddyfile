@@ -30,14 +30,9 @@ http://match.yogaman.club:8088, http://localhost:8088, http://:8088 {
 		reverse_proxy host.docker.internal:5001
 	}
 
-	# /safety — Streamlit AEO Safety Filter demo (aeogeo-st-safety → host port 8501)
-	handle /safety* {
-		reverse_proxy host.docker.internal:8501
-	}
-
-	# /match — Streamlit match-score demo (aeogeo-st-match → host port 8502)
+	# /match — Streamlit match-score demo (when running locally on :8599)
 	handle /match* {
-		reverse_proxy host.docker.internal:8502
+		reverse_proxy host.docker.internal:8599
 	}
 
 	# /api/v1 — Spring Boot yoga-api (matching, studios, bookings) when present

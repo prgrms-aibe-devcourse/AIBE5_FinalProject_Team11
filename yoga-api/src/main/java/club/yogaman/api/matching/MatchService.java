@@ -45,6 +45,10 @@ public class MatchService {
         "Strength",         List.of("strength", "core", "stability")
     );
 
+    public String matchPlaceholder() {
+        return "match-service OK";
+    }
+
     public MatchResponse match(MatchRequest request) {
         List<Pose> allPoses = poseRepository.findAll();
         List<String> healthFlags = request.getHealthFlags() != null
