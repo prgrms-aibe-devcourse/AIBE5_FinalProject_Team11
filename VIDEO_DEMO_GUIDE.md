@@ -6,16 +6,29 @@
 
 ---
 
+## 📁 video/ Folder Index
+
+| File | Purpose |
+|---|---|
+| [video/INVESTOR_PITCH_KO.md](video/INVESTOR_PITCH_KO.md) | 9-beat Korean investor pitch · DaVinci Resolve · Modoo funding |
+| [video/SCRIPT.md](video/SCRIPT.md) | 60s Shorts storyboard + 5min English employer demo narration |
+| [video/ARCHITECTURE_DIAGRAM.md](video/ARCHITECTURE_DIAGRAM.md) | AEO/GEO architecture diagram for Scene 4 |
+| [video/RECORDING_CHECKLIST.md](video/RECORDING_CHECKLIST.md) | Pre-recording system + project checklist |
+| [video/THUMBNAIL_SPEC.md](video/THUMBNAIL_SPEC.md) | 1280×720 thumbnail design spec |
+
+---
+
 ## 🎯 Campaign Concept: "Stop Guessing, Start Flowing"
 
 > Core message (from issue #3): *"The AI yoga app that actually knows you."*
 
-The project has **two video deliverables** targeting different audiences:
+The project has **three video deliverables** targeting different audiences:
 
-| Video | Length | Format | Goal |
-|---|---|---|---|
-| **Marketing Short** | 60 sec | Vertical 9:16 (Shorts/Reels/TikTok) | Crowdfunding campaign CTA |
-| **Employer Demo** | 5 min | Horizontal 16:9 | Portfolio / technical showcase |
+| Video | Length | Format | Goal | Edit tool |
+|---|---|---|---|---|
+| **Korean Investor Pitch** | 5 min + 90s teaser | 16:9 + 9:16 vertical cut | Modoo crowdfunding / investor deck | DaVinci Resolve |
+| **Marketing Short** | 60 sec | Vertical 9:16 (Shorts/Reels/TikTok) | Crowdfunding campaign CTA | CapCut |
+| **Employer Demo** | 5 min | Horizontal 16:9 | Portfolio / technical showcase | Descript |
 
 ---
 

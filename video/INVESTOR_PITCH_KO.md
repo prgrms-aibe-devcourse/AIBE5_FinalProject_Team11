@@ -1,9 +1,13 @@
-# aeogeo Investor Pitch — Video Script
+# aeogeo Investor Pitch — Video Script (Korean)
 
-**Audience:** Modoo investors + cloud-funding manager
-**Cuts:** 90s teaser + 5min deep-dive (this script covers the 5min master; teaser = beats 1, 3, 5, 9 trimmed)
-**Language:** Korean voiceover primary · English subtitles · all on-screen JSON in source form
-**Tone:** Founder-led, calm, specific. Numbers over adjectives.
+**Audience:** Modoo investors + crowdfunding manager  
+**Cuts:** 90s teaser + 5min deep-dive (teaser = beats 0, 3, 5, 9 trimmed)  
+**Language:** Korean voiceover primary · English subtitles · all on-screen JSON in source form  
+**Tone:** Founder-led, calm, specific. Numbers over adjectives.  
+**Edit tool:** DaVinci Resolve · 23.976fps · KO burned captions + EN soft-sub  
+
+> See also: [VIDEO_DEMO_GUIDE.md](../VIDEO_DEMO_GUIDE.md) · [video/SCRIPT.md](SCRIPT.md) (English employer demo)  
+> Demo assets: `scripts/demo_match_score.py` · `scripts/demo_safety_filter.py` · `scripts/orchestrator.py` · `scripts/jsonld_aeo.py`
 **Working title:** *"한국 요가 매칭은 왜 어려운가 — 그리고 우리가 푸는 방법"*
 
 ---
