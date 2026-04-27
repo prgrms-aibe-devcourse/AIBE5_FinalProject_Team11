@@ -36,6 +36,9 @@ data/instructors/instructors_seed.sql
 # Keep the directory itself
 !data/instructors/.gitkeep
 
+# RAG indexes — rebuild with: scripts/rag_ingest.py --book <name>
+data/rag/*.jsonl
+
 # instaloader session files (contain auth tokens — never commit)
 .instaloader/
 *.instaloader-session
