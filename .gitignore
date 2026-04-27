@@ -51,6 +51,9 @@ COPILOT_STATUS.md
 *.log
 
 # Node / frontend build artifacts (covered by frontend/.gitignore but belt-and-suspenders)
+node_modules/
 frontend/node_modules/
 frontend/dist/
 frontend/.env*
+package-lock.json
+package.json
