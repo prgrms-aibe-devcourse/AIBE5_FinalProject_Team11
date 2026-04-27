@@ -1,16 +1,54 @@
 # 5-Minute Deep-Dive — Descript Slide Deck
 
-> **Format:** 1920×1080 · 30 fps · 5:00 · 16:9
+> **Format:** 1920×1080 · 30 fps · 5:45 · 16:9
 > **Audience:** technical investors, hiring managers, partner CTOs.
-> **Source narration:** [../video/SCRIPT.md](../video/SCRIPT.md) — VIDEO 2.
+> **Source narration:** [../video/SCRIPT.md](../video/SCRIPT.md) — VIDEO 2 + new founder cold open.
 > **Architecture reference:** [../video/ARCHITECTURE_DIAGRAM.md](../video/ARCHITECTURE_DIAGRAM.md).
 
-Five scenes. Each maps to one Descript scene. Use the same Descript project
+Six scenes. Each maps to one Descript scene. Use the same Descript project
 as the teaser if you want shared assets/voice.
+
+> **Time-code convention:** the **scene heading** uses absolute master
+> timecodes (e.g. `0:45 – 1:15`). All inline cues inside a scene
+> (e.g. *"Cutaway at 0:18"*) are **scene-relative seconds from the scene
+> start** — Descript shows this same value in the per-scene timeline.
 
 ---
 
-## SCENE 1 — Hook & framing · 0:00 – 0:30
+## SCENE 0 — Founder cold open · 0:00 – 0:45
+
+Emotional opener that establishes **why this service must exist** before any
+tech is shown. Founder voice, in Korean. Visuals stay quiet so the words land.
+**Thesis:** breath → daily-life change → "proper start is hard" → fear of
+re-injury → expert KB ported into AI → AEO safety filter → GEO studio match
+→ "healing journey, not pain."
+
+- **Asset:** B-roll montage — stitch four 8–10 s clips:
+  1. close-up of someone breathing slowly (chest rise-fall)
+  2. desk worker rolling shoulders, slight wince
+  3. hand resting on lower back, soft wince
+  4. slow exhale → calm gaze toward window light
+  *(no original B-roll? Descript Stock → "breath calm", "back pain office", "yoga sunrise". Lower contrast −5, desaturate to 80%.)*
+- **VO (KO):** the block tagged `# SCENE 10B (Founder Cold Open)` in [descript_script_ko.txt](descript_script_ko.txt) — verbatim.
+- **On-screen text (centered Korean, fade in/out per beat):**
+  - 0:08 — "'제대로 된 시작'이 생각보다 어렵습니다." (4 s)
+  - 0:22 — "운동은 선택이 아닌 생존의 문제입니다." (4 s)
+  - 0:34 — "기술이 당신의 몸을 이해할 때, 운동은 치유가 됩니다." (5 s)
+- **Transition in:** Slow fade from black (1.0 s)
+- **Lower-third (0:42 – 0:45):** `창업자 · 20년 요가 강사 · elbee.yogaman.club`
+- **Audio bed:** soft pad (Descript stock → "Ambient Calm"), −32 dB under VO. No drums.
+- **Descript prompt (Underlord):**
+  > "Compose a 45-second emotional cold open. Place the four B-roll clips
+  > in the listed order, each with a slow 102%→106% Ken Burns push-in.
+  > Cross-dissolve (0.6 s) between clips. Burn the three Korean text
+  > overlays at 0:08, 0:22, 0:34 with a 0.4 s fade in/out. Lay the VO
+  > from `descript_script_ko.txt` SCENE 10B at −16 LUFS over the whole
+  > scene. Music bed 'Ambient Calm' at −32 dB, duck under VO. End on a
+  > gentle exhale beat (no swell) and dissolve to SCENE 1."
+
+---
+
+## SCENE 1 — Hook & framing · 0:45 – 1:15
 
 - **Asset:** screen recording of `https://elbee.yogaman.club` homepage (record fresh in Descript → Screen)
 - **Cutaway at 0:18 – 0:25:** drop in `assets/teaser/match_demo.mp4` (first 7 s) as a quick visual proof
@@ -27,7 +65,7 @@ as the teaser if you want shared assets/voice.
 
 ---
 
-## SCENE 2 — The problem · 0:30 – 1:00
+## SCENE 2 — The problem · 1:15 – 1:45
 
 - **Asset:** photo of a printed yoga book page (use any from `data/raw/` or shoot a fresh phone photo and drop in)
 - **Optional cutaway at 0:48:** `shot_03_typing.png` (the 'I have a herniated disc' query)
@@ -53,7 +91,7 @@ as the teaser if you want shared assets/voice.
 This scene is **four sub-clips back-to-back** — record each terminal/browser
 clip once with Descript Screen, then arrange. Total 2:15.
 
-### 3A · OCR pipeline · 1:00 – 1:45
+### 3A · OCR pipeline · 1:45 – 2:30
 
 - **Asset:** terminal screen recording running `python3 ocr_pipeline.py --book "Light on Yoga"` then `cat data/json/light-on-yoga/ocr_database.json | python3 -m json.tool | head -40`
 - **VO:** *(SCRIPT.md SCENE 3A)*
@@ -63,7 +101,7 @@ clip once with Descript Screen, then arrange. Total 2:15.
   > Highlight the keys 'page_number', 'text', 'keywords' with a yellow
   > underline as the VO names them."
 
-### 3B · Content adaptation · 1:45 – 2:15
+### 3B · Content adaptation · 2:30 – 3:00
 
 - **Asset:** terminal recording of `python3 scripts/adapt_content.py --book "Light on Yoga"` and `cat content/light-on-yoga/page_042.md`
 - **VO:** *(SCRIPT.md SCENE 3B)*
@@ -73,7 +111,7 @@ clip once with Descript Screen, then arrange. Total 2:15.
   > the `contraindications:` field for 2.5 seconds. No transition between
   > 3A and 3B — straight cut."
 
-### 3C · Search demo · 2:15 – 2:45
+### 3C · Search demo · 3:00 – 3:30
 
 - **Asset:** browser screen-cap of `/yoga/search` typing `pranayama breathing`
 - **VO:** *(SCRIPT.md SCENE 3C)*
@@ -83,7 +121,7 @@ clip once with Descript Screen, then arrange. Total 2:15.
   > callout arrow pointing at the page-citation chip ('p. 142'). Hold
   > 2 seconds, then continue."
 
-### 3D · Chat demo · 2:45 – 3:15
+### 3D · Chat demo · 3:30 – 4:00
 
 - **Asset:** browser screen-cap of `/yoga/chat` typing `허리 디스크가 있는데 타다사나를 해도 될까요?`
 - **Optional inset:** thumbnail of `assets/teaser/shot_05_breakdown.png` to remind viewer of the score
@@ -96,7 +134,7 @@ clip once with Descript Screen, then arrange. Total 2:15.
 
 ---
 
-## SCENE 4 — Architecture · 3:15 – 4:15
+## SCENE 4 — Architecture · 4:00 – 5:00
 
 - **Asset:** render `../video/ARCHITECTURE_DIAGRAM.md` to PNG (Mermaid → PNG via VS Code Mermaid preview, or use Excalidraw export). Save as `assets/teaser/architecture.png`.
 - **Optional cutaway at 3:50:** `assets/teaser/shot_07_jsonld.png`
@@ -113,7 +151,7 @@ clip once with Descript Screen, then arrange. Total 2:15.
 
 ---
 
-## SCENE 5 — Wrap & ask · 4:15 – 5:00
+## SCENE 5 — Wrap & ask · 5:00 – 5:45
 
 - **Asset:** split-screen — left: GitHub repo `https://github.com/aiegoo/aeogeo`, right: live site `https://elbee.yogaman.club`
 - **End frame:** `assets/teaser/end_card.svg` (last 5 seconds)
