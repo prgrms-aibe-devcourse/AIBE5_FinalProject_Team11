@@ -48,6 +48,7 @@ services:
       --server.port 8501
       --server.headless true
       --server.address 0.0.0.0
+      --server.baseUrlPath /safety
     ports:
       - "8501:8501"
     restart: unless-stopped
@@ -63,6 +64,7 @@ services:
       --server.port 8502
       --server.headless true
       --server.address 0.0.0.0
+      --server.baseUrlPath /match
     ports:
       - "8502:8502"
     restart: unless-stopped
