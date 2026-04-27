@@ -63,7 +63,19 @@ public class MatchService {
                         .stream())
                 .collect(Collectors.toSet());
 
+        int maxDifficulty = switch (request.getExperienceLevel() != null
+                ? request.getExperienceLevel().toUpperCase() : "INTERMEDIATE") {
+            case "BEGINNER"     -> 2;
+            case "ADVANCED"     -> 5;
+            default             -> 3;  // INTERMEDIATE
+        };
+
+        // Simple time-budget heuristic: difficulty * 3 minutes per pose
+        int availableMinutes = request.getAvailableMinutes() > 0 ? request.getAvailableMinutes() : 60;
+
         List<MatchResult> results = allPoses.stream()
+                .filter(pose -> pose.getDifficultyRank() == 0 || pose.getDifficultyRank() <= maxDifficulty)
+                .filter(pose -> pose.getDifficultyRank() == 0 || (pose.getDifficultyRank() * 3) <= availableMinutes)
                 .map(pose -> score(pose, healthFlags, expandedTags))
                 .filter(r -> !r.isBlocked())
                 .sorted(Comparator.comparingDouble(MatchResult::getScore).reversed())

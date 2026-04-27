@@ -1,5 +1,7 @@
 package club.yogaman.api.seo;
 
+import club.yogaman.api.instructor.Instructor;
+import club.yogaman.api.instructor.InstructorRepository;
 import club.yogaman.api.pose.Benefit;
 import club.yogaman.api.pose.Pose;
 import club.yogaman.api.pose.PoseRepository;
@@ -12,10 +14,14 @@ import org.springframework.stereotype.Service;
 public class SchemaOrgService {
 
     private final PoseRepository poseRepository;
+    private final InstructorRepository instructorRepository;
     private final ObjectMapper objectMapper;
 
-    public SchemaOrgService(PoseRepository poseRepository, ObjectMapper objectMapper) {
+    public SchemaOrgService(PoseRepository poseRepository,
+                             InstructorRepository instructorRepository,
+                             ObjectMapper objectMapper) {
         this.poseRepository = poseRepository;
+        this.instructorRepository = instructorRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -95,5 +101,58 @@ public class SchemaOrgService {
             case 5 -> "Expert";
             default -> "Unknown";
         };
+    }
+
+    public String buildInstructorJsonLd(String instructorId) {
+        return instructorRepository.findById(instructorId)
+                .map(this::toPersonJsonLd)
+                .orElse("{\"error\": \"Instructor not found\"}");
+    }
+
+    private String toPersonJsonLd(Instructor inst) {
+        try {
+            ObjectNode root = objectMapper.createObjectNode();
+            root.put("@context", "https://schema.org");
+            root.put("@type", "Person");
+            root.put("@id", "https://yogaman.club/instructors/" + inst.getInstructorId());
+            root.put("name", inst.getFullName());
+
+            if (inst.getBio() != null) root.put("description", inst.getBio());
+            if (inst.getWebsiteUrl() != null) root.put("url", inst.getWebsiteUrl());
+            if (inst.getCity() != null) {
+                ObjectNode address = objectMapper.createObjectNode();
+                address.put("@type", "PostalAddress");
+                address.put("addressLocality", inst.getCity());
+                if (inst.getCountry() != null) address.put("addressCountry", inst.getCountry());
+                root.set("address", address);
+            }
+            if (inst.getInstagramUrl() != null) root.put("sameAs", inst.getInstagramUrl());
+
+            // credentials
+            ArrayNode creds = root.putArray("hasCredential");
+            if (inst.getCertificationLevel() != null) {
+                ObjectNode cert = objectMapper.createObjectNode();
+                cert.put("@type", "EducationalOccupationalCredential");
+                cert.put("name", inst.getCertificationLevel());
+                cert.put("credentialCategory", "Yoga Alliance");
+                creds.add(cert);
+            }
+            if (inst.isFytCertified()) {
+                ObjectNode fyt = objectMapper.createObjectNode();
+                fyt.put("@type", "EducationalOccupationalCredential");
+                fyt.put("name", "FYT100");
+                fyt.put("credentialCategory", "FYT Certified");
+                creds.add(fyt);
+            }
+
+            if (inst.getSpecialties() != null && !inst.getSpecialties().isEmpty()) {
+                ArrayNode knows = root.putArray("knowsAbout");
+                inst.getSpecialties().forEach(knows::add);
+            }
+
+            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(root);
+        } catch (Exception e) {
+            return "{\"error\": \"JSON-LD generation failed\"}";
+        }
     }
 }

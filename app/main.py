@@ -18,7 +18,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api import chat_router, search_router
+from app.api import chat_router, search_router, studio_router
 from app.config import get_settings
 from app.services.loader import init_store
 from app.services.location_service import init_location_store
@@ -85,6 +85,7 @@ def create_app() -> FastAPI:
     # ── Routers ───────────────────────────────────────────────────────────
     app.include_router(chat_router)
     app.include_router(search_router)
+    app.include_router(studio_router)
 
     # ── Root ──────────────────────────────────────────────────────────────
     @app.get("/", tags=["meta"])
@@ -97,6 +98,8 @@ def create_app() -> FastAPI:
             "endpoints": {
                 "chat": "POST /chat",
                 "chat_stream": "POST /chat/stream",
+                "studio_chat": "POST /studio/chat",
+                "studio_chat_stream": "POST /studio/chat/stream",
                 "search": "POST /search",
                 "search_suggest": "GET /search/suggest?q=",
                 "search_filters": "GET /search/filters",

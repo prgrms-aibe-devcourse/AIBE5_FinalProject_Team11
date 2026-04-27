@@ -2,6 +2,7 @@ import { useState } from 'react'
 import ChatPanel from './components/ChatPanel'
 import SearchPanel from './components/SearchPanel'
 import MatchPanel from './components/MatchPanel'
+import StudioChatPanel from './components/StudioChatPanel'
 import JsonLd from './components/JsonLd'
 import { buildFaqPageSchema, buildWebSiteSchema } from './schemas/faqSchema'
 
@@ -9,6 +10,7 @@ const TABS = [
   { id: 'chat',   label: '🧘 Chat',   desc: 'Ask Elbee anything about yoga matching & onboarding' },
   { id: 'search', label: '🔍 Search', desc: 'Search yoga content & knowledge base' },
   { id: 'match',  label: '✨ Match',  desc: 'Get personalised pose recommendations' },
+  { id: 'studio', label: '🏢 Studio', desc: 'elbee Studio — operator chatbot for slots, weather routing, reviews & copy' },
 ]
 
 const FAQ_SCHEMA    = buildFaqPageSchema()
@@ -47,6 +49,7 @@ export default function App() {
         {activeTab === 'chat'   && <ChatPanel />}
         {activeTab === 'search' && <SearchPanel />}
         {activeTab === 'match'  && <MatchPanel />}
+        {activeTab === 'studio' && <StudioChatPanel />}
       </main>
 
       <footer className="app-footer">
@@ -54,6 +57,7 @@ export default function App() {
         <span className="footer-links">
           <a href="/api/v1/poses" target="_blank" rel="noopener">Poses API</a>
           <a href="/chat/health" target="_blank" rel="noopener">Chat health</a>
+          <a href="/studio/chat/health" target="_blank" rel="noopener">Studio health</a>
           <a href="/search/health" target="_blank" rel="noopener">Search health</a>
         </span>
       </footer>
