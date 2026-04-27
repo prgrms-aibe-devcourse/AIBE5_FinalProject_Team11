@@ -1,0 +1,33 @@
+elbee.yogaman.club:8080 {
+	# React/Vite frontend (Chat + Search tabs)
+	handle /* {
+		reverse_proxy localhost:5173
+	}
+
+	# FastAPI — /chat proxy (streaming SSE support)
+	handle /chat* {
+		reverse_proxy localhost:8000 {
+			flush_interval -1
+		}
+	}
+
+	# FastAPI — /search proxy
+	handle /search* {
+		reverse_proxy localhost:8000
+	}
+
+	# Spring Boot — /api/v1 (Match, Studios)
+	handle /api/v1* {
+		reverse_proxy localhost:19090
+	}
+
+	# FastAPI health
+	handle /health {
+		reverse_proxy localhost:8000
+	}
+
+	log {
+		output stderr
+		format console
+	}
+}
