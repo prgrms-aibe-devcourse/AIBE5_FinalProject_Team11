@@ -1,0 +1,30 @@
+# Voiceover script — English (90s teaser)
+# Format: [SHOT TC] | text — record one take per shot, leave 0.5s headroom either side
+# Target: -16 LUFS, single voice, neutral
+
+[Shot 1 · 0:00–0:04] (silence — text on screen)
+
+[Shot 2 · 0:04–0:08]
+One line. This is how our users ask.
+
+[Shot 3 · 0:08–0:18]
+The answer isn't an ad. It's a score.
+
+[Shot 4 · 0:18–0:30]
+Eight verified studios within five kilometers. The winner isn't the closest —
+
+[Shot 5 · 0:30–0:42]
+— it's the one with a physical-therapy-certified instructor.
+
+[Shot 6 · 0:42–0:50] (silence — caption on screen, let it breathe)
+
+[Shot 7 · 0:50–1:02]
+Every recommendation is also published in a format Google AI Overviews and Naver Cue can read.
+
+[Shot 8 · 1:02–1:10]
+AEO — the next generation of SEO.
+
+[Shot 9 · 1:10–1:22]
+Twenty years of instructor data is the fuel. AI is the engine. We own both.
+
+[Shot 10 · 1:22–1:30] (logo sting only — no VO)

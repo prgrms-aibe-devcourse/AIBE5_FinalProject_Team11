@@ -1,0 +1,41 @@
+1
+00:00:00,000 --> 00:00:08,000
+"My back hurts. Recommend a place in Gangnam."
+
+2
+00:00:04,000 --> 00:00:08,000
+One line. This is how our users ask.
+
+3
+00:00:08,000 --> 00:00:18,000
+The answer isn't an ad. It's a score.
+
+4
+00:00:18,000 --> 00:00:30,000
+Eight verified studios within 5km. The winner isn't the closest —
+
+5
+00:00:30,000 --> 00:00:42,000
+— it's the one with a physical-therapy-certified instructor.
+
+6
+00:00:42,000 --> 00:00:50,000
+Not the closest. The right one.
+
+7
+00:00:50,000 --> 00:01:02,000
+Every recommendation is also published in a format
+Google AI Overviews and Naver Cue can read.
+
+8
+00:01:02,000 --> 00:01:10,000
+AEO — the next generation of SEO.
+
+9
+00:01:10,000 --> 00:01:22,000
+Twenty years of instructor data is the fuel.
+AI is the engine. We own both.
+
+10
+00:01:22,000 --> 00:01:30,000
+aeogeo.app · Request investor meeting

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>aeogeo · AEO proof</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, "Pretendard", "Apple SD Gothic Neo", sans-serif;
+         background: #0d1117; color: #e6edf3; min-height: 100vh; padding: 32px;
+         display: grid; grid-template-columns: 420px 1fr; gap: 40px; }
+
+  /* Left: phone mockup */
+  .phone { background: #161b22; border: 8px solid #30363d; border-radius: 36px;
+           padding: 24px; height: fit-content; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+  .phone-status { display: flex; justify-content: space-between; font-size: 12px;
+                  color: #7d8590; margin-bottom: 18px; }
+  .phone h1 { font-size: 20px; margin-bottom: 4px; }
+  .phone .pill { display: inline-block; padding: 4px 10px; background: #1f6feb33;
+                 color: #79c0ff; border-radius: 12px; font-size: 12px; margin-bottom: 12px; }
+  .card { background: #1c2128; border: 1px solid #30363d; border-radius: 14px;
+          padding: 16px; margin-top: 14px; }
+  .card .name { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+  .card .meta { font-size: 13px; color: #8b949e; margin-bottom: 10px; }
+  .bar { display: flex; align-items: center; gap: 10px; margin: 6px 0; font-size: 13px; }
+  .bar-track { flex: 1; height: 6px; background: #21262d; border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; background: linear-gradient(90deg,#3fb950,#56d364); }
+  .bar-label { width: 100px; color: #8b949e; }
+  .bar-value { width: 40px; text-align: right; font-variant-numeric: tabular-nums; }
+  .reasons { margin-top: 12px; font-size: 12px; color: #adbac7; }
+  .cta { margin-top: 14px; padding: 10px 14px; background: #238636; color: white;
+         border-radius: 8px; text-align: center; font-weight: 600; }
+
+  /* Right: DevTools-style JSON code panel */
+  .devtools { background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+              overflow: hidden; height: fit-content; }
+  .devtools-tabs { display: flex; background: #161b22; border-bottom: 1px solid #30363d;
+                   font-size: 12px; color: #8b949e; }
+  .devtools-tab { padding: 10px 16px; }
+  .devtools-tab.active { color: #79c0ff; border-bottom: 2px solid #1f6feb; }
+  .devtools-body { padding: 20px; font-family: "JetBrains Mono", "Fira Code", monospace;
+                   font-size: 13px; line-height: 1.6; max-height: 92vh; overflow: auto; }
+  .k { color: #79c0ff; }   /* keys */
+  .s { color: #a5d6ff; }   /* strings */
+  .n { color: #ff9580; }   /* numbers */
+  .b { color: #ffa657; }   /* booleans */
+  .p { color: #e6edf3; }   /* punctuation */
+  .c { color: #6e7681; font-style: italic; }  /* highlight comment */
+  .pulse-1, .pulse-2, .pulse-3 { background: rgba(31,111,235,0.18);
+                                 border-radius: 4px; padding: 2px 4px; }
+  .pulse-1 { animation: pulse 2s ease-in-out 0.5s 1; }
+  .pulse-2 { animation: pulse 2s ease-in-out 2.5s 1; }
+  .pulse-3 { animation: pulse 2s ease-in-out 4.5s 1; }
+  @keyframes pulse { 0%,100% { background: transparent; }
+                     50% { background: rgba(31,111,235,0.45); } }
+  .footer { grid-column: 1 / -1; text-align: center; color: #6e7681;
+            font-size: 12px; margin-top: 24px; }
+  .footer strong { color: #79c0ff; }
+</style>
+</head>
+<body>
+
+  <!-- Phone (left) -->
+  <div class="phone">
+    <div class="phone-status"><span>9:41</span><span>● ● ●</span></div>
+    <span class="pill">aeogeo · 매칭 결과</span>
+    <h1>허리가 아픈데 강남에서</h1>
+    <p style="font-size: 13px; color: #8b949e;">8개 검증 스튜디오 중 1위</p>
+
+    <div class="card">
+      <div class="name">Itaewon Therapy Yoga</div>
+      <div class="meta">5.02km · ★ 4.9 · 매칭 80.3%</div>
+
+      <div class="bar"><span class="bar-label">필요 적합도</span>
+        <div class="bar-track"><div class="bar-fill" style="width: 80%"></div></div>
+        <span class="bar-value">80%</span></div>
+      <div class="bar"><span class="bar-label">거리</span>
+        <div class="bar-track"><div class="bar-fill" style="width: 37%; background: linear-gradient(90deg,#d29922,#e3b341)"></div></div>
+        <span class="bar-value">37%</span></div>
+      <div class="bar"><span class="bar-label">전문성</span>
+        <div class="bar-track"><div class="bar-fill" style="width: 97%"></div></div>
+        <span class="bar-value">97%</span></div>
+
+      <div class="reasons">
+        ✓ Physical Therapy Specialist<br>
+        ✓ Yoga Therapist<br>
+        ✓ alignment · back care · therapy
+      </div>
+      <div class="cta">예약하기 →</div>
+    </div>
+  </div>
+
+  <!-- DevTools-style panel (right) -->
+  <div class="devtools">
+    <div class="devtools-tabs">
+      <div class="devtools-tab">Elements</div>
+      <div class="devtools-tab active">Console · JSON-LD</div>
+      <div class="devtools-tab">Network</div>
+      <div class="devtools-tab">Sources</div>
+    </div>
+    <div class="devtools-body">
+<span class="p">&lt;</span><span class="k">script</span> <span class="k">type</span><span class="p">=</span><span class="s">"application/ld+json"</span><span class="p">&gt;</span>
+{
+  <span class="k">"@context"</span><span class="p">:</span> <span class="s">"https://schema.org"</span><span class="p">,</span>
+  <span class="k">"@graph"</span><span class="p">:</span> [
+    <span class="pulse-1">{
+      <span class="k">"@type"</span><span class="p">:</span> <span class="s">"SportsActivityLocation"</span><span class="p">,</span>
+      <span class="k">"name"</span><span class="p">:</span> <span class="s">"Itaewon Therapy Yoga"</span><span class="p">,</span>
+      <span class="k">"sport"</span><span class="p">:</span> <span class="s">"Yoga"</span><span class="p">,</span>
+      <span class="k">"geo"</span><span class="p">:</span> {
+        <span class="k">"@type"</span><span class="p">:</span> <span class="s">"GeoCoordinates"</span><span class="p">,</span>
+        <span class="k">"latitude"</span><span class="p">:</span> <span class="n">37.5347</span><span class="p">,</span>
+        <span class="k">"longitude"</span><span class="p">:</span> <span class="n">126.9947</span>
+      }<span class="p">,</span>
+      <span class="k">"aggregateRating"</span><span class="p">:</span> {
+        <span class="k">"ratingValue"</span><span class="p">:</span> <span class="n">4.9</span><span class="p">,</span>
+        <span class="k">"bestRating"</span><span class="p">:</span> <span class="n">5</span>
+      }<span class="p">,</span>
+      <span class="k">"additionalProperty"</span><span class="p">:</span> [
+        { <span class="k">"name"</span><span class="p">:</span> <span class="s">"instructorCertification"</span><span class="p">,</span>
+          <span class="k">"value"</span><span class="p">:</span> <span class="s">"Physical Therapy Specialist"</span> }<span class="p">,</span>
+        { <span class="k">"name"</span><span class="p">:</span> <span class="s">"instructorCertification"</span><span class="p">,</span>
+          <span class="k">"value"</span><span class="p">:</span> <span class="s">"Yoga Therapist"</span> }
+      ]
+    }</span><span class="p">,</span>
+    <span class="pulse-2">{
+      <span class="k">"@type"</span><span class="p">:</span> <span class="s">"FAQPage"</span><span class="p">,</span>
+      <span class="k">"inLanguage"</span><span class="p">:</span> <span class="s">"ko"</span><span class="p">,</span>
+      <span class="k">"mainEntity"</span><span class="p">:</span> [{
+        <span class="k">"@type"</span><span class="p">:</span> <span class="s">"Question"</span><span class="p">,</span>
+        <span class="k">"name"</span><span class="p">:</span> <span class="s">"허리가 아픈데 강남에서 추천해줘"</span><span class="p">,</span>
+        <span class="k">"acceptedAnswer"</span><span class="p">:</span> {
+          <span class="k">"@type"</span><span class="p">:</span> <span class="s">"Answer"</span><span class="p">,</span>
+          <span class="k">"text"</span><span class="p">:</span> <span class="s">"Itaewon Therapy Yoga 추천 (매칭 80.3%) …"</span>
+        }
+      }]
+    }</span><span class="p">,</span>
+    <span class="pulse-3">{
+      <span class="k">"@type"</span><span class="p">:</span> <span class="s">"HowTo"</span><span class="p">,</span>
+      <span class="k">"name"</span><span class="p">:</span> <span class="s">"Adapted yoga session for Lower back pain"</span><span class="p">,</span>
+      <span class="k">"step"</span><span class="p">:</span> [
+        { <span class="k">"name"</span><span class="p">:</span> <span class="s">"Warm-up"</span><span class="p">,</span> <span class="k">"text"</span><span class="p">:</span> <span class="s">"Cat-Cow + Pelvic tilts"</span> }<span class="p">,</span>
+        { <span class="k">"name"</span><span class="p">:</span> <span class="s">"Main"</span><span class="p">,</span> <span class="k">"text"</span><span class="p">:</span> <span class="s">"Supported Bridge, Sphinx"</span> }<span class="p">,</span>
+        { <span class="k">"name"</span><span class="p">:</span> <span class="s">"Cool-down"</span><span class="p">,</span> <span class="k">"text"</span><span class="p">:</span> <span class="s">"Reclined twist"</span> }
+      ]
+    }</span>
+  ]
+}
+<span class="p">&lt;/</span><span class="k">script</span><span class="p">&gt;</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    Same answer the user sees · readable by <strong>Google AI Overviews · Perplexity · Naver Cue</strong>
+  </div>
+
+</body>
+</html>
