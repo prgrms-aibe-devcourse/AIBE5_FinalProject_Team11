@@ -1,30 +1,74 @@
-elbee.yogaman.club:8080 {
-	# React/Vite frontend (Chat + Search tabs)
-	handle /* {
-		reverse_proxy localhost:5173
-	}
+# aeogeo / yogaman.club reverse proxy
+# -----------------------------------------------------------------------------
+# Public hostname:  match.yogaman.club  (DNS on Cloudflare → CF Tunnel → here)
+# Local listener:   :8080  (cloudflared connects to http://localhost:8080)
+#
+# elbee.yogaman.club is intentionally NOT served here — it remains a separate
+# GitHub Pages Jekyll site (instructor brand portfolio). Do not collide.
+# -----------------------------------------------------------------------------
 
-	# FastAPI — /chat proxy (streaming SSE support)
+{
+	# Cloudflare terminates TLS — Caddy speaks plain HTTP to the tunnel.
+	auto_https off
+}
+
+match.yogaman.club:8080, localhost:8080 {
+
+	# /chat — conversational RAG (container yoga-chat-api → host port 5002)
 	handle /chat* {
-		reverse_proxy localhost:8000 {
-			flush_interval -1
+		reverse_proxy localhost:5002 {
+			flush_interval -1            # keep SSE / streaming responses alive
+			header_up X-Forwarded-Proto https
+			header_up X-Forwarded-Host {host}
 		}
 	}
 
-	# FastAPI — /search proxy
+	# /search — Typesense-backed studio/instructor lookup (yoga-search-api → 5001)
 	handle /search* {
-		reverse_proxy localhost:8000
+		reverse_proxy localhost:5001
 	}
 
-	# Spring Boot — /api/v1 (Match, Studios)
+	# /match — Streamlit match-score demo (when running locally on :8599)
+	handle /match* {
+		reverse_proxy localhost:8599
+	}
+
+	# /api/v1 — Spring Boot yoga-api (matching, studios, bookings) when present
 	handle /api/v1* {
 		reverse_proxy localhost:19090
 	}
 
-	# FastAPI health
-	handle /health {
-		reverse_proxy localhost:8000
+	# Provider surface — studio / instructor partner dashboard
+	handle /partners* {
+		reverse_proxy localhost:5002
 	}
+	handle /studio* {
+		reverse_proxy localhost:5002
+	}
+
+	# AEO / SEO — static JSON-LD documents for crawlers
+	handle /.well-known/* {
+		root * /home/aiegoo/repos/aiegoo/aeogeo/assets/well-known
+		file_server
+	}
+	handle /aeo/* {
+		root * /home/aiegoo/repos/aiegoo/aeogeo/assets/aeo
+		file_server
+	}
+
+	handle /health {
+		reverse_proxy localhost:5002
+	}
+
+	# Default — try Vite dev server (5173); fall back to chat API landing page
+	handle /* {
+		reverse_proxy localhost:5173 localhost:5002 {
+			lb_try_duration 1s
+			fail_duration 5s
+		}
+	}
+
+	encode zstd gzip
 
 	log {
 		output stderr
