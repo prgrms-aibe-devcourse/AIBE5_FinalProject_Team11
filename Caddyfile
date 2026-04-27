@@ -17,22 +17,30 @@ http://match.yogaman.club:8088, http://localhost:8088, http://:8088 {
 
 	# Upstream alias — Docker resolves host.docker.internal to the host gateway,
 	# which exposes everything the WSL host (and Docker Desktop VM) publishes.
-	# /chat — conversational RAG (container yoga-chat-api → host port 5002)
+	# /chat — conversational RAG (FastAPI uvicorn on host :8000)
 	handle /chat* {
-		reverse_proxy host.docker.internal:5002 {
+		reverse_proxy host.docker.internal:8000 {
 			flush_interval -1            # keep SSE / streaming responses alive
 			header_up X-Forwarded-Proto https
 		}
 	}
 
-	# /search — Typesense-backed studio/instructor lookup (yoga-search-api → 5001)
+	# /search — same FastAPI app on host :8000 (Typesense path mounted there)
 	handle /search* {
-		reverse_proxy host.docker.internal:5001
+		reverse_proxy host.docker.internal:8000
 	}
 
-	# /match — Streamlit match-score demo (when running locally on :8599)
-	handle /match* {
-		reverse_proxy host.docker.internal:8599
+	# /match — POST requests go to Spring Boot yoga-api (rewritten to /api/v1/match)
+	#          GET requests fall through to the React frontend via handle /*
+	@matchPost {
+		path /match*
+		method POST
+	}
+	handle @matchPost {
+		rewrite * /api/v1{path}
+		reverse_proxy host.docker.internal:19090 {
+			header_up X-Forwarded-Proto https
+		}
 	}
 
 	# /api/v1 — Spring Boot yoga-api (matching, studios, bookings) when present
@@ -42,10 +50,17 @@ http://match.yogaman.club:8088, http://localhost:8088, http://:8088 {
 
 	# Provider surface — studio / instructor partner dashboard
 	handle /partners* {
-		reverse_proxy host.docker.internal:5002
+		reverse_proxy host.docker.internal:8000 {
+			flush_interval -1
+			header_up X-Forwarded-Proto https
+		}
 	}
+	# /studio — elbee Studio operator chatbot (FastAPI on host :8000, SSE)
 	handle /studio* {
-		reverse_proxy host.docker.internal:5002
+		reverse_proxy host.docker.internal:8000 {
+			flush_interval -1
+			header_up X-Forwarded-Proto https
+		}
 	}
 
 	# AEO / SEO — static JSON-LD documents for crawlers (mounted into container)
@@ -59,12 +74,12 @@ http://match.yogaman.club:8088, http://localhost:8088, http://:8088 {
 	}
 
 	handle /health {
-		reverse_proxy host.docker.internal:5002
+		reverse_proxy host.docker.internal:8000
 	}
 
-	# Default — try Vite dev server (5173); fall back to chat API landing page
+	# Default — try Vite dev server (5173/5174); fall back to chat API landing page on :8000
 	handle /* {
-		reverse_proxy host.docker.internal:5173 host.docker.internal:5002 {
+		reverse_proxy host.docker.internal:5173 host.docker.internal:5174 host.docker.internal:8000 {
 			lb_try_duration 500ms
 			fail_duration 5s
 			transport http {

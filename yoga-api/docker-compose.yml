@@ -30,7 +30,7 @@ services:
         condition: service_healthy
 
   frontend:
-    image: node:18-alpine
+    image: node:18-slim
     working_dir: /app
     volumes:
       - ../frontend:/app
