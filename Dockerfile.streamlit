@@ -1,0 +1,24 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# aeogeo — Streamlit demo image
+# Lightweight image used by the streamlit-safety and streamlit-match services.
+# Only installs the deps the demos actually need (streamlit, pandas, pydeck).
+# ──────────────────────────────────────────────────────────────────────────────
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN pip install --no-cache-dir streamlit pandas pydeck
+
+# Copy everything the demos need:
+#   scripts/ — the demo scripts + safety_rules module
+#   data/    — poses_eat_schema.json read by demo_safety_filter.py
+COPY scripts/ ./scripts/
+COPY data/ ./data/
+
+EXPOSE 8501 8502
+
+# Default command — overridden per-service in docker-compose.yml
+CMD ["streamlit", "run", "scripts/demo_safety_filter.py", \
+     "--server.port", "8501", \
+     "--server.headless", "true", \
+     "--server.address", "0.0.0.0"]
