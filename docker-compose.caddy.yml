@@ -1,0 +1,38 @@
+# Local-only reverse proxy for aeogeo.
+#
+# Caddy runs in a container with host networking so it can reach every
+# already-running service on the box (yoga-chat-api on :5002,
+# yoga-search-api on :5001, Streamlit demos on :8599, etc.) without any
+# extra docker-network plumbing.
+#
+# Usage:
+#   docker compose -f docker-compose.caddy.yml up -d
+#   curl -i http://localhost:8088/health
+#   curl -i http://localhost:8088/chat
+#
+# When you're ready to expose this publicly, either:
+#   (a) start a Cloudflare Tunnel pointing at http://localhost:8088, or
+#   (b) port-forward 80/443 on the router and switch the Caddyfile back
+#       to a real hostname so it can fetch a Let's Encrypt cert.
+
+services:
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: aeogeo-caddy
+    restart: unless-stopped
+    ports:
+      - "8088:8088"
+    extra_hosts:
+      # Lets the container reach services published on the WSL host AND
+      # the Docker Desktop VM (yoga-chat-api, yoga-search-api, Streamlit, …).
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./assets/well-known:/srv/well-known:ro
+      - ./assets/aeo:/srv/aeo:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

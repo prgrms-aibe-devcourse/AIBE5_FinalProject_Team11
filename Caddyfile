@@ -1,7 +1,8 @@
 # aeogeo / yogaman.club reverse proxy
 # -----------------------------------------------------------------------------
 # Public hostname:  match.yogaman.club  (DNS on Cloudflare → CF Tunnel → here)
-# Local listener:   :8080  (cloudflared connects to http://localhost:8080)
+# Local listener:   :8088  (cloudflared/dev clients connect to http://localhost:8088)
+#                   Port 8080 is reserved on this host (jeju-presentation).
 #
 # elbee.yogaman.club is intentionally NOT served here — it remains a separate
 # GitHub Pages Jekyll site (instructor brand portfolio). Do not collide.
@@ -12,59 +13,63 @@
 	auto_https off
 }
 
-match.yogaman.club:8080, localhost:8080 {
+http://match.yogaman.club:8088, http://localhost:8088, http://:8088 {
 
+	# Upstream alias — Docker resolves host.docker.internal to the host gateway,
+	# which exposes everything the WSL host (and Docker Desktop VM) publishes.
 	# /chat — conversational RAG (container yoga-chat-api → host port 5002)
 	handle /chat* {
-		reverse_proxy localhost:5002 {
+		reverse_proxy host.docker.internal:5002 {
 			flush_interval -1            # keep SSE / streaming responses alive
 			header_up X-Forwarded-Proto https
-			header_up X-Forwarded-Host {host}
 		}
 	}
 
 	# /search — Typesense-backed studio/instructor lookup (yoga-search-api → 5001)
 	handle /search* {
-		reverse_proxy localhost:5001
+		reverse_proxy host.docker.internal:5001
 	}
 
 	# /match — Streamlit match-score demo (when running locally on :8599)
 	handle /match* {
-		reverse_proxy localhost:8599
+		reverse_proxy host.docker.internal:8599
 	}
 
 	# /api/v1 — Spring Boot yoga-api (matching, studios, bookings) when present
 	handle /api/v1* {
-		reverse_proxy localhost:19090
+		reverse_proxy host.docker.internal:19090
 	}
 
 	# Provider surface — studio / instructor partner dashboard
 	handle /partners* {
-		reverse_proxy localhost:5002
+		reverse_proxy host.docker.internal:5002
 	}
 	handle /studio* {
-		reverse_proxy localhost:5002
+		reverse_proxy host.docker.internal:5002
 	}
 
-	# AEO / SEO — static JSON-LD documents for crawlers
+	# AEO / SEO — static JSON-LD documents for crawlers (mounted into container)
 	handle /.well-known/* {
-		root * /home/aiegoo/repos/aiegoo/aeogeo/assets/well-known
+		root * /srv/well-known
 		file_server
 	}
 	handle /aeo/* {
-		root * /home/aiegoo/repos/aiegoo/aeogeo/assets/aeo
+		root * /srv/aeo
 		file_server
 	}
 
 	handle /health {
-		reverse_proxy localhost:5002
+		reverse_proxy host.docker.internal:5002
 	}
 
 	# Default — try Vite dev server (5173); fall back to chat API landing page
 	handle /* {
-		reverse_proxy localhost:5173 localhost:5002 {
-			lb_try_duration 1s
+		reverse_proxy host.docker.internal:5173 host.docker.internal:5002 {
+			lb_try_duration 500ms
 			fail_duration 5s
+			transport http {
+				dial_timeout 1s
+			}
 		}
 	}
 
