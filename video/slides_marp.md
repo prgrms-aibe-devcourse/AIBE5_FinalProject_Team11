@@ -19,8 +19,10 @@ style: |
   h3 { color: #86efac; font-size: 1.1em; }
   strong { color: #fbbf24; }
   table { width: 100%; border-collapse: collapse; font-size: 0.8em; }
-  th { background: #2d2d44; color: #a78bfa; padding: 8px 12px; }
-  td { padding: 8px 12px; border-bottom: 1px solid #334155; }
+  th { background: #312e81 !important; color: #e0d7ff !important; padding: 8px 12px; border: 1px solid #4c3fbd; }
+  td { background: #1e1b4b !important; color: #e2e8f0 !important; padding: 8px 12px; border: 1px solid #2d2d55; }
+  tr:nth-child(even) td { background: #25225e !important; }
+  table strong { color: #fbbf24; }
   code { background: #2d2d44; color: #86efac; padding: 2px 6px; border-radius: 4px; }
   ul { line-height: 1.9; }
   .tag { background: #6C63FF; color: #fff; padding: 2px 10px; border-radius: 12px; font-size: 0.75em; margin-right: 6px; }
