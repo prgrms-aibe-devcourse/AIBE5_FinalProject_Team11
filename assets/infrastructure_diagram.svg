@@ -1,0 +1,438 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0f4ff"/>
+      <stop offset="100%" stop-color="#f8f0ff"/>
+    </linearGradient>
+    <linearGradient id="clientBox" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f0fe"/>
+      <stop offset="100%" stop-color="#dce8fd"/>
+    </linearGradient>
+    <linearGradient id="serverBox" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e6f9ee"/>
+      <stop offset="100%" stop-color="#d4f0e0"/>
+    </linearGradient>
+    <linearGradient id="extBox" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf0ff"/>
+      <stop offset="100%" stop-color="#f5e0ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#00000018"/>
+    </filter>
+    <marker id="arrBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#4a7ebb"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2e8b57"/>
+    </marker>
+    <marker id="arrPurple" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7b5eaa"/>
+    </marker>
+    <marker id="arrGold" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#b56a35"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="900" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="800" y="48" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif"
+        font-size="30" font-weight="700" fill="#1e2d4a" letter-spacing="0.3">시스템 아키텍처</text>
+  <text x="800" y="76" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif"
+        font-size="13" fill="#6b7a99">
+    Yogaman.club — React + FastAPI + Spring Boot · PostgreSQL · Ollama RAG
+  </text>
+  <line x1="60" y1="88" x2="1540" y2="88" stroke="#c8d4e8" stroke-width="1.5"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       LEFT PANEL — Tech Stack
+  ═══════════════════════════════════════════════════ -->
+  <text x="110" y="126" font-family="'Segoe UI', sans-serif" font-size="17" font-weight="700" fill="#4a7ebb">프론트엔드</text>
+  <rect x="70" y="112" width="130" height="26" rx="5" fill="none" stroke="#4a7ebb" stroke-width="1.5"/>
+
+  <!-- React logo (simplified) -->
+  <g transform="translate(80,155)">
+    <ellipse cx="30" cy="30" rx="28" ry="11" fill="none" stroke="#61dafb" stroke-width="3"/>
+    <ellipse cx="30" cy="30" rx="28" ry="11" fill="none" stroke="#61dafb" stroke-width="3" transform="rotate(60,30,30)"/>
+    <ellipse cx="30" cy="30" rx="28" ry="11" fill="none" stroke="#61dafb" stroke-width="3" transform="rotate(120,30,30)"/>
+    <circle cx="30" cy="30" r="5" fill="#61dafb"/>
+  </g>
+  <text x="110" y="225" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">React 19</text>
+
+  <!-- Vite logo (lightning bolt) -->
+  <g transform="translate(165,158)">
+    <polygon points="30,4 10,34 24,34 20,56 50,26 36,26 44,4" fill="#646cff" opacity="0.9"/>
+    <polygon points="30,4 10,34 24,34 20,56 50,26 36,26 44,4" fill="url(#viteFill)" opacity="0"/>
+  </g>
+  <text x="195" y="225" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">Vite</text>
+
+  <!-- Tailwind logo (wave) -->
+  <g transform="translate(245,168)">
+    <path d="M25,18 C25,10 30,6 40,6 C50,6 55,10 55,18 C55,14 60,10 70,10 C80,10 85,14 85,22 C85,14 80,10 70,10 C60,10 55,14 55,22 C55,30 50,34 40,34 C30,34 25,30 25,22 Z" fill="#38bdf8"/>
+    <path d="M5,30 C5,22 10,18 20,18 C30,18 35,22 35,30 C35,26 40,22 50,22 C60,22 65,26 65,34 C65,26 60,22 50,22 C40,22 35,26 35,34 C35,42 30,46 20,46 C10,46 5,42 5,38 Z" fill="#38bdf8" opacity="0.7"/>
+  </g>
+  <text x="305" y="225" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">Tailwind CSS</text>
+
+  <!-- Zustand (state) -->
+  <g transform="translate(80,248)">
+    <rect width="60" height="48" rx="10" fill="#ff6b35" opacity="0.15"/>
+    <text x="30" y="22" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="20" fill="#ff6b35">Z</text>
+    <text x="30" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#ff6b35">state</text>
+  </g>
+  <text x="110" y="315" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">Zustand</text>
+
+  <!-- Axios -->
+  <g transform="translate(165,248)">
+    <rect width="60" height="48" rx="10" fill="#5a67d8" opacity="0.15"/>
+    <text x="30" y="22" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="16" fill="#5a67d8">Ax</text>
+    <text x="30" y="40" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9" fill="#5a67d8">HTTP</text>
+  </g>
+  <text x="195" y="315" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">Axios</text>
+
+  <!-- Divider -->
+  <line x1="70" y1="336" x2="380" y2="336" stroke="#c8d4e8" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Backend stack label -->
+  <text x="110" y="370" font-family="'Segoe UI', sans-serif" font-size="17" font-weight="700" fill="#2e8b57">백엔드</text>
+  <rect x="70" y="356" width="110" height="26" rx="5" fill="none" stroke="#2e8b57" stroke-width="1.5"/>
+
+  <!-- Spring Boot leaf -->
+  <g transform="translate(75,395)">
+    <path d="M30,5 C15,5 5,20 5,35 C5,55 20,65 35,65 C50,65 65,55 65,35 C65,20 55,5 40,5 C38,5 36,5 34,6 C32,5 31,5 30,5 Z" fill="#6db33f"/>
+    <path d="M35,20 C25,20 20,30 20,40 C20,50 27,58 35,58 C43,58 50,50 50,40 C50,30 45,20 35,20 Z" fill="#ffffff" opacity="0.3"/>
+    <text x="35" y="44" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="white">SB</text>
+  </g>
+  <text x="110" y="478" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">Spring Boot</text>
+
+  <!-- FastAPI -->
+  <g transform="translate(162,395)">
+    <rect width="66" height="66" rx="12" fill="#009688" opacity="0.15"/>
+    <text x="33" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#009688">Fast</text>
+    <text x="33" y="50" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="15" font-weight="700" fill="#009688">API</text>
+  </g>
+  <text x="195" y="478" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">FastAPI</text>
+
+  <!-- PostgreSQL elephant (simplified) -->
+  <g transform="translate(245,395)">
+    <rect width="66" height="66" rx="12" fill="#336791" opacity="0.15"/>
+    <text x="33" y="28" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="22">🐘</text>
+    <text x="33" y="52" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#336791">Postgres</text>
+  </g>
+  <text x="278" y="478" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">PostgreSQL</text>
+
+  <!-- Divider -->
+  <line x1="70" y1="498" x2="380" y2="498" stroke="#c8d4e8" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- AI stack label -->
+  <text x="110" y="532" font-family="'Segoe UI', sans-serif" font-size="17" font-weight="700" fill="#7b5eaa">AI / RAG</text>
+  <rect x="70" y="518" width="110" height="26" rx="5" fill="none" stroke="#7b5eaa" stroke-width="1.5"/>
+
+  <!-- Ollama -->
+  <g transform="translate(75,555)">
+    <rect width="66" height="66" rx="12" fill="#7b5eaa" opacity="0.15"/>
+    <text x="33" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#7b5eaa">Ollama</text>
+    <text x="33" y="50" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7b5eaa">Mistral</text>
+  </g>
+  <text x="110" y="638" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">Ollama LLM</text>
+
+  <!-- LangChain -->
+  <g transform="translate(162,555)">
+    <rect width="66" height="66" rx="12" fill="#1c7c4a" opacity="0.15"/>
+    <text x="33" y="30" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#1c7c4a">Lang</text>
+    <text x="33" y="48" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#1c7c4a">Chain</text>
+  </g>
+  <text x="195" y="638" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">LangChain</text>
+
+  <!-- OpenAI fallback -->
+  <g transform="translate(245,555)">
+    <rect width="66" height="66" rx="12" fill="#74aa9c" opacity="0.15"/>
+    <text x="33" y="28" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="20">🤖</text>
+    <text x="33" y="52" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#74aa9c">fallback</text>
+  </g>
+  <text x="278" y="638" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" fill="#444">OpenAI</text>
+
+  <!-- ═══════════════════════════════════════════════════
+       CENTER — Architecture Flow
+  ═══════════════════════════════════════════════════ -->
+
+  <!-- CLIENT BOX -->
+  <g filter="url(#shadow)">
+    <rect x="420" y="105" width="560" height="290" rx="16" fill="url(#clientBox)" stroke="#4a7ebb" stroke-width="2"/>
+  </g>
+  <rect x="436" y="96" width="170" height="26" rx="6" fill="#4a7ebb"/>
+  <text x="521" y="114" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="white">🖥 클라이언트 (프론트엔드)</text>
+
+  <!-- UI Component node -->
+  <g filter="url(#shadow)">
+    <rect x="440" y="130" width="120" height="70" rx="10" fill="white" stroke="#4a7ebb" stroke-width="1.2"/>
+  </g>
+  <text x="500" y="158" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">UI 컴포넌트</text>
+  <text x="500" y="174" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">React 19</text>
+  <text x="500" y="188" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">Tailwind CSS 4</text>
+
+  <!-- arrow UI→State -->
+  <line x1="560" y1="165" x2="590" y2="165" stroke="#4a7ebb" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+
+  <!-- State Management node -->
+  <g filter="url(#shadow)">
+    <rect x="594" y="130" width="120" height="70" rx="10" fill="white" stroke="#4a7ebb" stroke-width="1.2"/>
+  </g>
+  <text x="654" y="158" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">상태 관리</text>
+  <text x="654" y="176" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#6b7a99">Zustand</text>
+
+  <!-- arrow State→Logic -->
+  <line x1="714" y1="165" x2="744" y2="165" stroke="#4a7ebb" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+
+  <!-- Business Logic node -->
+  <g filter="url(#shadow)">
+    <rect x="748" y="130" width="120" height="70" rx="10" fill="white" stroke="#4a7ebb" stroke-width="1.2"/>
+  </g>
+  <text x="808" y="155" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">비즈니스 로직</text>
+  <text x="808" y="171" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">라우팅</text>
+  <text x="808" y="185" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">TanStack Query</text>
+
+  <!-- arrow Logic→HTTP -->
+  <line x1="868" y1="165" x2="898" y2="165" stroke="#4a7ebb" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+
+  <!-- HTTP Client node -->
+  <g filter="url(#shadow)">
+    <rect x="902" y="130" width="60" height="70" rx="10" fill="white" stroke="#4a7ebb" stroke-width="1.2"/>
+  </g>
+  <text x="932" y="156" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">HTTP</text>
+  <text x="932" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">클라이언트</text>
+  <text x="932" y="185" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">(Axios)</text>
+
+  <!-- Match Panel node -->
+  <g filter="url(#shadow)">
+    <rect x="440" y="230" width="120" height="60" rx="10" fill="white" stroke="#4a7ebb" stroke-width="1.2"/>
+  </g>
+  <text x="500" y="254" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">매칭 패널</text>
+  <text x="500" y="270" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">MatchPanel.jsx</text>
+
+  <!-- Elbee Chat node -->
+  <g filter="url(#shadow)">
+    <rect x="594" y="230" width="120" height="60" rx="10" fill="white" stroke="#7b5eaa" stroke-width="1.2"/>
+  </g>
+  <text x="654" y="254" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">Elbee 채팅</text>
+  <text x="654" y="270" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7b5eaa">해요체 RAG</text>
+
+  <!-- Map View node -->
+  <g filter="url(#shadow)">
+    <rect x="748" y="230" width="120" height="60" rx="10" fill="white" stroke="#4a7ebb" stroke-width="1.2"/>
+  </g>
+  <text x="808" y="254" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">지도 뷰</text>
+  <text x="808" y="270" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">Google Maps</text>
+
+  <!-- Score View node -->
+  <g filter="url(#shadow)">
+    <rect x="902" y="230" width="60" height="60" rx="10" fill="white" stroke="#4a7ebb" stroke-width="1.2"/>
+  </g>
+  <text x="932" y="254" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#1e2d4a">점수</text>
+  <text x="932" y="270" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">뷰어</text>
+
+  <!-- SERVER BOX -->
+  <g filter="url(#shadow)">
+    <rect x="420" y="430" width="560" height="330" rx="16" fill="url(#serverBox)" stroke="#2e8b57" stroke-width="2"/>
+  </g>
+  <rect x="436" y="420" width="170" height="26" rx="6" fill="#2e8b57"/>
+  <text x="521" y="438" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="white">🗄 서버 (백엔드)</text>
+
+  <!-- Spring Boot Controller -->
+  <g filter="url(#shadow)">
+    <rect x="440" y="448" width="130" height="70" rx="10" fill="white" stroke="#2e8b57" stroke-width="1.2"/>
+  </g>
+  <text x="505" y="470" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">REST API 컨트롤러</text>
+  <text x="505" y="486" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">Spring Web MVC</text>
+  <text x="505" y="500" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">/api/match · /api/pose</text>
+
+  <!-- arrow Controller→Security -->
+  <line x1="570" y1="483" x2="600" y2="483" stroke="#2e8b57" stroke-width="1.8" marker-end="url(#arrGreen)"/>
+
+  <!-- Security Layer -->
+  <g filter="url(#shadow)">
+    <rect x="604" y="448" width="120" height="70" rx="10" fill="white" stroke="#2e8b57" stroke-width="1.2"/>
+  </g>
+  <text x="664" y="470" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">보안 계층</text>
+  <text x="664" y="486" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">Spring Security</text>
+  <text x="664" y="500" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">JWT 검증</text>
+
+  <!-- arrow Security→Service -->
+  <line x1="724" y1="483" x2="754" y2="483" stroke="#2e8b57" stroke-width="1.8" marker-end="url(#arrGreen)"/>
+
+  <!-- Business Service -->
+  <g filter="url(#shadow)">
+    <rect x="758" y="448" width="120" height="70" rx="10" fill="white" stroke="#2e8b57" stroke-width="1.2"/>
+  </g>
+  <text x="818" y="468" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">비즈니스 서비스</text>
+  <text x="818" y="484" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">매칭 · 스코어링</text>
+  <text x="818" y="498" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">Kill-Switch 필터</text>
+
+  <!-- arrow Service→DAL -->
+  <line x1="878" y1="483" x2="908" y2="483" stroke="#2e8b57" stroke-width="1.8" marker-end="url(#arrGreen)"/>
+
+  <!-- Data Access Layer -->
+  <g filter="url(#shadow)">
+    <rect x="912" y="448" width="52" height="70" rx="10" fill="white" stroke="#2e8b57" stroke-width="1.2"/>
+  </g>
+  <text x="938" y="470" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="600" fill="#1e2d4a">데이터</text>
+  <text x="938" y="484" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">접근</text>
+  <text x="938" y="498" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">JPA</text>
+
+  <!-- FastAPI RAG row -->
+  <g filter="url(#shadow)">
+    <rect x="440" y="548" width="130" height="70" rx="10" fill="white" stroke="#7b5eaa" stroke-width="1.2"/>
+  </g>
+  <text x="505" y="570" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">FastAPI RAG</text>
+  <text x="505" y="586" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7b5eaa">/chat · /search</text>
+  <text x="505" y="600" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">스트리밍 SSE</text>
+
+  <!-- arrow FastAPI→GeoStore -->
+  <line x1="570" y1="583" x2="600" y2="583" stroke="#7b5eaa" stroke-width="1.8" marker-end="url(#arrPurple)"/>
+
+  <!-- GeoDataStore -->
+  <g filter="url(#shadow)">
+    <rect x="604" y="548" width="120" height="70" rx="10" fill="white" stroke="#7b5eaa" stroke-width="1.2"/>
+  </g>
+  <text x="664" y="570" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">GeoDataStore</text>
+  <text x="664" y="586" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7b5eaa">키워드 인덱스</text>
+  <text x="664" y="600" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">OCR 텍스트 → TF</text>
+
+  <!-- arrow GeoStore→Ollama -->
+  <line x1="724" y1="583" x2="754" y2="583" stroke="#7b5eaa" stroke-width="1.8" marker-end="url(#arrPurple)"/>
+
+  <!-- Ollama RAG -->
+  <g filter="url(#shadow)">
+    <rect x="758" y="548" width="120" height="70" rx="10" fill="white" stroke="#7b5eaa" stroke-width="1.2"/>
+  </g>
+  <text x="818" y="568" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">Ollama (Mistral)</text>
+  <text x="818" y="584" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7b5eaa">RAG 추론</text>
+  <text x="818" y="598" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">→ OpenAI fallback</text>
+
+  <!-- PostgreSQL DB -->
+  <g filter="url(#shadow)">
+    <rect x="440" y="648" width="200" height="60" rx="10" fill="white" stroke="#336791" stroke-width="1.5"/>
+  </g>
+  <text x="540" y="670" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#336791">PostgreSQL</text>
+  <text x="540" y="688" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">poses · pose_contraindications · studio_locations</text>
+
+  <!-- arrow DAL down to DB -->
+  <line x1="938" y1="518" x2="938" y2="648" stroke="#336791" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="938" y1="648" x2="641" y2="648" stroke="#336791" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrBlue)"/>
+  <text x="800" y="643" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#336791">JPA / SQL Query</text>
+
+  <!-- ═══════════════════════════════════════════════════
+       RIGHT PANEL — External APIs
+  ═══════════════════════════════════════════════════ -->
+  <g filter="url(#shadow)">
+    <rect x="1060" y="105" width="200" height="480" rx="16" fill="url(#extBox)" stroke="#7b5eaa" stroke-width="1.5"/>
+  </g>
+  <rect x="1076" y="95" width="140" height="26" rx="6" fill="#7b5eaa"/>
+  <text x="1146" y="113" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="white">☁ 외부 API 연동</text>
+
+  <!-- Google Maps -->
+  <g filter="url(#shadow)">
+    <rect x="1080" y="130" width="160" height="70" rx="10" fill="white" stroke="#7b5eaa" stroke-width="1"/>
+  </g>
+  <text x="1160" y="155" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="22">🗺</text>
+  <text x="1160" y="174" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">Google Maps API</text>
+  <text x="1160" y="190" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">스튜디오 지도 표시</text>
+
+  <!-- Google OAuth -->
+  <g filter="url(#shadow)">
+    <rect x="1080" y="220" width="160" height="70" rx="10" fill="white" stroke="#7b5eaa" stroke-width="1"/>
+  </g>
+  <text x="1160" y="245" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="22">G</text>
+  <text x="1160" y="265" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">Google OAuth</text>
+  <text x="1160" y="280" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">소셜 로그인</text>
+
+  <!-- OpenAI -->
+  <g filter="url(#shadow)">
+    <rect x="1080" y="310" width="160" height="70" rx="10" fill="white" stroke="#7b5eaa" stroke-width="1"/>
+  </g>
+  <text x="1160" y="335" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="22">🤖</text>
+  <text x="1160" y="355" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">OpenAI API</text>
+  <text x="1160" y="370" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">Ollama fallback</text>
+
+  <!-- Schema.org / GEO -->
+  <g filter="url(#shadow)">
+    <rect x="1080" y="400" width="160" height="70" rx="10" fill="white" stroke="#b56a35" stroke-width="1"/>
+  </g>
+  <text x="1160" y="425" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="22">📋</text>
+  <text x="1160" y="445" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#b56a35">Schema.org JSON-LD</text>
+  <text x="1160" y="460" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">GEO / AEO 최적화</text>
+
+  <!-- Haversine -->
+  <g filter="url(#shadow)">
+    <rect x="1080" y="490" width="160" height="70" rx="10" fill="white" stroke="#2e8b57" stroke-width="1"/>
+  </g>
+  <text x="1160" y="515" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="22">📍</text>
+  <text x="1160" y="535" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#2e8b57">Haversine 거리</text>
+  <text x="1160" y="550" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">근접도 점수 계산</text>
+
+  <!-- ═══════════════════════════════════════════════════
+       CROSS-BOX ARROWS
+  ═══════════════════════════════════════════════════ -->
+
+  <!-- REST API label: Client → Server (down, left side) -->
+  <line x1="505" y1="395" x2="505" y2="428" stroke="#4a7ebb" stroke-width="2" marker-end="url(#arrBlue)"/>
+  <line x1="505" y1="428" x2="505" y2="448" stroke="#4a7ebb" stroke-width="2"/>
+  <rect x="430" y="404" width="150" height="20" rx="4" fill="white" opacity="0.85"/>
+  <text x="505" y="418" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#4a7ebb" font-weight="600">REST API (JSON) + JWT</text>
+
+  <!-- WebSocket: HTTP client → top right of server -->
+  <path d="M 962 200 Q 1020 200 1020 340 Q 1020 483 970 483" fill="none" stroke="#4a7ebb" stroke-width="1.8" stroke-dasharray="6,3" marker-end="url(#arrBlue)"/>
+  <rect x="1022" y="254" width="100" height="20" rx="4" fill="white" opacity="0.85"/>
+  <text x="1072" y="268" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#4a7ebb" font-weight="600">WebSocket</text>
+
+  <!-- Elbee chat → FastAPI RAG -->
+  <line x1="654" y1="290" x2="654" y2="430" stroke="#7b5eaa" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="654" y1="430" x2="505" y2="548" stroke="#7b5eaa" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrPurple)"/>
+
+  <!-- Map View → Google Maps API (right) -->
+  <line x1="868" y1="260" x2="1080" y2="165" stroke="#7b5eaa" stroke-width="1.4" stroke-dasharray="5,3" marker-end="url(#arrPurple)"/>
+
+  <!-- Service → Google OAuth -->
+  <line x1="878" y1="470" x2="1080" y2="255" stroke="#7b5eaa" stroke-width="1.4" stroke-dasharray="5,3" marker-end="url(#arrPurple)"/>
+  <rect x="940" y="340" width="60" height="18" rx="3" fill="white" opacity="0.85"/>
+  <text x="970" y="353" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7b5eaa">Token</text>
+
+  <!-- Ollama → OpenAI -->
+  <line x1="878" y1="583" x2="1080" y2="345" stroke="#7b5eaa" stroke-width="1.4" stroke-dasharray="5,3" marker-end="url(#arrPurple)"/>
+
+  <!-- Service → Schema.org -->
+  <line x1="878" y1="490" x2="1080" y2="435" stroke="#b56a35" stroke-width="1.4" stroke-dasharray="5,3" marker-end="url(#arrGold)"/>
+
+  <!-- Service → Haversine -->
+  <line x1="878" y1="500" x2="1080" y2="525" stroke="#2e8b57" stroke-width="1.4" stroke-dasharray="5,3" marker-end="url(#arrGreen)"/>
+
+  <!-- ═══════════════════════════════════════════════════
+       BOTTOM: Kill-Switch Banner
+  ═══════════════════════════════════════════════════ -->
+  <g filter="url(#shadow)">
+    <rect x="420" y="790" width="560" height="52" rx="10" fill="#fff5f5" stroke="#e07070" stroke-width="2"/>
+  </g>
+  <text x="700" y="812" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#c03c3c">
+    ⛔ Kill-Switch 불변식
+  </text>
+  <text x="700" y="831" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#6b7a99">
+    kill_switch = TRUE 포즈는 점수 계산 이전에 완전 제외 — severity: CAUTION | CRITICAL | MEDICAL_CLEARANCE
+  </text>
+
+  <!-- ═══════════════════════════════════════════════════
+       LEGEND
+  ═══════════════════════════════════════════════════ -->
+  <rect x="60" y="858" width="900" height="34" rx="8" fill="white" opacity="0.7" stroke="#c8d4e8" stroke-width="1"/>
+  <rect x="76" y="869" width="12" height="12" rx="2" fill="#4a7ebb"/>
+  <text x="94" y="880" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">프론트엔드 플로우</text>
+  <rect x="226" y="869" width="12" height="12" rx="2" fill="#2e8b57"/>
+  <text x="244" y="880" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">백엔드 서비스</text>
+  <rect x="376" y="869" width="12" height="12" rx="2" fill="#7b5eaa"/>
+  <text x="394" y="880" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">RAG / AI 파이프라인</text>
+  <rect x="546" y="869" width="12" height="12" rx="2" fill="#b56a35"/>
+  <text x="564" y="880" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">Schema.org GEO/AEO</text>
+  <rect x="716" y="869" width="12" height="12" rx="2" fill="#336791"/>
+  <text x="734" y="880" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">데이터베이스</text>
+  <rect x="836" y="869" width="12" height="12" rx="2" fill="#e07070"/>
+  <text x="854" y="880" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">Kill-Switch 안전 필터</text>
+</svg>
