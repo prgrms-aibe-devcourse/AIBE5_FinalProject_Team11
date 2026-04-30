@@ -891,3 +891,261 @@ Enterprise Tier (맞춤 견적 · YTT 학교)
 ├── FYT100/200 수료생 데이터 우선 매칭
 └── Schema.org Co-Author 크레딧 → AI 인용 공동 수혜
 ```
+
+---
+
+## 액터별 상세 플로우 (Actor-Specific Detailed Flows)
+
+> 세 주체 — **사용자(User)**, **스튜디오(Studio)**, **운영자(Operator)** — 각각의 단계별 흐름,
+> API 접점, 엣지 케이스, 전환 지표를 구체화합니다.
+
+---
+
+### A. 사용자 플로우 (User Flow)
+
+```
+[진입 경로]
+     │
+     ├─ AI 검색 (Perplexity / SearchGPT / Gemini)
+     ├─ Instagram Reels 링크 → /glossary/:pose/
+     ├─ 지인 추천 / 직접 방문
+     └─ elbee.yogaman.club 내 CTA 버튼
+```
+
+#### A-1. 발견 및 온보딩 (Discovery & Onboarding)
+
+| 단계 | 사용자 액션 | 시스템 처리 | API / 컴포넌트 |
+|------|-------------|-------------|----------------|
+| 1 | 랜딩 페이지 진입 | 세션 ID 발급, UTM 파라미터 저장 | `GET /` |
+| 2 | "내 조건으로 매칭 시작" 클릭 | 온보딩 폼 렌더링 | `GET /onboarding` |
+| 3 | 신체 조건 입력 (다중 선택) | `condition[]` 입력 검증, kill_switch 후보 목록 사전 계산 | `POST /api/v1/users/profile` |
+| 4 | 목표 선택 (유연성·근력·스트레스 해소 등) | `benefits[].tag` 벡터 초기화 | (같은 요청에 포함) |
+| 5 | 현재 수련 레벨 선택 (초급/중급/고급) | `difficulty_rank` 범위 설정 | (같은 요청에 포함) |
+| 6 | 위치/이동 가능 거리 입력 | PostGIS 반경 쿼리 파라미터 저장 | `PUT /api/v1/users/{id}/location` |
+| 7 | 온보딩 완료 → 매칭 결과 화면으로 이동 | 프로필 저장, 첫 매칭 실행 트리거 | `POST /api/v1/match` |
+
+**엣지 케이스:**
+- 조건을 선택하지 않은 경우 → 기본값(`difficulty_rank: 1–3`, `kill_switch: false`)으로 실행
+- 위치 권한 거부 → 수동 동 입력 폼으로 폴백
+- 매칭 결과 0건 → 반경을 +5 km 자동 확장 후 재시도, 안내 메시지 표시
+
+---
+
+#### A-2. 매칭 결과 탐색 (Match Result Exploration)
+
+| 단계 | 사용자 액션 | 시스템 처리 | API / 컴포넌트 |
+|------|-------------|-------------|----------------|
+| 8 | 매칭 결과 카드 목록 확인 | `match_score` 내림차순 정렬, kill_switch 세션 완전 제거 | `GET /api/v1/match?userId={id}` |
+| 9 | 세션 카드 클릭 → 상세 보기 | 포즈 메타데이터, 강사 프로필, 스튜디오 정보 로드 | `GET /api/v1/sessions/{id}` |
+| 10 | "왜 이 세션이 추천됐나요?" 클릭 | `match_reason[]` 렌더링 (benefit 태그 + 가중치 시각화) | `GET /api/v1/match/{matchId}/reason` |
+| 11 | 필터 조정 (시간대·스타일·가격) | 실시간 재매칭 없이 클라이언트 사이드 필터 적용 | 프론트엔드 필터 |
+| 12 | 강사 신뢰 배지 확인 | `instructor_trust_score`, 자격증(FYT100/200) 표시 | `GET /api/v1/instructors/{id}` |
+
+**엣지 케이스:**
+- kill_switch 활성 세션을 URL 직접 접근 → 경고 배너 + 대체 세션 3개 제안
+- `match_score` 동점 → `instructor_trust_score` 높은 순으로 타이브레이킹
+
+---
+
+#### A-3. 예약 및 세션 참여 (Booking & Attendance)
+
+| 단계 | 사용자 액션 | 시스템 처리 | API / 컴포넌트 |
+|------|-------------|-------------|----------------|
+| 13 | "예약하기" 클릭 | 스튜디오 어댑터 통해 실시간 슬롯 조회 | `GET /api/v1/studios/{id}/slots` |
+| 14 | 시간 슬롯 선택 | 좌석 임시 잠금 (3분 TTL) | `POST /api/v1/bookings/hold` |
+| 15 | 결제 정보 입력 및 확인 | PG 연동 처리 (Toss Payments 등) | `POST /api/v1/bookings/confirm` |
+| 16 | 예약 확정 알림 수신 | 이메일 + 앱 푸시, 캘린더 ICS 첨부 | `POST /api/v1/notifications` |
+| 17 | 세션 당일 체크인 QR 스캔 | 출석 확인, 세션 시작 기록 | `POST /api/v1/attendance` |
+| 18 | 세션 종료 후 피드백 요청 | 5분 내 간단 설문 (허리 상태 변화 등) | `POST /api/v1/feedback` |
+
+**엣지 케이스:**
+- 결제 실패 → 임시 잠금 즉시 해제, 오류 코드별 안내 메시지
+- 노쇼 3회 누적 → 다음 예약 시 사전 입금 필수
+- 취소 24시간 전 → 전액 환불; 24시간 내 → 스튜디오 정책 적용
+
+---
+
+#### A-4. 수련 이력 및 반복 매칭 (History & Repeat Matching)
+
+| 단계 | 사용자 액션 | 시스템 처리 | API / 컴포넌트 |
+|------|-------------|-------------|----------------|
+| 19 | "내 수련 기록" 확인 | 누적 세션 수, 평균 피드백 점수, 진행 포즈 목록 | `GET /api/v1/users/{id}/history` |
+| 20 | 진행 중인 Challenge 확인 | 30일 요가 챌린지 진척도 시각화 | `GET /api/v1/challenges/{id}/progress` |
+| 21 | 재매칭 시 업데이트된 결과 확인 | 피드백 기반 `benefitWeight` 반영된 새 추천 | `POST /api/v1/match` |
+| 22 | "친구에게 추천" 소셜 공유 | Schema.org `Review` 객체 생성, 공유 링크 발급 | `POST /api/v1/reviews` |
+
+---
+
+### B. 스튜디오 플로우 (Studio Flow)
+
+```
+[진입 경로]
+     │
+     ├─ 운영자(Operator)의 직접 영업 / 파일럿 제안
+     ├─ 플랫폼 웹사이트 "스튜디오 등록하기" CTA
+     └─ 기존 Mindbody / 1club 파트너 자동 임포트
+```
+
+#### B-1. 등록 및 온보딩 (Registration & Onboarding)
+
+| 단계 | 스튜디오 액션 | 시스템 처리 | API / 컴포넌트 |
+|------|---------------|-------------|----------------|
+| 1 | 등록 신청서 제출 (사업자 번호, 위치, 강사 자격) | 정보 검증 + 운영자 승인 큐 전송 | `POST /api/v1/studios/apply` |
+| 2 | 운영자 승인 완료 알림 수신 | 스튜디오 계정 활성화, `studio_id` 발급 | `PATCH /api/v1/studios/{id}/status` |
+| 3 | 프로필 완성 (전문 분야, 강사진, 시설 사진) | 데이터 저장, E-E-A-T 완성도 점수 계산 | `PUT /api/v1/studios/{id}/profile` |
+| 4 | 클래스 목록 입력 (스타일, 레벨, 요일/시간, 정원) | `Session` 엔티티 생성, 포즈 DB와 자동 태깅 | `POST /api/v1/studios/{id}/sessions` |
+| 5 | 예약 시스템 연동 (Mindbody / 1club / 자체) | `StudioAdapter` 인스턴스화 및 연결 테스트 | `POST /api/v1/studios/{id}/integrations` |
+| 6 | 온보딩 체크리스트 완료 확인 | 완성도 80% 이상 → 매칭 풀(pool) 자동 진입 | 내부 배치 작업 |
+
+**엣지 케이스:**
+- 자격증 미보유 강사 → `trust_score` 낮게 초기화, 추천 3위 밖 표시 제한
+- Mindbody API 키 만료 → 직접 입력 스케줄러로 폴백, 갱신 알림 발송
+
+---
+
+#### B-2. 매칭 노출 및 리드 수신 (Match Visibility & Lead Reception)
+
+| 단계 | 스튜디오 액션 | 시스템 처리 | API / 컴포넌트 |
+|------|---------------|-------------|----------------|
+| 7 | 대시보드에서 "AI-Ready 리드" 수신 확인 | 사용자 동의 기반 Smart Profile 전달 | `GET /api/v1/studios/{id}/leads` |
+| 8 | 리드별 신체 조건·목표·세션 이력 열람 | 동의 범위 내 필드만 노출 (PIPA 준수) | `GET /api/v1/leads/{leadId}/profile` |
+| 9 | 맞춤 안내 메시지 발송 | 플랫폼 내 메시지 시스템 경유 (이메일 직접 전달 불가) | `POST /api/v1/messages` |
+| 10 | 자사 매칭 점수 순위 확인 | `match_score` 분해 지표 표시 | `GET /api/v1/studios/{id}/match-analytics` |
+| 11 | 점수 개선 권장 액션 확인 | "전문 분야 태그 3개 추가 시 +8점 예상" 자동 생성 | `GET /api/v1/studios/{id}/recommendations` |
+
+---
+
+#### B-3. 예약 관리 및 클래스 운영 (Booking Management)
+
+| 단계 | 스튜디오 액션 | 시스템 처리 | API / 컴포넌트 |
+|------|---------------|-------------|----------------|
+| 12 | 주간 예약 현황 캘린더 확인 | 어댑터 통해 실시간 동기화 | `GET /api/v1/studios/{id}/bookings` |
+| 13 | 정원 조정 / 임시 휴강 등록 | 해당 슬롯 `status: CLOSED`, 예약자 자동 알림 | `PATCH /api/v1/sessions/{id}` |
+| 14 | 출석 QR 생성 및 체크인 처리 | 출석 기록 저장, 세션 완료 플래그 | `GET /api/v1/sessions/{id}/checkin-qr` |
+| 15 | 수강생 피드백 통계 확인 | 집계 점수, 빈도 높은 키워드 시각화 | `GET /api/v1/studios/{id}/feedback-summary` |
+
+---
+
+#### B-4. 분석 및 성장 (Analytics & Growth)
+
+| 단계 | 스튜디오 액션 | 시스템 처리 | API / 컴포넌트 |
+|------|---------------|-------------|----------------|
+| 16 | 월간 리포트 확인 | 리드 → 예약 → 재방문 전환 퍼널 시각화 | `GET /api/v1/studios/{id}/reports/monthly` |
+| 17 | E-E-A-T 점수 현황 확인 | 포즈 메타데이터 완성도, Schema.org 적용률 | `GET /api/v1/studios/{id}/eat-score` |
+| 18 | 신규 강사 추가 / 자격증 업데이트 | `instructor_trust_score` 재계산 | `POST /api/v1/instructors` |
+| 19 | Pro → Enterprise 업그레이드 신청 | 화이트라벨 위젯 설정 활성화 | `POST /api/v1/studios/{id}/subscription/upgrade` |
+
+**스튜디오 KPI 목표:**
+- 리드 → 예약 전환율: **25% 이상**
+- 수강생 재방문율 (30일 내): **40% 이상**
+- E-E-A-T 완성도: **80점 이상** (AI 검색 인용 활성화 기준)
+
+---
+
+### C. 운영자 플로우 (Operator Flow)
+
+```
+[운영자 = aeogeo 팀 / 플랫폼 관리자]
+     │
+     ├─ 콘텐츠·데이터 파이프라인 관리
+     ├─ 스튜디오 파트너 온보딩 및 심사
+     ├─ 매칭 알고리즘 파라미터 튜닝
+     └─ 수익화 / 리포팅
+```
+
+#### C-1. 파트너 온보딩 심사 (Partner Vetting)
+
+| 단계 | 운영자 액션 | 시스템 처리 | 도구 / API |
+|------|-------------|-------------|------------|
+| 1 | 스튜디오 신청 목록 확인 | 신청 큐 (`status: PENDING`) 조회 | `GET /admin/studios?status=PENDING` |
+| 2 | 사업자 등록번호 + 강사 자격증 진위 확인 | 공공데이터포털 API 호출 결과 표시 | `GET /admin/studios/{id}/verification` |
+| 3 | 승인 / 반려 처리 | 상태 변경 + 스튜디오 이메일 자동 발송 | `PATCH /admin/studios/{id}/status` |
+| 4 | 초기 `trust_score` 설정 (0–100) | 자격증 유형·경력 연수 기반 초기값 입력 | `PUT /admin/studios/{id}/trust-score` |
+| 5 | 온보딩 완료 독려 알림 발송 | 일정 기간 내 미완료 시 자동 리마인더 | 배치 스케줄러 |
+
+---
+
+#### C-2. 데이터 파이프라인 관리 (Data Pipeline Management)
+
+| 단계 | 운영자 액션 | 시스템 처리 | 도구 / 스크립트 |
+|------|-------------|-------------|-----------------|
+| 6 | 포즈 DB enrichment 실행 | `poses_database.json` (read-only) → E-E-A-T 스키마 변환 | `python3 scripts/enrich_poses.py` |
+| 7 | SQL 인제스트 생성 | enriched JSON → Flyway migration SQL | `python3 scripts/generate_pose_insert_sql.py` |
+| 8 | Flyway migration 적용 | DB 스키마 버전 업그레이드 | `mvn flyway:migrate` |
+| 9 | Schema.org JSON-LD 검증 | Google Rich Results Test 자동 제출 | CI + 수동 확인 |
+| 10 | 신규 OCR 콘텐츠 통합 | `ocr_pipeline.py` → `content/` → RAG 인덱스 재빌드 | `python3 ocr_pipeline.py` |
+
+---
+
+#### C-3. 매칭 알고리즘 튜닝 (Algorithm Tuning)
+
+| 단계 | 운영자 액션 | 시스템 처리 | API / 컴포넌트 |
+|------|-------------|-------------|----------------|
+| 11 | 가중치 파라미터 현황 조회 | Need Fit / Distance / Specialty 현재 가중치 표시 | `GET /admin/match/weights` |
+| 12 | A/B 테스트 실험 설정 | 실험군 비율 + 변경 가중치 입력 | `POST /admin/experiments` |
+| 13 | 실험 결과 비교 (전환율·피드백) | 통계적 유의성 계산 후 대시보드 표시 | `GET /admin/experiments/{id}/results` |
+| 14 | 우수 가중치 프로덕션 반영 | 원클릭 업데이트 + 변경 이력 기록 | `PATCH /admin/match/weights` |
+| 15 | Kill-Switch 조건 목록 업데이트 | 신규 의학 지침 반영, severity 단계 재조정 | `PUT /admin/killswitch/conditions` |
+
+**Kill-Switch 거버넌스:**
+- 변경 시 2인 이상 승인 필수 (4-eyes principle)
+- 변경 이력 감사 로그 90일 보관
+- `severity: CRITICAL` 조건은 의료 자문 기반으로만 수정 가능
+
+---
+
+#### C-4. 파일럿 → 유료 전환 관리 (Pilot-to-Paid)
+
+```
+[파일럿 — 4주]
+  ├─ 스튜디오 3곳 선정, Free Tier로 시작
+  ├─ 주간 KPI 리포트 제공 (리드 수·전환율)
+  └─ 목표: 리드→예약 전환율 ≥ 20%
+
+        ▼ (목표 달성 시)
+
+[가치 증명 — 2주]
+  ├─ "AI가 만들어준 예약 X건 = ₩Y 매출" 리포트
+  ├─ 스튜디오 대상 케이스 스터디 작성
+  └─ Pro Tier 업그레이드 제안 발송
+
+        ▼
+
+[유료 구독]
+  ├─ Pro (₩29,000/월): 리드 무제한 + Smart Profile 열람
+  ├─ Enterprise (맞춤): 화이트라벨 + FYT200 연계
+  └─ 수수료 모델: 예약 건당 5–15%
+```
+
+| 단계 | 운영자 액션 | 도구 |
+|------|-------------|------|
+| 파일럿 스튜디오 선정 | 지역·스타일 다양성 + 초기 응답 속도 기준 3곳 | 내부 스프레드시트 |
+| 주간 KPI 발송 | 자동 생성 리포트 이메일 | `GET /admin/studios/{id}/reports/weekly` |
+| 가치 증명 리포트 | 전환 수익 계산 + 케이스 스터디 문서화 | 리포트 템플릿 |
+| 유료 전환 계약 | 구독 활성화 + 인보이스 발행 | `POST /admin/subscriptions` |
+
+---
+
+#### C-5. 콘텐츠 모더레이션 및 신뢰 관리 (Trust & Moderation)
+
+| 항목 | 기준 | 운영자 액션 | 자동화 수준 |
+|------|------|-------------|-------------|
+| 스튜디오 리뷰 | 욕설·허위 신고 필터 | 신고 접수 → 48h 내 검토 | NLP 1차 필터 + 사람 최종 확인 |
+| 강사 자격증 만료 | 매년 갱신 필요 | 만료 30일 전 알림, 미갱신 시 `trust_score` −20 | 자동 |
+| Kill-Switch 위반 | 금기 조건 포함 클래스 등록 시도 | 자동 차단 + 운영자 알림 | 자동 (100%) |
+| AI 인용 품질 | Perplexity/Gemini 인용 여부 주간 확인 | `geo_keywords` 업데이트, Schema.org 재검증 | 반자동 |
+
+---
+
+### D. 세 액터 간 상호작용 매트릭스 (Cross-Actor Interaction Matrix)
+
+| 이벤트 | 사용자 | 스튜디오 | 운영자 | 자동화 수준 |
+|--------|--------|----------|--------|-------------|
+| 신규 사용자 등록 | 프로필 입력 | — | MAU 지표 업데이트 | 자동 |
+| 매칭 결과 생성 | 결과 열람 | 노출 순위 결정 | 가중치 모니터링 | **100% 자동** |
+| 예약 확정 | 결제 완료 | 예약 수신 알림 | 수수료 수익 기록 | 자동 |
+| 세션 피드백 제출 | 피드백 입력 | 집계 점수 반영 | 알고리즘 학습 데이터 축적 | 자동 |
+| E-E-A-T 점수 하락 | — | 개선 권장 알림 | 원인 분석 + 가이드 발송 | 반자동 |
+| Kill-Switch 위반 | 안전 경고 노출 | 해당 세션 비공개 처리 | 감사 로그 기록 | **100% 자동** |
+| 구독 만료 | — | 기능 제한 + 갱신 안내 | 갱신 독려 이메일 | 자동 |
+| AI 검색 인용 발생 | 유입 증가 | 노출 증가 | 인용 품질 리포트 | 반자동 모니터링 |

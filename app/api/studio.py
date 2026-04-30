@@ -31,6 +31,7 @@ from app.services.llm_service import LLMService
 from app.services.loader import GeoDataStore, get_store
 from app.services.location_service import YogaLocationStore, get_location_store
 from app.services.rag_service import RagService
+from app.services.studio_agent import StudioAgent, TOOL_SPECS
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -60,6 +61,10 @@ ELBEE_STUDIO_SYSTEM_KO = """\
 3. 추측이 필요한 경우 가정을 명시해요 ("강남역 반경 1km 가정으로…").
 4. 카피 작성 요청에는 **한국어 문안만** 인용부호로 한 줄 제시하고, 그 아래에 근거를 짧게 설명해요.
 5. 후기 답글은 **3-4 문장**, 사과/공감/다음 액션을 포함해요.
+6. **추천에는 반드시 이유를 붙여요.** 스튜디오·스타일·시간대를 제안할 때마다 한 줄로
+   "→ 이유: 사용자 조건(예: 허리 통증·따뜻한 환경)과 맞는 점, 또는 운영 컨텍스트(노출/후기/거리)에서 가져온 근거"를 함께 적어요.
+7. **출처 구분.** 위 운영 컨텍스트(RAG)에서 확인된 실제 스튜디오만 이름으로 부르고,
+   확인되지 않은 추천은 "(예시)"라고 명시하거나 일반 가이드라인으로만 답해요. 이름을 지어내지 않아요.
 
 운영 컨텍스트 (RAG):
 ---
@@ -136,7 +141,7 @@ async def studio_chat(
     )
 
     try:
-        answer = await llm.chat(
+        answer = await llm.chat_auto(
             messages=messages,
             temperature=body.generation.temperature,
             max_tokens=body.generation.max_tokens,
@@ -193,7 +198,7 @@ async def studio_chat_stream(
         )
 
         try:
-            async for token in llm.stream_chat(
+            async for token in llm.stream_auto(
                 messages=messages,
                 temperature=body.generation.temperature,
                 max_tokens=body.generation.max_tokens,
@@ -251,3 +256,73 @@ async def studio_examples() -> dict:
             "어메니티 등록이 누락돼서 노출에 손해 보는 항목이 뭔가요?",
         ],
     }
+
+
+# ── Agent endpoints (LangChain-style tool dispatch) ──────────────────────────
+
+def _agent_dep(
+    rag: RagService = Depends(get_rag),
+    llm: LLMService = Depends(get_llm),
+    loc_store: YogaLocationStore = Depends(get_location_store),
+) -> StudioAgent:
+    return StudioAgent(llm=llm, rag=rag, loc_store=loc_store)
+
+
+@router.post(
+    "/agent",
+    summary="Operator chat — agentic (tool-dispatch) variant",
+)
+async def studio_agent_run(
+    body: ChatRequest,
+    agent: StudioAgent = Depends(_agent_dep),
+) -> dict:
+    history = [m.model_dump() for m in body.history]
+    return await agent.run(
+        body.question,
+        history=history,
+        temperature=body.generation.temperature,
+        max_tokens=body.generation.max_tokens,
+    )
+
+
+@router.post(
+    "/agent/stream",
+    summary="Operator chat — agentic SSE stream (thinking → tool_call → tool_result → final)",
+    response_class=StreamingResponse,
+)
+async def studio_agent_stream(
+    body: ChatRequest,
+    agent: StudioAgent = Depends(_agent_dep),
+) -> StreamingResponse:
+    async def gen() -> AsyncGenerator[str, None]:
+        history = [m.model_dump() for m in body.history]
+        try:
+            async for ev in agent.stream(
+                body.question,
+                history=history,
+                temperature=body.generation.temperature,
+                max_tokens=body.generation.max_tokens,
+            ):
+                payload = {"type": ev.type, "content": ev.content, "data": ev.data,
+                           "brand": settings.brand}
+                yield f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
+            yield f"data: {json.dumps({'type':'done','content':'','brand':settings.brand}, ensure_ascii=False)}\n\n"
+        except Exception as exc:
+            logger.exception("Studio agent stream failed: %s", exc)
+            yield (
+                f"data: {json.dumps({'type':'error','content':str(exc),'brand':settings.brand}, ensure_ascii=False)}\n\n"
+            )
+
+    return StreamingResponse(
+        gen(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+@router.get(
+    "/agent/tools",
+    summary="List registered agent tools (for UI / debugging)",
+)
+async def studio_agent_tools() -> dict:
+    return {"brand": settings.brand, "tools": TOOL_SPECS}

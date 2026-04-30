@@ -96,6 +96,99 @@ body {
   flex-direction: column;
 }
 
+/* ── Landing / Home screen ─────────────────────────────────────────── */
+.landing {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  background:
+    radial-gradient(ellipse at top, rgba(122, 162, 247, 0.08), transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(187, 154, 247, 0.06), transparent 60%);
+}
+
+.landing-inner {
+  width: 100%;
+  max-width: 880px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.landing-title {
+  font-size: clamp(1.75rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  color: var(--accent2);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.landing-tagline {
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  color: var(--text);
+  margin: 0;
+  max-width: 640px;
+}
+
+.landing-about {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  max-width: 640px;
+  margin: 0 0 1rem;
+}
+
+.landing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  max-width: 760px;
+  margin-top: 0.5rem;
+}
+
+.landing-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  font-family: inherit;
+  color: var(--text);
+}
+
+.landing-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px -12px rgba(122, 162, 247, 0.45);
+}
+
+.landing-card-emoji {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.landing-card-label {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--accent2);
+}
+
+.landing-card-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
 .app-footer {
   background: var(--surface);
   border-top: 1px solid var(--border);

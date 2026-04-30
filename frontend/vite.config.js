@@ -11,6 +11,14 @@ export default defineConfig({
   server: {
     port: 5173,
     host: '0.0.0.0',
+    // Dev server sits behind Caddy/Cloudflare tunnel; the Host header arriving
+    // here is whatever the upstream sets. Allow public host + upstream alias.
+    allowedHosts: [
+      '.yogaman.club',
+      'host.docker.internal',
+      'localhost',
+      '127.0.0.1',
+    ],
     proxy: {
       '/api/v1': {
         target: `http://${HOST}:19090`,
@@ -23,6 +31,11 @@ export default defineConfig({
         changeOrigin: true,
       },
       '/chat': {
+        target: `http://${HOST}:${process.env.CHAT_PORT ?? 8000}`,
+        changeOrigin: true,
+      },
+      // elbee Studio (operator chatbot) — same FastAPI app as /chat.
+      '/studio': {
         target: `http://${HOST}:${process.env.CHAT_PORT ?? 8000}`,
         changeOrigin: true,
       },

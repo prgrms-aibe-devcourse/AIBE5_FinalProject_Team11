@@ -86,7 +86,7 @@ export default function MatchPanel() {
     setStep(1)
   }
 
-  const poses = results?.poses ?? results?.matches ?? []
+  const poses = results?.poses ?? results?.matches ?? results?.results ?? []
 
   return (
     <div className="match-panel">

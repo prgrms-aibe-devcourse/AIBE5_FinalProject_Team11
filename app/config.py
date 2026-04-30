@@ -80,6 +80,18 @@ class Settings(BaseSettings):
     ollama_model: str = "mistral"          # change to llama3, gemma2, etc.
     ollama_timeout: int = 120              # seconds
 
+    # ── OpenAI (fallback when Ollama is slow / unavailable) ───────────────
+    openai_api_key: str = ""                       # OPENAI_API_KEY in .env
+    openai_base_url: str = "https://api.openai.com/v1"
+    openai_model: str = "gpt-4o-mini"
+    openai_timeout: int = 60
+    # Switch "auto" = try Ollama first, fall back to OpenAI on error/timeout.
+    # "ollama" = local only.  "openai" = OpenAI only.
+    llm_provider: str = "auto"
+    # Soft deadline (s) — if Ollama doesn't emit any token within this window
+    # the request is cancelled and OpenAI is used instead (auto mode only).
+    ollama_soft_deadline: int = 25
+
     # ── RAG tuning ────────────────────────────────────────────────────────
     rag_top_k: int = 5                     # pages returned as context
     rag_max_context_chars: int = 6000      # trim long context windows

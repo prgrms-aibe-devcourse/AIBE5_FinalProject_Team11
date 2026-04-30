@@ -82,13 +82,18 @@ http://match.yogaman.club:8088, http://localhost:8088, http://:8088 {
 		reverse_proxy host.docker.internal:8000
 	}
 
-	# Default — try Vite dev server (5173/5174); fall back to chat API landing page on :8000
+	# Default — Vite dev server only. No FastAPI fallback: a mixed upstream pool
+	# causes some module requests to be served by FastAPI (404) or to fail Vite's
+	# host allow-list (403) when the LB rotates after a single slow request.
 	handle /* {
-		reverse_proxy host.docker.internal:5173 host.docker.internal:5174 host.docker.internal:8000 {
-			lb_try_duration 500ms
-			fail_duration 5s
+		reverse_proxy host.docker.internal:5174 {
+			# Vite dev server's host-allowlist trusts its own listening address.
+			# Override Host so Vite sees host.docker.internal:5174 instead of
+			# the public hostname (which would otherwise trigger a 403).
+			header_up Host {http.reverse_proxy.upstream.hostport}
 			transport http {
-				dial_timeout 1s
+				dial_timeout 2s
+				response_header_timeout 30s
 			}
 		}
 	}

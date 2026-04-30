@@ -69,7 +69,7 @@ async def chat(
     )
 
     try:
-        answer = await llm.chat(
+        answer = await llm.chat_auto(
             messages=messages,
             temperature=body.generation.temperature,
             max_tokens=body.generation.max_tokens,
@@ -138,7 +138,7 @@ async def chat_stream(
         )
 
         try:
-            async for token in llm.stream_chat(
+            async for token in llm.stream_auto(
                 messages=messages,
                 temperature=body.generation.temperature,
                 max_tokens=body.generation.max_tokens,

@@ -155,11 +155,29 @@ def s_solution(prs):
 def s_demo(prs):
     s = prs.slides.add_slide(prs.slide_layouts[6]); add_bg(s)
     header(s, "03 · Live Demo", "match.yogaman.club — try it yourself.")
-    # screenshot placeholder
-    pic = Path("/home/aiegoo/repos/aiegoo/aeogeo/assets/teaser/shot_04_ranked.png")
-    if pic.exists():
-        s.shapes.add_picture(str(pic), Inches(0.6), Inches(2.1),
-                             width=Inches(7.6))
+
+    BASE = Path("/home/aiegoo/repos/aiegoo/aeogeo/assets/teaser")
+    shots = [
+        (BASE / "shot_03_typing.png",    "① Input goals & conditions"),
+        (BASE / "shot_04_ranked.png",    "② Top-3 recommendations"),
+        (BASE / "shot_05_breakdown.png", "③ Score breakdown"),
+        (BASE / "shot_07_jsonld.png",    "④ JSON-LD published"),
+    ]
+    iw = Inches(3.75)
+    ih = Inches(3.75 * 9 / 16)   # 2.11" — 16:9 aspect
+    xs = [Inches(0.6), Inches(4.45)]
+    ys = [Inches(2.1), Inches(4.5)]
+    for idx, (pic, caption) in enumerate(shots):
+        cx, cy = xs[idx % 2], ys[idx // 2]
+        if pic.exists():
+            s.shapes.add_picture(str(pic), cx, cy, width=iw)
+        else:
+            rect = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, cx, cy, iw, ih)
+            rect.fill.solid(); rect.fill.fore_color.rgb = DIM
+            rect.line.fill.background()
+        tx(s, cx, cy + ih + Inches(0.04), iw, Inches(0.22),
+           caption, size=10, color=MUTED, align=PP_ALIGN.CENTER)
+
     tx(s, Inches(8.6), Inches(2.2), Inches(4.2), Inches(0.4),
        "WHAT YOU SEE", size=11, bold=True, color=TEAL)
     bullets = [

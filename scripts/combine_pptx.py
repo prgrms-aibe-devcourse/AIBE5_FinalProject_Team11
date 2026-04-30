@@ -8,6 +8,7 @@ Output: /mnt/c/Users/hsyyu/Downloads/요가큐_발표_combined.pptx
 from pptx import Presentation
 from pptx.util import Emu
 from lxml import etree
+from io import BytesIO
 import copy
 
 P_NS  = 'http://schemas.openxmlformats.org/presentationml/2006/main'
@@ -20,19 +21,37 @@ OUT_PATH = '/mnt/c/Users/hsyyu/Downloads/요가큐_발표_combined.pptx'
 
 
 def copy_slide(src_slide, dest_prs):
-    """Append a deep-copy of src_slide (text/shape/table only) into dest_prs."""
+    """Append a deep-copy of src_slide into dest_prs, including embedded images."""
     blank = dest_prs.slide_layouts[6]          # blank layout
     dest_slide = dest_prs.slides.add_slide(blank)
 
-    # ── 1. Replace spTree content ─────────────────────────────────────────────
+    # ── 1. Copy image/media relationships first, build old→new rId map ────────
+    rId_map = {}
+    for rId, rel in list(src_slide.part.rels.items()):
+        if '/image' in rel.reltype:
+            try:
+                blob = rel.target_part.blob
+                _, new_rId = dest_slide.part.get_or_add_image_part(BytesIO(blob))
+                rId_map[rId] = new_rId
+            except Exception:
+                pass  # skip rels we can't transfer
+
+    # ── 2. Replace spTree content, remapping r:embed to new rIds ──────────────
+    R_EMBED = f'{{{R_NS}}}embed'
+    R_LINK  = f'{{{R_NS}}}link'
     dest_spTree = dest_slide.shapes._spTree
     for child in list(dest_spTree):
         dest_spTree.remove(child)
-    src_spTree = src_slide.shapes._spTree
-    for child in src_spTree:
-        dest_spTree.append(copy.deepcopy(child))
+    for child in src_slide.shapes._spTree:
+        node = copy.deepcopy(child)
+        for el in node.iter():
+            for attr in (R_EMBED, R_LINK):
+                val = el.get(attr)
+                if val and val in rId_map:
+                    el.set(attr, rId_map[val])
+        dest_spTree.append(node)
 
-    # ── 2. Copy slide background (p:bg inside p:cSld) ─────────────────────────
+    # ── 3. Copy slide background (p:bg inside p:cSld) ─────────────────────────
     src_cSld  = src_slide._element.find(f'{{{P_NS}}}cSld')
     dest_cSld = dest_slide._element.find(f'{{{P_NS}}}cSld')
     if src_cSld is not None and dest_cSld is not None:
