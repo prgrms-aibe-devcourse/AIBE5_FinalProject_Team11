@@ -1,307 +1,741 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="960" viewBox="0 0 1600 960">
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1200" viewBox="0 0 2000 1200">
   <defs>
+    <!-- Backgrounds -->
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f0f4fa"/>
-      <stop offset="100%" stop-color="#eef0f8"/>
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
     </linearGradient>
-    <linearGradient id="cardFill" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#f8f9fc"/>
+    <!-- Tier fills -->
+    <linearGradient id="feGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2333"/>
+      <stop offset="100%" stop-color="#0f1a2e"/>
     </linearGradient>
-    <linearGradient id="fillA" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#e8f3fc"/>
-      <stop offset="100%" stop-color="#ddeaf7"/>
+    <linearGradient id="beGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2a1a"/>
+      <stop offset="100%" stop-color="#0f1f0f"/>
     </linearGradient>
-    <linearGradient id="fillB" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#e8f6ee"/>
-      <stop offset="100%" stop-color="#ddf0e6"/>
+    <linearGradient id="aiGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#221533"/>
+      <stop offset="100%" stop-color="#160e22"/>
     </linearGradient>
-    <linearGradient id="fillC" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f0e8f8"/>
-      <stop offset="100%" stop-color="#e8ddf2"/>
+    <!-- Card fill -->
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e2530"/>
+      <stop offset="100%" stop-color="#161b22"/>
     </linearGradient>
-    <linearGradient id="fillKS" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#fff2f2"/>
-      <stop offset="100%" stop-color="#ffe8e8"/>
+    <!-- Kill card -->
+    <linearGradient id="killCard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d0e0e"/>
+      <stop offset="100%" stop-color="#1a0505"/>
     </linearGradient>
-    <filter id="shadow">
-      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00000018"/>
+    <!-- Diamond gradients -->
+    <linearGradient id="dA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="100%" stop-color="#0077b6"/>
+    </linearGradient>
+    <linearGradient id="dB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00ff99"/>
+      <stop offset="100%" stop-color="#009944"/>
+    </linearGradient>
+    <linearGradient id="dC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <!-- Glow filters -->
+    <filter id="glowA" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <marker id="arrA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L8,3 z" fill="#4a7ebb"/>
+    <filter id="glowB" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowC" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#00000088"/>
+    </filter>
+    <!-- Arrows -->
+    <marker id="arC" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#00d4ff" opacity="0.8"/>
     </marker>
-    <marker id="arrB" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L8,3 z" fill="#2e8b57"/>
+    <marker id="arG" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#00ff99" opacity="0.8"/>
     </marker>
-    <marker id="arrC" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L8,3 z" fill="#7b5eaa"/>
+    <marker id="arP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#a855f7" opacity="0.8"/>
+    </marker>
+    <marker id="arO" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#f59e0b" opacity="0.8"/>
+    </marker>
+    <marker id="arR" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#ff7b72" opacity="0.8"/>
+    </marker>
+    <marker id="arW" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#8b949e" opacity="0.6"/>
     </marker>
   </defs>
 
-  <rect width="1600" height="960" fill="url(#bg)"/>
-
-  <g opacity="0.025" stroke="#4a7ebb" stroke-width="1">
-    <line x1="293" y1="0" x2="293" y2="960"/>
-    <line x1="583" y1="0" x2="583" y2="960"/>
-    <line x1="878" y1="0" x2="878" y2="960"/>
-    <line x1="1173" y1="0" x2="1173" y2="960"/>
-    <line x1="1470" y1="0" x2="1470" y2="960"/>
+  <!-- ─── BACKGROUND ────────────────────────────────────────── -->
+  <rect width="2000" height="1200" fill="url(#bg)"/>
+  <!-- Grid -->
+  <g opacity="0.035" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="200" x2="2000" y2="200"/><line x1="0" y1="400" x2="2000" y2="400"/>
+    <line x1="0" y1="600" x2="2000" y2="600"/><line x1="0" y1="800" x2="2000" y2="800"/>
+    <line x1="0" y1="1000" x2="2000" y2="1000"/>
+    <line x1="250" y1="0" x2="250" y2="1200"/><line x1="500" y1="0" x2="500" y2="1200"/>
+    <line x1="750" y1="0" x2="750" y2="1200"/><line x1="1000" y1="0" x2="1000" y2="1200"/>
+    <line x1="1250" y1="0" x2="1250" y2="1200"/><line x1="1500" y1="0" x2="1500" y2="1200"/>
+    <line x1="1750" y1="0" x2="1750" y2="1200"/>
   </g>
 
-  <!-- TITLE -->
-  <text x="800" y="46" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-size="30" font-weight="700" fill="#1e2d4a" letter-spacing="0.5">시스템 아키텍처</text>
-  <text x="800" y="72" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" fill="#6b7a99">Yogaman.club — 데이터 수집 · 포즈 매칭 · 스튜디오 랭킹 · RAG 채팅 (3개 병렬 파이프라인)</text>
-  <line x1="50" y1="83" x2="1550" y2="83" stroke="#c8d4e8" stroke-width="1.5"/>
+  <!-- ─── TITLE ─────────────────────────────────────────────── -->
+  <text x="1000" y="52" text-anchor="middle"
+    font-family="'Segoe UI',system-ui,sans-serif" font-size="30" font-weight="700"
+    fill="#e6edf3" letter-spacing="0.3">Yogaman.club &#x2014; Full-Stack Architecture</text>
+  <text x="1000" y="80" text-anchor="middle"
+    font-family="'Segoe UI',sans-serif" font-size="14" fill="#8b949e">
+    Technology Stack (left) &#x2022; Component Dependency Graph (right) &#x2022; 3 Pipelines: Pose Matching &#xb7; Studio Ranking &#xb7; RAG Chat
+  </text>
+  <line x1="40" y1="96" x2="1960" y2="96" stroke="#30363d" stroke-width="1.5"/>
 
-  <!-- PIPELINE A group box: y=92, h=176 -->
+  <!-- ═══════════════════════════════════════════════════════════
+       LEFT PANEL — TECH STACK (x: 20–530)
+       Three tiers stacked vertically, each with coloured icons
+  ═══════════════════════════════════════════════════════════ -->
+  <text x="275" y="120" text-anchor="middle"
+    font-family="'Segoe UI',sans-serif" font-size="16" font-weight="700" fill="#8b949e" letter-spacing="2">TECHNOLOGY STACK</text>
+  <line x1="40" y1="128" x2="510" y2="128" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Divider between left and right panels -->
+  <line x1="535" y1="96" x2="535" y2="1180" stroke="#30363d" stroke-width="2" stroke-dasharray="8,4"/>
+
+  <!-- ── TIER 1: FRONTEND (y=135–395) ──────────────────── -->
   <g filter="url(#shadow)">
-    <rect x="12" y="92" width="1576" height="176" rx="14" fill="url(#fillA)" stroke="#4a7ebb" stroke-width="2"/>
+    <rect x="22" y="135" width="508" height="260" rx="12" fill="url(#feGrad)" stroke="#00d4ff" stroke-width="1.5" opacity="0.9"/>
   </g>
-  <rect x="16" y="96" width="157" height="168" rx="10" fill="#c6ddf4" stroke="#4a7ebb" stroke-width="1.5"/>
-  <text x="94" y="153" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#4a7ebb">Pipeline A</text>
-  <text x="94" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" fill="#2c5f9e">포즈 매칭</text>
-  <text x="94" y="186" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#2c5f9e">(Spring Boot)</text>
-  <text x="94" y="202" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">yoga-api:19090</text>
+  <!-- Tier label tab -->
+  <rect x="22" y="135" width="508" height="34" rx="12" fill="#00d4ff" opacity="0.18"/>
+  <rect x="22" y="147" width="508" height="22" fill="#00d4ff" opacity="0.08"/>
+  <text x="36" y="158" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="700" fill="#00d4ff">&#x25B6; TIER 1 — FRONTEND</text>
+  <text x="460" y="158" text-anchor="end" font-family="'Segoe UI',sans-serif" font-size="11" fill="#58a6ff">yogaman.club / elbee.yogaman.club</text>
 
-  <!-- A1: yoga repo -->
+  <!-- FE items (3 cols x 2 rows) -->
+  <!-- React / Next.js -->
+  <rect x="38" y="177" width="148" height="70" rx="8" fill="#161b22" stroke="#00d4ff" stroke-width="1" opacity="0.8"/>
+  <!-- React atom icon -->
+  <circle cx="62" cy="205" r="9" fill="none" stroke="#61dafb" stroke-width="2"/>
+  <circle cx="62" cy="205" r="3" fill="#61dafb"/>
+  <ellipse cx="62" cy="205" rx="16" ry="6" fill="none" stroke="#61dafb" stroke-width="1.2" transform="rotate(30,62,205)"/>
+  <ellipse cx="62" cy="205" rx="16" ry="6" fill="none" stroke="#61dafb" stroke-width="1.2" transform="rotate(-30,62,205)"/>
+  <text x="86" y="200" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="700" fill="#61dafb">React 18</text>
+  <text x="86" y="215" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Next.js (SSR)</text>
+  <text x="86" y="228" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Vite dev server</text>
+  <text x="38" y="238" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">  yoga-frontend</text>
+
+  <!-- Tailwind CSS -->
+  <rect x="196" y="177" width="148" height="70" rx="8" fill="#161b22" stroke="#00d4ff" stroke-width="1" opacity="0.8"/>
+  <!-- Tailwind icon (simplified wave) -->
+  <path d="M218,198 Q224,192 230,198 Q236,204 242,198" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M218,206 Q224,200 230,206 Q236,212 242,206" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="254" y="200" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="700" fill="#38bdf8">Tailwind CSS</text>
+  <text x="254" y="215" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Shadcn/ui</text>
+  <text x="254" y="228" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Responsive</text>
+  <text x="196" y="238" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">  styling layer</text>
+
+  <!-- Streamlit / Jupyter -->
+  <rect x="354" y="177" width="148" height="70" rx="8" fill="#161b22" stroke="#00d4ff" stroke-width="1" opacity="0.8"/>
+  <!-- Streamlit S icon -->
+  <text x="368" y="208" font-family="Georgia,serif" font-size="24" font-weight="700" fill="#ff4b4b">S</text>
+  <text x="396" y="200" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="700" fill="#ff4b4b">Streamlit</text>
+  <text x="396" y="215" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Studio match demo</text>
+  <text x="396" y="228" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Pipeline B UI</text>
+  <text x="354" y="238" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">  demo_match_score.py</text>
+
+  <!-- Mermaid / Markdown docs -->
+  <rect x="38" y="258" width="148" height="70" rx="8" fill="#161b22" stroke="#00d4ff" stroke-width="1" opacity="0.8"/>
+  <text x="52" y="285" font-family="'Segoe UI',sans-serif" font-size="20" fill="#e34c26">&#x276F;</text>
+  <text x="80" y="282" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="700" fill="#e6edf3">REST / SSE</text>
+  <text x="80" y="297" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Streaming SSE</text>
+  <text x="80" y="311" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">JSON responses</text>
+  <text x="38" y="322" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">  API protocol</text>
+
+  <!-- Google Maps / Kakao Maps -->
+  <rect x="196" y="258" width="148" height="70" rx="8" fill="#161b22" stroke="#00d4ff" stroke-width="1" opacity="0.8"/>
+  <!-- Map pin icon -->
+  <circle cx="220" cy="280" r="8" fill="#ea4335"/>
+  <path d="M220,288 L220,302" stroke="#ea4335" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="220" cy="280" r="4" fill="#ffffff"/>
+  <text x="236" y="279" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="700" fill="#ea4335">Google Maps</text>
+  <text x="236" y="294" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Geocoding API</text>
+  <text x="236" y="308" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Studio map view</text>
+  <text x="196" y="322" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">  maps_service.py</text>
+
+  <!-- Auth / Session -->
+  <rect x="354" y="258" width="148" height="70" rx="8" fill="#161b22" stroke="#00d4ff" stroke-width="1" opacity="0.8"/>
+  <!-- Shield icon -->
+  <path d="M378,265 L398,265 L398,284 L388,292 L378,284 Z" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="388" y1="271" x2="388" y2="282" stroke="#f59e0b" stroke-width="1.5"/>
+  <circle cx="388" cy="270" r="2" fill="#f59e0b"/>
+  <text x="406" y="279" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="700" fill="#f59e0b">Auth Layer</text>
+  <text x="406" y="294" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Google OAuth2</text>
+  <text x="406" y="308" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">JWT session</text>
+  <text x="354" y="322" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">  Spring Security</text>
+
+  <!-- ── TIER 2: BACKEND (y=405–665) ───────────────────── -->
   <g filter="url(#shadow)">
-    <rect x="183" y="134" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#4a7ebb" stroke-width="1.3"/>
-    <rect x="183" y="134" width="5" height="90" rx="2" fill="#4a7ebb"/>
+    <rect x="22" y="405" width="508" height="260" rx="12" fill="url(#beGrad)" stroke="#00ff99" stroke-width="1.5" opacity="0.9"/>
   </g>
-  <text x="293" y="157" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">yoga repo</text>
-  <text x="293" y="173" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">poses_database.json</text>
-  <text x="293" y="188" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">2700+ asana records</text>
-  <text x="293" y="203" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#ef5350">&#x1F512; read-only external</text>
-  <line x1="393" y1="179" x2="475" y2="179" stroke="#4a7ebb" stroke-width="1.8" marker-end="url(#arrA)"/>
+  <rect x="22" y="405" width="508" height="34" rx="12" fill="#00ff99" opacity="0.14"/>
+  <rect x="22" y="417" width="508" height="22" fill="#00ff99" opacity="0.06"/>
+  <text x="36" y="428" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="700" fill="#00ff99">&#x25B6; TIER 2 — BACKEND</text>
+  <text x="460" y="428" text-anchor="end" font-family="'Segoe UI',sans-serif" font-size="11" fill="#56d364">API + Data Layer</text>
 
-  <!-- A2: enrich_poses.py -->
+  <!-- Spring Boot yoga-api -->
+  <rect x="38" y="447" width="148" height="70" rx="8" fill="#161b22" stroke="#00ff99" stroke-width="1" opacity="0.8"/>
+  <!-- Spring leaf icon -->
+  <path d="M58,460 Q68,452 78,462 Q80,478 66,482 Q52,478 58,460Z" fill="#6db33f"/>
+  <text x="86" y="466" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#6db33f">Spring Boot</text>
+  <text x="86" y="480" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">yoga-api (Java)</text>
+  <text x="86" y="494" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">REST :19090</text>
+  <text x="38" y="508" font-family="'Segoe UI',sans-serif" font-size="9" fill="#56d364">  Kill-Switch built-in</text>
+
+  <!-- FastAPI -->
+  <rect x="196" y="447" width="148" height="70" rx="8" fill="#161b22" stroke="#00ff99" stroke-width="1" opacity="0.8"/>
+  <!-- Lightning bolt icon -->
+  <polygon points="226,450 218,470 225,470 217,488 233,466 226,466" fill="#009688" opacity="0.9"/>
+  <text x="242" y="466" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#009688">FastAPI</text>
+  <text x="242" y="480" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Python :8000</text>
+  <text x="242" y="494" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">async / Pydantic</text>
+  <text x="196" y="508" font-family="'Segoe UI',sans-serif" font-size="9" fill="#56d364">  /search /chat /api</text>
+
+  <!-- PostgreSQL -->
+  <rect x="354" y="447" width="148" height="70" rx="8" fill="#161b22" stroke="#00ff99" stroke-width="1" opacity="0.8"/>
+  <!-- PG elephant simplified -->
+  <circle cx="374" cy="473" r="12" fill="#336791"/>
+  <path d="M368,468 Q365,461 370,459 Q378,456 380,466" fill="#336791" stroke="#aed6f1" stroke-width="1"/>
+  <text x="394" y="467" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#aed6f1">PostgreSQL</text>
+  <text x="394" y="481" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">poses · studios</text>
+  <text x="394" y="495" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">port 8879</text>
+  <text x="354" y="508" font-family="'Segoe UI',sans-serif" font-size="9" fill="#56d364">  pose_benefits table</text>
+
+  <!-- Redis Cache -->
+  <rect x="38" y="528" width="148" height="70" rx="8" fill="#161b22" stroke="#00ff99" stroke-width="1" opacity="0.8"/>
+  <!-- Redis icon (stack of circles) -->
+  <ellipse cx="62" cy="548" rx="12" ry="5" fill="#dc382d"/>
+  <ellipse cx="62" cy="554" rx="12" ry="5" fill="#dc382d" opacity="0.8"/>
+  <ellipse cx="62" cy="560" rx="12" ry="5" fill="#dc382d" opacity="0.6"/>
+  <text x="82" y="547" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#dc382d">Redis</text>
+  <text x="82" y="562" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Query cache</text>
+  <text x="82" y="576" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Session store</text>
+  <text x="38" y="590" font-family="'Segoe UI',sans-serif" font-size="9" fill="#56d364">  cache.py</text>
+
+  <!-- PostGIS (geo) -->
+  <rect x="196" y="528" width="148" height="70" rx="8" fill="#161b22" stroke="#00ff99" stroke-width="1" opacity="0.8"/>
+  <!-- Globe icon -->
+  <circle cx="220" cy="558" r="12" fill="none" stroke="#00bfae" stroke-width="1.5"/>
+  <ellipse cx="220" cy="558" rx="6" ry="12" fill="none" stroke="#00bfae" stroke-width="1"/>
+  <line x1="208" y1="558" x2="232" y2="558" stroke="#00bfae" stroke-width="1"/>
+  <text x="240" y="552" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#00bfae">PostGIS</text>
+  <text x="240" y="567" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Geospatial index</text>
+  <text x="240" y="581" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">ST_Distance</text>
+  <text x="196" y="590" font-family="'Segoe UI',sans-serif" font-size="9" fill="#56d364">  location_service.py</text>
+
+  <!-- LangGraph / LangChain -->
+  <rect x="354" y="528" width="148" height="70" rx="8" fill="#161b22" stroke="#00ff99" stroke-width="1" opacity="0.8"/>
+  <!-- Graph icon -->
+  <circle cx="374" cy="548" r="5" fill="#f97316"/>
+  <circle cx="390" cy="560" r="5" fill="#f97316"/>
+  <circle cx="374" cy="572" r="5" fill="#f97316"/>
+  <line x1="374" y1="548" x2="390" y2="560" stroke="#f97316" stroke-width="1.5"/>
+  <line x1="390" y1="560" x2="374" y2="572" stroke="#f97316" stroke-width="1.5"/>
+  <text x="403" y="552" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#f97316">LangGraph</text>
+  <text x="403" y="567" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Agent orchestr.</text>
+  <text x="403" y="581" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Pipeline B prod</text>
+  <text x="354" y="590" font-family="'Segoe UI',sans-serif" font-size="9" fill="#56d364">  agent.py</text>
+
+  <!-- ── TIER 3: AI / ML STACK (y=675–935) ─────────────── -->
   <g filter="url(#shadow)">
-    <rect x="478" y="134" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#4a7ebb" stroke-width="1.3"/>
-    <rect x="478" y="134" width="5" height="90" rx="2" fill="#4a7ebb"/>
+    <rect x="22" y="675" width="508" height="280" rx="12" fill="url(#aiGrad)" stroke="#a855f7" stroke-width="1.5" opacity="0.9"/>
   </g>
-  <text x="583" y="157" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">enrich_poses.py</text>
-  <text x="583" y="173" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">benefit tags (weight 0&#x2013;1)</text>
-  <text x="583" y="188" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">kill_switch flag &#xb7; severity</text>
-  <text x="583" y="203" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7b5eaa">Schema.org ExerciseAction</text>
-  <line x1="688" y1="179" x2="770" y2="179" stroke="#4a7ebb" stroke-width="1.8" marker-end="url(#arrA)"/>
+  <rect x="22" y="675" width="508" height="34" rx="12" fill="#a855f7" opacity="0.18"/>
+  <rect x="22" y="687" width="508" height="22" fill="#a855f7" opacity="0.08"/>
+  <text x="36" y="698" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="700" fill="#a855f7">&#x25B6; TIER 3 — AI / ML</text>
+  <text x="460" y="698" text-anchor="end" font-family="'Segoe UI',sans-serif" font-size="11" fill="#c084fc">Inference + Enrichment</text>
 
-  <!-- A3: poses_eat_schema + SQL -->
+  <!-- Ollama / Mistral -->
+  <rect x="38" y="717" width="148" height="70" rx="8" fill="#161b22" stroke="#a855f7" stroke-width="1" opacity="0.8"/>
+  <!-- Brain/AI icon -->
+  <circle cx="62" cy="745" r="12" fill="none" stroke="#a855f7" stroke-width="1.5"/>
+  <path d="M56,745 Q62,738 68,745 Q68,752 62,752 Q56,752 56,745Z" fill="#a855f7" opacity="0.4"/>
+  <line x1="54" y1="741" x2="62" y2="745" stroke="#a855f7" stroke-width="1"/>
+  <line x1="70" y1="741" x2="62" y2="745" stroke="#a855f7" stroke-width="1"/>
+  <text x="82" y="738" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#a855f7">Ollama</text>
+  <text x="82" y="753" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Mistral 7B (local)</text>
+  <text x="82" y="767" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">streaming SSE</text>
+  <text x="38" y="778" font-family="'Segoe UI',sans-serif" font-size="9" fill="#c084fc">  llm_service.py</text>
+
+  <!-- OpenAI fallback -->
+  <rect x="196" y="717" width="148" height="70" rx="8" fill="#161b22" stroke="#a855f7" stroke-width="1" opacity="0.8"/>
+  <!-- OpenAI icon (simple O) -->
+  <circle cx="218" cy="744" r="12" fill="none" stroke="#74aa9c" stroke-width="2"/>
+  <circle cx="218" cy="744" r="5" fill="#74aa9c"/>
+  <text x="238" y="738" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#74aa9c">OpenAI</text>
+  <text x="238" y="753" font-family="'Segoe UI',sans-serif" font-size="10" fill="#ff7b72">fallback LLM</text>
+  <text x="238" y="767" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">GPT-4o</text>
+  <text x="196" y="778" font-family="'Segoe UI',sans-serif" font-size="9" fill="#c084fc">  llm_service.py</text>
+
+  <!-- Tesseract OCR -->
+  <rect x="354" y="717" width="148" height="70" rx="8" fill="#161b22" stroke="#a855f7" stroke-width="1" opacity="0.8"/>
+  <!-- Eye/scan icon -->
+  <ellipse cx="378" cy="745" rx="12" ry="8" fill="none" stroke="#e0a040" stroke-width="1.5"/>
+  <circle cx="378" cy="745" r="4" fill="#e0a040"/>
+  <text x="398" y="738" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#e0a040">Tesseract OCR</text>
+  <text x="398" y="753" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">LSTM --oem 3</text>
+  <text x="398" y="767" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">--psm 6 block</text>
+  <text x="354" y="778" font-family="'Segoe UI',sans-serif" font-size="9" fill="#c084fc">  ocr_pipeline.py</text>
+
+  <!-- OpenCV cv2 -->
+  <rect x="38" y="798" width="148" height="70" rx="8" fill="#161b22" stroke="#a855f7" stroke-width="1" opacity="0.8"/>
+  <!-- Camera icon -->
+  <rect x="50" y="810" width="26" height="20" rx="3" fill="none" stroke="#5c5cff" stroke-width="1.5"/>
+  <circle cx="63" cy="820" r="6" fill="none" stroke="#5c5cff" stroke-width="1.5"/>
+  <rect x="73" y="808" width="6" height="5" rx="1" fill="#5c5cff"/>
+  <text x="86" y="818" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#5c5cff">OpenCV</text>
+  <text x="86" y="833" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">cv2 deskew</text>
+  <text x="86" y="847" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">denoise + binarize</text>
+  <text x="38" y="858" font-family="'Segoe UI',sans-serif" font-size="9" fill="#c084fc">  ocr_pipeline.py</text>
+
+  <!-- Schema.org / JSON-LD -->
+  <rect x="196" y="798" width="148" height="70" rx="8" fill="#161b22" stroke="#a855f7" stroke-width="1" opacity="0.8"/>
+  <!-- Schema badge -->
+  <rect x="208" y="810" width="28" height="18" rx="4" fill="#3a7d44"/>
+  <text x="222" y="823" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" font-weight="700" fill="#ffffff">EAT</text>
+  <text x="244" y="818" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#3a7d44">Schema.org</text>
+  <text x="244" y="833" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">JSON-LD EAT</text>
+  <text x="244" y="847" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">ExerciseAction</text>
+  <text x="196" y="858" font-family="'Segoe UI',sans-serif" font-size="9" fill="#c084fc">  enrich_poses.py</text>
+
+  <!-- GeoDataStore (inverted index) -->
+  <rect x="354" y="798" width="148" height="70" rx="8" fill="#161b22" stroke="#a855f7" stroke-width="1" opacity="0.8"/>
+  <!-- Index icon (stacked lines) -->
+  <line x1="366" y1="812" x2="390" y2="812" stroke="#c084fc" stroke-width="2"/>
+  <line x1="366" y1="820" x2="384" y2="820" stroke="#c084fc" stroke-width="2"/>
+  <line x1="366" y1="828" x2="388" y2="828" stroke="#c084fc" stroke-width="2"/>
+  <line x1="366" y1="836" x2="380" y2="836" stroke="#c084fc" stroke-width="2"/>
+  <text x="398" y="818" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#c084fc">GeoDataStore</text>
+  <text x="398" y="833" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Inverted keyword</text>
+  <text x="398" y="847" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">platform/region idx</text>
+  <text x="354" y="858" font-family="'Segoe UI',sans-serif" font-size="9" fill="#c084fc">  loader.py</text>
+
+  <!-- Tier connector labels -->
+  <line x1="40" y1="398" x2="510" y2="398" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="40" y1="668" x2="510" y2="668" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Cross-tier arrows inside left panel -->
+  <!-- FE ↔ BE -->
+  <line x1="22" y1="268" x2="22" y2="535" stroke="#30363d" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <!-- Annotate -->
+  <text x="27" y="404" font-family="'Segoe UI',sans-serif" font-size="10" fill="#30363d" transform="rotate(-90,27,404)">REST / WebSocket</text>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       RIGHT PANEL — DEPENDENCY GRAPH (x: 555–1980)
+       Node map with dependencies drawn as curved edges
+  ═══════════════════════════════════════════════════════════ -->
+  <text x="1260" y="120" text-anchor="middle"
+    font-family="'Segoe UI',sans-serif" font-size="16" font-weight="700" fill="#8b949e" letter-spacing="2">COMPONENT DEPENDENCY GRAPH</text>
+
+  <!-- ── Column header labels ── -->
+  <text x="700" y="144" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#30363d">DATA SOURCES</text>
+  <text x="920" y="144" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#30363d">PROCESSING</text>
+  <text x="1150" y="144" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#30363d">ENGINES</text>
+  <text x="1390" y="144" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#30363d">SERVICES</text>
+  <text x="1700" y="144" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#30363d">OUTPUTS</text>
+
+  <!-- ────────────────────────────────────────────────────────
+       DATA SOURCE NODES (col x~700)
+  ──────────────────────────────────────────────────────── -->
+
+  <!-- DS-1: yoga repo (read-only) -->
   <g filter="url(#shadow)">
-    <rect x="773" y="134" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#4a7ebb" stroke-width="1.3"/>
-    <rect x="773" y="134" width="5" height="90" rx="2" fill="#4a7ebb"/>
+    <rect x="600" y="150" width="200" height="72" rx="10" fill="url(#card)" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="600" y="150" width="5" height="72" rx="2" fill="#00d4ff"/>
   </g>
-  <text x="878" y="154" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">poses_eat_schema.json</text>
-  <text x="878" y="170" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">&#x2192; generate_pose_insert_sql.py</text>
-  <text x="878" y="185" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">artefact filter (OCR noise)</text>
-  <text x="878" y="200" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">emit INSERT SQL</text>
-  <line x1="983" y1="179" x2="1065" y2="179" stroke="#4a7ebb" stroke-width="1.8" marker-end="url(#arrA)"/>
+  <text x="706" y="173" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">yoga repo</text>
+  <text x="706" y="190" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">poses_database.json</text>
+  <text x="706" y="205" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#ff7b72">&#x1F512; 2700+ asanas · read-only</text>
 
-  <!-- A4: PostgreSQL -->
+  <!-- DS-2: screenshots/ -->
   <g filter="url(#shadow)">
-    <rect x="1068" y="134" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#4a7ebb" stroke-width="1.3"/>
-    <rect x="1068" y="134" width="5" height="90" rx="2" fill="#4a7ebb"/>
+    <rect x="600" y="250" width="200" height="72" rx="10" fill="url(#card)" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="600" y="250" width="5" height="72" rx="2" fill="#a855f7"/>
   </g>
-  <text x="1173" y="157" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">PostgreSQL</text>
-  <text x="1173" y="173" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">poses &#xb7; pose_benefits</text>
-  <text x="1173" y="188" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">pose_contraindications</text>
-  <text x="1173" y="203" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">postgres:8879</text>
-  <line x1="1278" y1="179" x2="1360" y2="179" stroke="#4a7ebb" stroke-width="1.8" marker-end="url(#arrA)"/>
+  <text x="706" y="273" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">screenshots/</text>
+  <text x="706" y="290" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">&#x6559;&#x6750; images (jpg/png/webp)</text>
+  <text x="706" y="305" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">zero-padded filenames</text>
 
-  <!-- A5: Spring Boot (output, highlighted) -->
+  <!-- DS-3: yoga_locations.json -->
   <g filter="url(#shadow)">
-    <rect x="1363" y="130" width="215" height="98" rx="10" fill="#deeeff" stroke="#2c5f9e" stroke-width="2"/>
-    <rect x="1363" y="130" width="5" height="98" rx="2" fill="#2c5f9e"/>
+    <rect x="600" y="350" width="200" height="72" rx="10" fill="url(#card)" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="600" y="350" width="5" height="72" rx="2" fill="#00ff99"/>
   </g>
-  <text x="1470" y="151" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11.5" font-weight="700" fill="#1e2d4a">Spring Boot yoga-api</text>
-  <text x="1470" y="167" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">&#x2460; difficulty &#x2264; user.level</text>
-  <text x="1470" y="181" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">&#x2461; time_budget filter</text>
-  <text x="1470" y="196" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#c62828">&#x2462; Kill-Switch &#x2192; DROP</text>
-  <text x="1470" y="211" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#2c5f9e">&#x2463; &#x03A3;(benefit.w &#xd7; goal) &#x2192; Top-K</text>
+  <text x="706" y="373" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">yoga_locations.json</text>
+  <text x="706" y="390" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">8 Seoul studios (mock)</text>
+  <text x="706" y="405" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">lat/lon &#xb7; specializations &#xb7; certs</text>
 
-  <!-- PIPELINE B group box: y=282, h=152 -->
+  <!-- DS-4: User Request -->
   <g filter="url(#shadow)">
-    <rect x="12" y="282" width="1576" height="152" rx="14" fill="url(#fillB)" stroke="#2e8b57" stroke-width="2"/>
+    <rect x="600" y="450" width="200" height="72" rx="10" fill="url(#card)" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="600" y="450" width="5" height="72" rx="2" fill="#f59e0b"/>
   </g>
-  <rect x="16" y="286" width="157" height="144" rx="10" fill="#c4e8d0" stroke="#2e8b57" stroke-width="1.5"/>
-  <text x="94" y="338" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#2e8b57">Pipeline B</text>
-  <text x="94" y="355" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" fill="#1b5e20">&#xC2A4;&#xD29C;&#xB514;&#xC624; &#xB9E4;&#xCE6D;</text>
-  <text x="94" y="371" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#1b5e20">(Streamlit demo)</text>
-  <text x="94" y="387" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">LangGraph (prod)</text>
+  <text x="706" y="473" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">User Request</text>
+  <text x="706" y="490" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">physical_need &#xb7; lat/lon</text>
+  <text x="706" y="505" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">query text &#xb7; max_km</text>
 
-  <!-- B1: User Input -->
+  <!-- ────────────────────────────────────────────────────────
+       PROCESSING NODES (col x~920)
+  ──────────────────────────────────────────────────────── -->
+
+  <!-- P-1: enrich_poses.py -->
   <g filter="url(#shadow)">
-    <rect x="183" y="313" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#2e8b57" stroke-width="1.3"/>
-    <rect x="183" y="313" width="5" height="90" rx="2" fill="#2e8b57"/>
+    <rect x="820" y="150" width="200" height="88" rx="10" fill="url(#card)" stroke="#00d4ff" stroke-width="1.3"/>
+    <rect x="820" y="150" width="5" height="88" rx="2" fill="#00d4ff"/>
   </g>
-  <text x="293" y="336" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">User Input</text>
-  <text x="293" y="352" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">physical_need</text>
-  <text x="293" y="367" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">lat / lon</text>
-  <text x="293" y="382" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">max_km radius</text>
-  <line x1="393" y1="358" x2="475" y2="358" stroke="#2e8b57" stroke-width="1.8" marker-end="url(#arrB)"/>
+  <text x="921" y="174" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">enrich_poses.py</text>
+  <text x="921" y="191" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">benefit tags weight 0&#x2013;1</text>
+  <text x="921" y="206" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#ff7b72">kill_switch flag &#xb7; severity</text>
+  <text x="921" y="221" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">&#x2192; poses_eat_schema.json</text>
 
-  <!-- B2: NeedFit Score -->
+  <!-- P-2: ocr_pipeline.py -->
   <g filter="url(#shadow)">
-    <rect x="478" y="313" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#2e8b57" stroke-width="1.3"/>
-    <rect x="478" y="313" width="5" height="90" rx="2" fill="#2e8b57"/>
+    <rect x="820" y="260" width="200" height="88" rx="10" fill="url(#card)" stroke="#a855f7" stroke-width="1.3"/>
+    <rect x="820" y="260" width="5" height="88" rx="2" fill="#a855f7"/>
   </g>
-  <text x="583" y="333" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">NeedFit Score</text>
-  <text x="583" y="349" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">NEED_TO_SPECS overlap</text>
-  <text x="583" y="364" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">min(1.0, |&#x2229;| / 2)</text>
-  <text x="583" y="381" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#2e8b57">&#xd7; 0.40</text>
-  <line x1="688" y1="358" x2="770" y2="358" stroke="#2e8b57" stroke-width="1.8" marker-end="url(#arrB)"/>
+  <text x="921" y="284" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">ocr_pipeline.py</text>
+  <text x="921" y="301" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">cv2 preprocess: deskew</text>
+  <text x="921" y="316" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Tesseract LSTM --psm 6</text>
+  <text x="921" y="331" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">&#x2192; ocr_database.json</text>
 
-  <!-- B3: Proximity Score -->
+  <!-- P-3: generate_pose_insert_sql.py -->
   <g filter="url(#shadow)">
-    <rect x="773" y="313" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#2e8b57" stroke-width="1.3"/>
-    <rect x="773" y="313" width="5" height="90" rx="2" fill="#2e8b57"/>
+    <rect x="820" y="370" width="200" height="88" rx="10" fill="url(#card)" stroke="#00d4ff" stroke-width="1.3"/>
+    <rect x="820" y="370" width="5" height="88" rx="2" fill="#00d4ff"/>
   </g>
-  <text x="878" y="333" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">Proximity Score</text>
-  <text x="878" y="349" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">Haversine(lat&#x2081;,lon&#x2081;,lat&#x2082;,lon&#x2082;)</text>
-  <text x="878" y="364" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">1 &#x2212; dist_km / max_km</text>
-  <text x="878" y="381" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#2e8b57">&#xd7; 0.30</text>
-  <line x1="983" y1="358" x2="1065" y2="358" stroke="#2e8b57" stroke-width="1.8" marker-end="url(#arrB)"/>
+  <text x="921" y="393" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="600" fill="#e6edf3">generate_pose_sql.py</text>
+  <text x="921" y="410" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">is_artefact() OCR filter</text>
+  <text x="921" y="425" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">emit INSERT SQL</text>
+  <text x="921" y="440" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">&#x2192; PostgreSQL</text>
 
-  <!-- B4: Specialization Score -->
+  <!-- P-4: GeoDataStore loader -->
   <g filter="url(#shadow)">
-    <rect x="1068" y="313" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#2e8b57" stroke-width="1.3"/>
-    <rect x="1068" y="313" width="5" height="90" rx="2" fill="#2e8b57"/>
+    <rect x="820" y="480" width="200" height="88" rx="10" fill="url(#card)" stroke="#a855f7" stroke-width="1.3"/>
+    <rect x="820" y="480" width="5" height="88" rx="2" fill="#a855f7"/>
   </g>
-  <text x="1173" y="333" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">Specialization Score</text>
-  <text x="1173" y="349" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">NEED_TO_CERTS overlap</text>
-  <text x="1173" y="364" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">0.7&#xd7;cert + 0.3&#xd7;(rating&#x2212;4)</text>
-  <text x="1173" y="381" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#2e8b57">&#xd7; 0.30</text>
-  <line x1="1278" y1="358" x2="1360" y2="358" stroke="#2e8b57" stroke-width="1.8" marker-end="url(#arrB)"/>
+  <text x="921" y="503" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">GeoDataStore</text>
+  <text x="921" y="520" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">keyword_index: word&#x2192;[page]</text>
+  <text x="921" y="535" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">platform / region index</text>
+  <text x="921" y="550" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#c084fc">startup singleton</text>
 
-  <!-- B5: Ranked Studios (output) -->
+  <!-- P-5: demo_match_score / NeedFit+Proximity+Spec -->
   <g filter="url(#shadow)">
-    <rect x="1363" y="309" width="215" height="98" rx="10" fill="#e0f5e8" stroke="#1b5e20" stroke-width="2"/>
-    <rect x="1363" y="309" width="5" height="98" rx="2" fill="#1b5e20"/>
+    <rect x="820" y="590" width="200" height="105" rx="10" fill="url(#card)" stroke="#00ff99" stroke-width="1.3"/>
+    <rect x="820" y="590" width="5" height="105" rx="2" fill="#00ff99"/>
   </g>
-  <text x="1470" y="330" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#1e2d4a">Ranked Studios</text>
-  <text x="1470" y="346" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">0.40 NeedFit</text>
-  <text x="1470" y="361" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">+ 0.30 Proximity</text>
-  <text x="1470" y="376" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#1b5e20">+ 0.30 Specialization</text>
-  <text x="1470" y="393" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#1b5e20">sort DESC &#x2192; DataFrame</text>
+  <text x="921" y="613" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="12" font-weight="600" fill="#e6edf3">Studio Scorer</text>
+  <text x="921" y="630" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#00ff99">NeedFit &#xd7; 0.40</text>
+  <text x="921" y="646" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#00ff99">Proximity &#xd7; 0.30</text>
+  <text x="921" y="661" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#00ff99">Specialization &#xd7; 0.30</text>
+  <text x="921" y="677" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Haversine distance</text>
+  <text x="921" y="687" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#56d364">  demo_match_score.py</text>
 
-  <!-- PIPELINE C group box: y=448, h=390 -->
+  <!-- ────────────────────────────────────────────────────────
+       ENGINE DIAMONDS (col x~1150)
+  ──────────────────────────────────────────────────────── -->
+
+  <!-- Diamond A: Pose Scoring Engine (cy=230) -->
+  <g filter="url(#glowA)">
+    <polygon points="1150,185 1210,230 1150,275 1090,230" fill="url(#dA)" opacity="0.95"/>
+  </g>
+  <text x="1150" y="225" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#ffffff">Pose</text>
+  <text x="1150" y="241" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#ffffff">Engine</text>
+  <!-- Kill-Switch badge on diamond A -->
+  <rect x="1215" y="185" width="110" height="36" rx="6" fill="url(#killCard)" stroke="#ff7b72" stroke-width="1.3"/>
+  <text x="1270" y="199" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" font-weight="700" fill="#ff7b72">&#x26D4; Kill-Switch</text>
+  <text x="1270" y="214" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#ffa198">DROP before scoring</text>
+  <line x1="1210" y1="218" x2="1215" y2="205" stroke="#ff7b72" stroke-width="1" stroke-dasharray="3,2" opacity="0.7"/>
+
+  <!-- Diamond B: Studio Ranker (cy=620) -->
+  <g filter="url(#glowB)">
+    <polygon points="1150,575 1210,620 1150,665 1090,620" fill="url(#dB)" opacity="0.95"/>
+  </g>
+  <text x="1150" y="615" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#ffffff">Studio</text>
+  <text x="1150" y="631" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#ffffff">Ranker</text>
+
+  <!-- Diamond C: RAG Engine (cy=450) -->
+  <g filter="url(#glowC)">
+    <polygon points="1150,405 1210,450 1150,495 1090,450" fill="url(#dC)" opacity="0.95"/>
+  </g>
+  <text x="1150" y="445" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="700" fill="#ffffff">RAG</text>
+  <text x="1150" y="461" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#ffffff">Engine</text>
+
+  <!-- ────────────────────────────────────────────────────────
+       SERVICE NODES (col x~1390)
+  ──────────────────────────────────────────────────────── -->
+
+  <!-- SVC-A: Spring Boot API -->
   <g filter="url(#shadow)">
-    <rect x="12" y="448" width="1576" height="390" rx="14" fill="url(#fillC)" stroke="#7b5eaa" stroke-width="2"/>
+    <rect x="1280" y="155" width="220" height="105" rx="10" fill="url(#card)" stroke="#00d4ff" stroke-width="1.5"/>
+    <rect x="1280" y="155" width="5" height="105" rx="2" fill="#00d4ff"/>
   </g>
-  <rect x="16" y="452" width="157" height="382" rx="10" fill="#d4bce8" stroke="#7b5eaa" stroke-width="1.5"/>
-  <text x="94" y="606" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#7b5eaa">Pipeline C</text>
-  <text x="94" y="623" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" fill="#4a235a">RAG &#xCC44;&#xD305;</text>
-  <text x="94" y="639" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#4a235a">(FastAPI)</text>
-  <text x="94" y="655" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#4a235a">Ollama Mistral</text>
-  <text x="94" y="671" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#6b7a99">elbee.yogaman.club</text>
+  <text x="1392" y="178" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">Spring Boot</text>
+  <text x="1392" y="195" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">&#x2460; filter difficulty &#x2264; level</text>
+  <text x="1392" y="210" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">&#x2461; filter time_budget</text>
+  <text x="1392" y="225" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#ff7b72">&#x2462; Kill-Switch &#x2192; DROP</text>
+  <text x="1392" y="240" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">&#x2463; &#x03A3;(benefit.w &#xd7; goal)</text>
+  <text x="1392" y="253" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#58a6ff">yoga-api:19090</text>
 
-  <!-- C1: screenshots/ -->
+  <!-- SVC-B: /search endpoint -->
   <g filter="url(#shadow)">
-    <rect x="183" y="488" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#7b5eaa" stroke-width="1.3"/>
-    <rect x="183" y="488" width="5" height="90" rx="2" fill="#7b5eaa"/>
+    <rect x="1280" y="400" width="220" height="88" rx="10" fill="url(#card)" stroke="#a855f7" stroke-width="1.5"/>
+    <rect x="1280" y="400" width="5" height="88" rx="2" fill="#a855f7"/>
   </g>
-  <text x="293" y="511" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">screenshots/</text>
-  <text x="293" y="527" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">&#xAD50;&#xC7AC; &#xC774;&#xBBF8;&#xC9C0; (book pages)</text>
-  <text x="293" y="542" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">jpg &#xb7; png &#xb7; webp &#xb7; tiff</text>
-  <text x="293" y="557" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">zero-padded filenames</text>
-  <line x1="393" y1="533" x2="475" y2="533" stroke="#7b5eaa" stroke-width="1.8" marker-end="url(#arrC)"/>
+  <text x="1392" y="424" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">/search (FastAPI)</text>
+  <text x="1392" y="441" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">platform &#x2229; region &#x2229; topic</text>
+  <text x="1392" y="456" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">keyword_scores &#x2192; sort DESC</text>
+  <text x="1392" y="471" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">paginated SearchHit[]</text>
 
-  <!-- C2: ocr_pipeline.py -->
+  <!-- SVC-C: /chat (RAG) endpoint -->
   <g filter="url(#shadow)">
-    <rect x="478" y="488" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#7b5eaa" stroke-width="1.3"/>
-    <rect x="478" y="488" width="5" height="90" rx="2" fill="#7b5eaa"/>
+    <rect x="1280" y="508" width="220" height="88" rx="10" fill="url(#card)" stroke="#a855f7" stroke-width="1.5"/>
+    <rect x="1280" y="508" width="5" height="508" rx="2" fill="#a855f7"/>
   </g>
-  <text x="583" y="511" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">ocr_pipeline.py</text>
-  <text x="583" y="527" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">Tesseract LSTM + cv2</text>
-  <text x="583" y="542" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">deskew &#xb7; denoise &#xb7; binarize</text>
-  <text x="583" y="557" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">upscale &lt;1500px wide</text>
-  <line x1="688" y1="533" x2="770" y2="533" stroke="#7b5eaa" stroke-width="1.8" marker-end="url(#arrC)"/>
+  <text x="1392" y="532" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">/chat RAG (FastAPI)</text>
+  <text x="1392" y="549" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">top-K pages &#x2192; context</text>
+  <text x="1392" y="564" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">phrase bonus +3</text>
+  <text x="1392" y="579" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#c084fc">&#xD574;&#xC694;&#xCCB4; system prompt</text>
 
-  <!-- C3: ocr_database.json -->
+  <!-- SVC-D: Studio Matching API -->
   <g filter="url(#shadow)">
-    <rect x="773" y="488" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#7b5eaa" stroke-width="1.3"/>
-    <rect x="773" y="488" width="5" height="90" rx="2" fill="#7b5eaa"/>
+    <rect x="1280" y="575" width="220" height="88" rx="10" fill="url(#card)" stroke="#00ff99" stroke-width="1.5"/>
+    <rect x="1280" y="575" width="5" height="88" rx="2" fill="#00ff99"/>
   </g>
-  <text x="878" y="509" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">ocr_database.json</text>
-  <text x="878" y="525" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">pages[{page_number,</text>
-  <text x="878" y="540" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">text, tags}]</text>
-  <text x="878" y="555" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">data/json/&lt;slug&gt;/</text>
-  <line x1="983" y1="533" x2="1065" y2="533" stroke="#7b5eaa" stroke-width="1.8" marker-end="url(#arrC)"/>
+  <text x="1392" y="599" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#e6edf3">Studio Match API</text>
+  <text x="1392" y="616" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Streamlit / LangGraph</text>
+  <text x="1392" y="631" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">sort DESC &#x2192; DataFrame</text>
+  <text x="1392" y="646" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#56d364">match.yogaman.club</text>
 
-  <!-- C4: GeoDataStore.load() -->
+  <!-- ────────────────────────────────────────────────────────
+       OUTPUT NODES (col x~1700)
+  ──────────────────────────────────────────────────────── -->
+
+  <!-- OUT-A: Top-K Poses -->
   <g filter="url(#shadow)">
-    <rect x="1068" y="488" width="210" height="90" rx="10" fill="url(#cardFill)" stroke="#7b5eaa" stroke-width="1.3"/>
-    <rect x="1068" y="488" width="5" height="90" rx="2" fill="#7b5eaa"/>
+    <rect x="1580" y="175" width="200" height="72" rx="10" fill="#1a1200" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="1580" y="175" width="5" height="72" rx="2" fill="#f59e0b"/>
   </g>
-  <text x="1173" y="509" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#1e2d4a">GeoDataStore.load()</text>
-  <text x="1173" y="525" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">keyword_index: word&#x2192;[page_idx]</text>
-  <text x="1173" y="540" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10.5" fill="#6b7a99">platform_index &#xb7; region_index</text>
-  <text x="1173" y="555" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4a235a">startup singleton (FastAPI)</text>
+  <text x="1682" y="200" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="14" font-weight="700" fill="#f59e0b">Top-K Poses</text>
+  <text x="1682" y="218" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">ranked by goal fitness</text>
+  <text x="1682" y="234" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#58a6ff">match.yogaman.club/api</text>
 
-  <!-- Fork: C4 -> /search (curve down to cy=628) -->
-  <path d="M 1278,520 C 1293,520 1293,628 1298,628" fill="none" stroke="#7b5eaa" stroke-width="1.7" marker-end="url(#arrC)"/>
-  <text x="1291" y="562" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7b5eaa">/search</text>
-
-  <!-- Fork: C4 -> /chat (curve down to cy=742) -->
-  <path d="M 1278,546 C 1288,546 1288,742 1298,742" fill="none" stroke="#7b5eaa" stroke-width="1.7" stroke-dasharray="5,3" marker-end="url(#arrC)"/>
-  <text x="1285" y="660" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#7b5eaa">/chat</text>
-
-  <!-- /search node: cx=1378, cy=628 -->
+  <!-- OUT-B: Streamed Answer (RAG) -->
   <g filter="url(#shadow)">
-    <rect x="1298" y="596" width="160" height="64" rx="9" fill="url(#cardFill)" stroke="#7b5eaa" stroke-width="1.2"/>
-    <rect x="1298" y="596" width="4" height="64" rx="2" fill="#7b5eaa"/>
+    <rect x="1580" y="440" width="200" height="72" rx="10" fill="#1a1200" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="1580" y="440" width="5" height="72" rx="2" fill="#f59e0b"/>
   </g>
-  <text x="1382" y="617" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">/search endpoint</text>
-  <text x="1382" y="633" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">platform &#x2229; region &#x2229; topic</text>
-  <text x="1382" y="648" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">keyword_scores &#x2192; sort DESC</text>
+  <text x="1682" y="465" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="14" font-weight="700" fill="#f59e0b">Streamed Answer</text>
+  <text x="1682" y="482" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Korean SSE stream</text>
+  <text x="1682" y="497" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#58a6ff">elbee.yogaman.club</text>
 
-  <!-- /chat node: cx=1378, cy=742 -->
+  <!-- OUT-C: Ranked Studios -->
   <g filter="url(#shadow)">
-    <rect x="1298" y="710" width="160" height="64" rx="9" fill="url(#cardFill)" stroke="#7b5eaa" stroke-width="1.2"/>
-    <rect x="1298" y="710" width="4" height="64" rx="2" fill="#7b5eaa"/>
+    <rect x="1580" y="590" width="200" height="72" rx="10" fill="#1a1200" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="1580" y="590" width="5" height="72" rx="2" fill="#f59e0b"/>
   </g>
-  <text x="1382" y="731" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#1e2d4a">/chat (RAG)</text>
-  <text x="1382" y="747" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">top-K pages &#x2192; context</text>
-  <text x="1382" y="762" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#4a235a">&#xD574;&#xC694;&#xCCB4; system prompt</text>
+  <text x="1682" y="615" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="14" font-weight="700" fill="#f59e0b">Ranked Studios</text>
+  <text x="1682" y="632" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">top studios by score</text>
+  <text x="1682" y="647" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#58a6ff">match.yogaman.club/studios</text>
 
-  <!-- /search -> Elbee -->
-  <path d="M 1458,628 C 1474,628 1474,682 1480,682" fill="none" stroke="#7b5eaa" stroke-width="1.7" marker-end="url(#arrC)"/>
-  <!-- /chat -> Elbee -->
-  <path d="M 1458,742 C 1474,742 1474,710 1480,710" fill="none" stroke="#7b5eaa" stroke-width="1.7" marker-end="url(#arrC)"/>
+  <!-- ────────────────────────────────────────────────────────
+       DEPENDENCY EDGES
+       Not linear — each node connects to what it DEPENDS ON
+  ──────────────────────────────────────────────────────── -->
 
-  <!-- Elbee / Ollama node: x=1480, cy=696, w=108, h=152 -->
-  <g filter="url(#shadow)">
-    <rect x="1480" y="620" width="108" height="152" rx="10" fill="#ede0f8" stroke="#4a235a" stroke-width="2"/>
-    <rect x="1480" y="620" width="5" height="152" rx="2" fill="#4a235a"/>
-  </g>
-  <text x="1534" y="643" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="700" fill="#4a235a">Elbee RAG</text>
-  <text x="1534" y="660" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">Ollama</text>
-  <text x="1534" y="674" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">(Mistral)</text>
-  <line x1="1490" y1="688" x2="1582" y2="688" stroke="#7b5eaa" stroke-width="0.6" opacity="0.4"/>
-  <text x="1534" y="702" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#c62828">&#x2192; OpenAI</text>
-  <text x="1534" y="716" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#c62828">fallback</text>
-  <line x1="1490" y1="728" x2="1582" y2="728" stroke="#7b5eaa" stroke-width="0.6" opacity="0.4"/>
-  <text x="1534" y="742" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="10" fill="#6b7a99">streaming SSE</text>
-  <text x="1534" y="756" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="9.5" fill="#7b5eaa">elbee.yogaman.club</text>
+  <!-- yoga repo → enrich_poses.py -->
+  <path d="M800,186 C810,186 810,194 820,194" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.6" marker-end="url(#arC)"/>
 
-  <!-- KILL-SWITCH BANNER -->
-  <g filter="url(#shadow)">
-    <rect x="12" y="852" width="1576" height="54" rx="10" fill="url(#fillKS)" stroke="#c62828" stroke-width="2"/>
-  </g>
-  <text x="800" y="873" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#c62828">&#x26D4; Kill-Switch &#xBD88;&#xBCC0;&#xC2DD; (&#xD3EC;&#xC988; &#xB9E4;&#xCE6D;)</text>
-  <text x="800" y="892" text-anchor="middle" font-family="'Segoe UI', sans-serif" font-size="11" fill="#6b7a99">kill_switch = TRUE &#xD3EC;&#xC988;&#xB294; &#xC810;&#xC218; &#xACC4;&#xC0B0; &#xC774;&#xC804;&#xC5D0; &#xC644;&#xC804; &#xC81C;&#xC678; &#x2014; severity: CAUTION &#xb7; CRITICAL &#xb7; MEDICAL_CLEARANCE &#x2014; score &#xAC12;&#xACFC; &#xBB34;&#xAD00;&#xD558;&#xAC8C; &#xC801;&#xC6A9;</text>
+  <!-- screenshots → ocr_pipeline.py -->
+  <path d="M800,286 C810,286 810,304 820,304" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.6" marker-end="url(#arP)"/>
 
-  <!-- LEGEND -->
-  <rect x="12" y="914" width="1576" height="42" rx="8" fill="white" opacity="0.75" stroke="#c8d4e8" stroke-width="1"/>
-  <rect x="28" y="925" width="12" height="12" rx="2" fill="#4a7ebb"/>
-  <text x="46" y="936" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">Pipeline A &#x2014; &#xD3EC;&#xC988; &#xB9E4;&#xCE6D; (Spring Boot &#xb7; Kill-Switch &#xB0B4;&#xC7A5;)</text>
-  <rect x="318" y="925" width="12" height="12" rx="2" fill="#2e8b57"/>
-  <text x="336" y="936" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">Pipeline B &#x2014; &#xC2A4;&#xD29C;&#xB514;&#xC624; &#xB9E4;&#xCE6D; (Haversine &#xb7; &#xAC00;&#xC911; &#xD569;&#xC0B0;)</text>
-  <rect x="616" y="925" width="12" height="12" rx="2" fill="#7b5eaa"/>
-  <text x="634" y="936" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">Pipeline C &#x2014; RAG &#xCC44;&#xD305; (OCR &#x2192; GeoDataStore &#x2192; Ollama)</text>
-  <rect x="28" y="941" width="12" height="12" rx="2" fill="#c62828"/>
-  <text x="46" y="952" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">Kill-Switch &#xD544;&#xD130;</text>
-  <rect x="318" y="941" width="12" height="12" rx="2" fill="#336791"/>
-  <text x="336" y="952" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">PostgreSQL (poses &#xb7; pose_benefits &#xb7; pose_contraindications)</text>
-  <rect x="616" y="941" width="12" height="12" rx="2" fill="#4a235a"/>
-  <text x="634" y="952" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">GeoDataStore: inverted keyword &#xb7; platform &#xb7; region &#xb7; topic indexes</text>
+  <!-- enrich_poses → generate_pose_sql -->
+  <path d="M1020,194 C1025,194 1025,380 820,414" fill="none" stroke="#00d4ff" stroke-width="1.3" opacity="0.5" stroke-dasharray="5,3" marker-end="url(#arC)"/>
+
+  <!-- yoga_locations → Studio Scorer -->
+  <path d="M800,386 C810,386 810,642 820,642" fill="none" stroke="#00ff99" stroke-width="1.5" opacity="0.6" marker-end="url(#arG)"/>
+
+  <!-- User Request → Studio Scorer -->
+  <path d="M800,486 C814,486 814,650 820,650" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.5" marker-end="url(#arO)"/>
+
+  <!-- User Request → /chat -->
+  <path d="M800,472 C880,472 870,540 1280,552" fill="none" stroke="#f59e0b" stroke-width="1.3" opacity="0.4" stroke-dasharray="5,3" marker-end="url(#arO)"/>
+
+  <!-- User Request → /search -->
+  <path d="M800,464 C870,464 870,444 1280,444" fill="none" stroke="#f59e0b" stroke-width="1.3" opacity="0.4" stroke-dasharray="5,3" marker-end="url(#arO)"/>
+
+  <!-- generate_pose_sql → Diamond A (via PostgreSQL) -->
+  <path d="M1020,414 C1040,414 1040,230 1090,230" fill="none" stroke="#00d4ff" stroke-width="1.8" opacity="0.7" marker-end="url(#arC)"/>
+
+  <!-- ocr_pipeline → GeoDataStore -->
+  <path d="M1020,304 C1040,304 1040,524 820,524" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.55" marker-end="url(#arP)"/>
+
+  <!-- GeoDataStore → Diamond C -->
+  <path d="M1020,524 C1050,524 1050,450 1090,450" fill="none" stroke="#a855f7" stroke-width="1.8" opacity="0.7" marker-end="url(#arP)"/>
+
+  <!-- Studio Scorer → Diamond B -->
+  <path d="M1020,640 C1050,640 1050,620 1090,620" fill="none" stroke="#00ff99" stroke-width="1.8" opacity="0.7" marker-end="url(#arG)"/>
+
+  <!-- Diamond A → Spring Boot -->
+  <path d="M1210,230 C1240,230 1240,208 1280,208" fill="none" stroke="#00d4ff" stroke-width="1.8" opacity="0.7" marker-end="url(#arC)"/>
+
+  <!-- Diamond C → /search SVC -->
+  <path d="M1210,440 C1240,440 1240,444 1280,444" fill="none" stroke="#a855f7" stroke-width="1.8" opacity="0.7" marker-end="url(#arP)"/>
+
+  <!-- Diamond C → /chat SVC -->
+  <path d="M1210,460 C1244,460 1244,552 1280,552" fill="none" stroke="#a855f7" stroke-width="1.8" opacity="0.7" marker-end="url(#arP)"/>
+
+  <!-- Diamond B → Studio Match API -->
+  <path d="M1210,620 C1240,620 1240,620 1280,620" fill="none" stroke="#00ff99" stroke-width="1.8" opacity="0.7" marker-end="url(#arG)"/>
+
+  <!-- Spring Boot → Top-K Poses -->
+  <path d="M1500,208 C1540,208 1540,210 1580,210" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.8" marker-end="url(#arO)"/>
+
+  <!-- /search + /chat → Streamed Answer (via Ollama) -->
+  <path d="M1500,444 C1540,444 1540,476 1580,476" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.7" marker-end="url(#arO)"/>
+  <path d="M1500,552 C1538,552 1538,496 1580,496" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity="0.6" marker-end="url(#arO)"/>
+
+  <!-- Studio Match API → Ranked Studios -->
+  <path d="M1500,620 C1540,620 1540,626 1580,626" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.8" marker-end="url(#arO)"/>
+
+  <!-- Cross dependencies (dashed) -->
+  <!-- Ollama dependency from /chat -->
+  <rect x="1380" y="685" width="140" height="56" rx="8" fill="url(#card)" stroke="#a855f7" stroke-width="1"/>
+  <text x="1450" y="706" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#a855f7">Elbee / Ollama</text>
+  <text x="1450" y="722" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Mistral 7B local</text>
+  <text x="1450" y="736" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#ff7b72">&#x2192; OpenAI fallback</text>
+  <path d="M1392,596 C1392,670 1420,685 1420,685" fill="none" stroke="#a855f7" stroke-width="1.3" opacity="0.5" stroke-dasharray="5,3" marker-end="url(#arP)"/>
+  <path d="M1450,741 C1450,760 1550,760 1580,476" fill="none" stroke="#a855f7" stroke-width="1.3" opacity="0.5" stroke-dasharray="5,3" marker-end="url(#arP)"/>
+
+  <!-- Redis cache connects to FastAPI services -->
+  <rect x="1282" y="700" width="140" height="50" rx="8" fill="url(#card)" stroke="#dc382d" stroke-width="1"/>
+  <text x="1352" y="720" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#dc382d">Redis Cache</text>
+  <text x="1352" y="736" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">query result TTL</text>
+  <path d="M1392,488 C1392,692 1350,692 1350,700" fill="none" stroke="#dc382d" stroke-width="1.3" opacity="0.5" stroke-dasharray="4,3" marker-end="url(#arR)"/>
+
+  <!-- ────────────────────────────────────────────────────────
+       PIPELINE LANE LABELS (right panel)
+  ──────────────────────────────────────────────────────── -->
+  <!-- Lane A (blue) background strip -->
+  <rect x="556" y="140" width="1424" height="130" rx="0" fill="#00d4ff" opacity="0.03"/>
+  <line x1="556" y1="140" x2="1980" y2="140" stroke="#00d4ff" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Lane C (purple) -->
+  <rect x="556" y="386" width="1424" height="130" rx="0" fill="#a855f7" opacity="0.03"/>
+  <line x1="556" y1="386" x2="1980" y2="386" stroke="#a855f7" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Lane B (green) -->
+  <rect x="556" y="560" width="1424" height="180" rx="0" fill="#00ff99" opacity="0.03"/>
+  <line x1="556" y1="560" x2="1980" y2="560" stroke="#00ff99" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Lane labels (right edge) -->
+  <text x="1968" y="208" text-anchor="end" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#00d4ff" opacity="0.6">Pipeline A</text>
+  <text x="1968" y="450" text-anchor="end" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#a855f7" opacity="0.6">Pipeline C</text>
+  <text x="1968" y="630" text-anchor="end" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#00ff99" opacity="0.6">Pipeline B</text>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BOTTOM: SHARED INFRASTRUCTURE BAR
+  ═══════════════════════════════════════════════════════════ -->
+  <line x1="40" y1="780" x2="1960" y2="780" stroke="#30363d" stroke-width="1" stroke-dasharray="6,4"/>
+  <text x="1000" y="800" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="13" font-weight="700" fill="#8b949e" letter-spacing="1">SHARED INFRASTRUCTURE</text>
+
+  <!-- Infra boxes -->
+  <rect x="555" y="815" width="155" height="58" rx="8" fill="url(#card)" stroke="#30363d" stroke-width="1.2"/>
+  <text x="632" y="840" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Docker Compose</text>
+  <text x="632" y="855" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">postgres + fastapi + spring</text>
+  <text x="632" y="869" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">docker-compose.yml</text>
+
+  <rect x="730" y="815" width="155" height="58" rx="8" fill="url(#card)" stroke="#30363d" stroke-width="1.2"/>
+  <text x="807" y="840" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#e6edf3">GitHub CI/CD</text>
+  <text x="807" y="855" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">aiegoo/aeogeo</text>
+  <text x="807" y="869" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">master branch</text>
+
+  <rect x="905" y="815" width="155" height="58" rx="8" fill="url(#card)" stroke="#30363d" stroke-width="1.2"/>
+  <text x="982" y="840" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Nginx / Caddy</text>
+  <text x="982" y="855" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Reverse proxy</text>
+  <text x="982" y="869" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">yogaman.club</text>
+
+  <rect x="1080" y="815" width="155" height="58" rx="8" fill="url(#card)" stroke="#30363d" stroke-width="1.2"/>
+  <text x="1157" y="840" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#e6edf3">WSL2 / Linux</text>
+  <text x="1157" y="855" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Dev environment</text>
+  <text x="1157" y="869" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">conda base</text>
+
+  <rect x="1255" y="815" width="155" height="58" rx="8" fill="url(#card)" stroke="#30363d" stroke-width="1.2"/>
+  <text x="1332" y="840" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Pydantic v2</text>
+  <text x="1332" y="855" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Schema validation</text>
+  <text x="1332" y="869" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">models/</text>
+
+  <rect x="1430" y="815" width="155" height="58" rx="8" fill="url(#card)" stroke="#30363d" stroke-width="1.2"/>
+  <text x="1507" y="840" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Python 3.11</text>
+  <text x="1507" y="855" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">FastAPI services</text>
+  <text x="1507" y="869" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">requirements.txt</text>
+
+  <rect x="1605" y="815" width="155" height="58" rx="8" fill="url(#card)" stroke="#30363d" stroke-width="1.2"/>
+  <text x="1682" y="840" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Maven / Java 21</text>
+  <text x="1682" y="855" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Spring ecosystem</text>
+  <text x="1682" y="869" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">yoga-api/pom.xml</text>
+
+  <rect x="1780" y="815" width="155" height="58" rx="8" fill="url(#card)" stroke="#30363d" stroke-width="1.2"/>
+  <text x="1857" y="840" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="11" font-weight="600" fill="#e6edf3">Google OAuth2</text>
+  <text x="1857" y="855" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="10" fill="#8b949e">Auth / JWT</text>
+  <text x="1857" y="869" text-anchor="middle" font-family="'Segoe UI',sans-serif" font-size="9" fill="#58a6ff">Spring Security</text>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LEGEND
+  ═══════════════════════════════════════════════════════════ -->
+  <line x1="40" y1="892" x2="1960" y2="892" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="40" y="900" width="1920" height="60" rx="8" fill="#161b22" opacity="0.8" stroke="#30363d" stroke-width="1"/>
+
+  <rect x="60" y="916" width="14" height="14" rx="3" fill="#00d4ff" opacity="0.8"/>
+  <text x="80" y="928" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Pipeline A — Pose Matching (Spring Boot + Kill-Switch)</text>
+
+  <rect x="330" y="916" width="14" height="14" rx="3" fill="#00ff99" opacity="0.8"/>
+  <text x="350" y="928" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Pipeline B — Studio Ranking (Haversine · 0.4/0.3/0.3)</text>
+
+  <rect x="610" y="916" width="14" height="14" rx="3" fill="#a855f7" opacity="0.8"/>
+  <text x="630" y="928" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Pipeline C — RAG Chat (OCR &#x2192; GeoDataStore &#x2192; Ollama)</text>
+
+  <rect x="900" y="916" width="14" height="14" rx="3" fill="#f59e0b" opacity="0.8"/>
+  <text x="920" y="928" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Ranked Output</text>
+
+  <rect x="1060" y="916" width="14" height="14" rx="3" fill="#ff7b72" opacity="0.8"/>
+  <text x="1080" y="928" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Kill-Switch (safety invariant — score cannot override)</text>
+
+  <rect x="60" y="934" width="14" height="14" rx="3" fill="#336791" opacity="0.8"/>
+  <text x="80" y="946" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">PostgreSQL (poses &#xb7; pose_benefits &#xb7; contraindications)</text>
+
+  <rect x="330" y="934" width="14" height="14" rx="3" fill="#dc382d" opacity="0.8"/>
+  <text x="350" y="946" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Redis Cache (query TTL)</text>
+
+  <rect x="610" y="934" width="14" height="14" rx="3" fill="#74aa9c" opacity="0.8"/>
+  <text x="630" y="946" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">OpenAI fallback (when Ollama unavailable)</text>
+
+  <line x1="900" y1="934" x2="930" y2="934" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="940" y="946" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Soft dependency (dashed)</text>
+
+  <line x1="1200" y1="934" x2="1230" y2="934" stroke="#f59e0b" stroke-width="2"/>
+  <text x="1240" y="946" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Hard dependency (solid)</text>
+
+  <!-- Diamond sample in legend -->
+  <polygon points="1460,934 1474,941 1460,948 1446,941" fill="url(#dA)" opacity="0.9"/>
+  <text x="1482" y="946" font-family="'Segoe UI',sans-serif" font-size="11" fill="#8b949e">Diamond = Pipeline Engine (scoring core)</text>
 </svg>
