@@ -1,4 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="960" viewBox="0 0 1600 960">
+#!/usr/bin/env python3
+"""Write the accurate 3-pipeline infrastructure diagram SVG."""
+import os
+
+SVG = r"""<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="960" viewBox="0 0 1600 960">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#f0f4fa"/>
@@ -304,4 +308,9 @@
   <text x="336" y="952" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">PostgreSQL (poses &#xb7; pose_benefits &#xb7; pose_contraindications)</text>
   <rect x="616" y="941" width="12" height="12" rx="2" fill="#4a235a"/>
   <text x="634" y="952" font-family="'Segoe UI', sans-serif" font-size="11" fill="#444">GeoDataStore: inverted keyword &#xb7; platform &#xb7; region &#xb7; topic indexes</text>
-</svg>
+</svg>"""
+
+out = "/home/aiegoo/repos/aiegoo/aeogeo/assets/infrastructure_diagram.svg"
+with open(out, "w", encoding="utf-8") as f:
+    f.write(SVG)
+print(f"Written {len(SVG)} bytes to {out}")
