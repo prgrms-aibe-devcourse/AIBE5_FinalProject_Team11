@@ -464,11 +464,13 @@ import { OutputPass }       from 'three/addons/postprocessing/OutputPass.js';
 
 // ── Renderer ─────────────────────────────────────────────────────────────────
 const canvas   = document.getElementById('three');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace    = THREE.SRGBColorSpace;
 renderer.toneMapping        = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.15;
+console.log('YogaQ HUD — renderer created', renderer.info.render);
 
 // ── Scene ─────────────────────────────────────────────────────────────────────
 const scene = new THREE.Scene();
@@ -834,37 +836,48 @@ for (const [a,b,c] of TRIS) {
 }
 
 // ── Post-processing: Bloom ────────────────────────────────────────────────────
-const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(
-  new THREE.Vector2(innerWidth, innerHeight),
-  1.85,   // strength
-  0.68,   // radius
-  0.06,   // threshold
-);
-composer.addPass(bloom);
-composer.addPass(new OutputPass());
+let composer = null;
+try {
+  composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloom = new UnrealBloomPass(
+    new THREE.Vector2(innerWidth, innerHeight),
+    1.85,   // strength
+    0.68,   // radius
+    0.06,   // threshold
+  );
+  composer.addPass(bloom);
+  composer.addPass(new OutputPass());
+  console.log('YogaQ HUD — EffectComposer ready');
+} catch (e) {
+  console.warn('YogaQ HUD — EffectComposer failed, falling back to direct render:', e);
+  composer = null;
+}
 
 // ── Resize handler ────────────────────────────────────────────────────────────
 window.addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
-  composer.setSize(innerWidth, innerHeight);
+  if (composer) composer.setSize(innerWidth, innerHeight);
 });
 
 // ── Animation loop ────────────────────────────────────────────────────────────
 let t = 0;
+let _ticks = 0;
 function animate() {
   requestAnimationFrame(animate);
   t += 0.006;
-  // Gentle breathing float
-  sk.position.y    = Math.sin(t * 0.55) * 0.022;
-  // Subtle idle sway
-  sk.rotation.y    = Math.sin(t * 0.38) * 0.010;
-  // Ground ring gentle pulse via scale
-  composer.render();
+  sk.position.y = Math.sin(t * 0.55) * 0.022;
+  sk.rotation.y = Math.sin(t * 0.38) * 0.010;
+  if (composer) {
+    composer.render();
+  } else {
+    renderer.render(scene, camera);
+  }
+  if (++_ticks <= 3) console.log('YogaQ HUD — frame', _ticks);
 }
+console.log('YogaQ HUD — starting animation loop');
 animate();
 </script>
 </body>
