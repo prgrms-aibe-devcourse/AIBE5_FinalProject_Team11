@@ -60,15 +60,16 @@ def s_title(prs):
     block.line.fill.background(); block.fill.solid()
     block.fill.fore_color.rgb = TEAL
     tx(s, Inches(0.8), Inches(0.6), Inches(6), Inches(0.5),
-       "AEOGEO · ENGINEERING", size=14, bold=True, color=TEAL, font=FONT)
-    tx(s, Inches(0.8), Inches(2.2), Inches(11.5), Inches(1.4),
-       "Engineering deep-dive", size=58, bold=True, color=INK, font=FONT)
+       "AEOGEO · ENGINEERING DEEP-DIVE", size=14, bold=True, color=TEAL, font=FONT)
+    tx(s, Inches(0.8), Inches(2.0), Inches(11.5), Inches(1.4),
+       "Safety-First RAG Engine:\nHow We Built It", size=52, bold=True, color=INK, font=FONT)
     tx(s, Inches(0.8), Inches(3.5), Inches(11.5), Inches(1.6),
-       "How we turn a 165-page domain book into a Korean-native\n"
-       "RAG API that AI assistants actually cite.", size=22, color=MUTED, font=FONT)
-    chip(s, Inches(0.8), Inches(5.4), "FastAPI · Ollama · Tesseract")
-    chip(s, Inches(4.0), Inches(5.4), "Korean NLP · 해요체", color=GOLD)
-    chip(s, Inches(6.7), Inches(5.4), "AEO + GEO", color=TEAL)
+       "LangGraph + CrewAI 3-agent pipeline · 165-page OCR knowledge base\n"
+       "Korean-native RAG API · Kill-Switch safety gate · AEO JSON-LD publishing",
+       size=19, color=MUTED, font=FONT)
+    chip(s, Inches(0.8), Inches(5.4), "FastAPI · Ollama · LangGraph · CrewAI")
+    chip(s, Inches(5.0), Inches(5.4), "Korean NLP · 해요체", color=GOLD)
+    chip(s, Inches(7.7), Inches(5.4), "AEO + GEO + Kill-Switch", color=TEAL)
     tx(s, Inches(0.8), Inches(6.6), Inches(11.5), Inches(0.4),
        "Sourced from issues #1 (SSOT architecture) and #4 (Korean NLP / GEO techstack)",
        size=11, color=MUTED, font=FONT)
@@ -410,14 +411,14 @@ def s_twin(prs, page, total):
 
 def s_roadmap(prs, page, total):
     s = prs.slides.add_slide(prs.slide_layouts[6]); add_bg(s)
-    header(s, f"{page:02d} · Roadmap & open issues", "What's shipped, what's next")
+    header(s, f"{page:02d} · Roadmap & open issues", "완료된 것, 다음 단계, 투자 후 마일스톤")
     phases = [
-        ("Phase 0", "Scaffold + OCR pipeline",                     "DONE",  TEAL),
-        ("Phase 1", "165-page intake (≈28k words indexed)",         "DONE",  TEAL),
-        ("Phase 2", "elbee.yogaman.club brand · 8 yoga spots",      "DONE",  TEAL),
-        ("Phase 3", "Multi-book expansion + manifest",              "NEXT",  GOLD),
-        ("Phase 4", "GitHub Actions CI (OCR lint + JSON schema)",   "PLAN",  MUTED),
-        ("Phase 5", "Employer demo package + live deploy",          "PLAN",  MUTED),
+        ("Phase 0", "Scaffold + OCR pipeline (Tesseract+CV2)",         "DONE",  TEAL),
+        ("Phase 1", "165-page intake · 28k words · 4 indexes",          "DONE",  TEAL),
+        ("Phase 2", "elbee.yogaman.club · 8 yoga spots · AEO JSON-LD", "DONE",  TEAL),
+        ("Phase 3", "LangGraph 3-agent crew · Kill-Switch gate",         "NEXT",  GOLD),
+        ("Phase 4", "Pinecone vector index + semantic pose matching",   "PLAN",  MUTED),
+        ("Phase 5", "Naver Cue feed + 50-studio Seoul rollout",         "PLAN",  MUTED),
     ]
     yy = Inches(2.0)
     for ph, body, tag, col in phases:
@@ -428,17 +429,18 @@ def s_roadmap(prs, page, total):
            body, size=12, color=INK, font=FONT)
         chip(s, Inches(7.6), yy + Inches(0.18), tag, color=col)
         yy += Inches(0.78)
-    # right: open issues
     card(s, Inches(8.9), Inches(2.0), Inches(3.8), Inches(4.7))
     tx(s, Inches(9.15), Inches(2.15), Inches(3.4), Inches(0.4),
-       "OPEN ISSUES", size=11, bold=True, color=GOLD, font=FONT)
-    issues = [
-        "#1  SSOT architecture (this deck's source)",
-        "#3  60s vertical storyboard",
-        "#4  Korean NLP + GEO techstack",
+       "TECHNICAL MOAT", size=11, bold=True, color=GOLD, font=FONT)
+    moats = [
+        "Kill-Switch safety gate (unique)",
+        "Agentic 3-crew per query",
+        "AEO JSON-LD by design",
+        "Zero-cost local inference",
+        "Anatomical pose index",
     ]
     yy = Inches(2.6)
-    for n in issues:
+    for n in moats:
         tx(s, Inches(9.15), yy, Inches(3.4), Inches(0.6),
            "• " + n, size=11, color=INK, font=FONT)
         yy += Inches(0.6)
@@ -451,13 +453,19 @@ def s_thanks(prs, page, total):
                                Inches(0.18), H)
     block.line.fill.background(); block.fill.solid()
     block.fill.fore_color.rgb = TEAL
-    tx(s, Inches(0.8), Inches(2.4), Inches(11.5), Inches(1.4),
-       "Built local-first.", size=58, bold=True, color=INK, font=FONT)
-    tx(s, Inches(0.8), Inches(3.7), Inches(11.5), Inches(1.0),
-       "Korean-native. Cited by AI. Ready to scale.",
-       size=22, color=MUTED, font=FONT)
-    chip(s, Inches(0.8), Inches(5.4), "github.com/aiegoo/aeogeo")
-    chip(s, Inches(4.0), Inches(5.4), "elbee.yogaman.club", color=GOLD)
+    tx(s, Inches(0.8), Inches(2.0), Inches(11.5), Inches(1.4),
+       "Built local-first.\nSafety-first. AEO-native.",
+       size=50, bold=True, color=INK, font=FONT)
+    tx(s, Inches(0.8), Inches(3.8), Inches(11.5), Inches(1.0),
+       "Korean-native · Cited by AI · Ready to scale globally.",
+       size=22, color=TEAL, font=FONT)
+    tx(s, Inches(0.8), Inches(4.8), Inches(11.5), Inches(0.8),
+       "YogaQ는 단순한 콘텐츠 플랫폼이 아닙니다 — "
+       "20년 전문가 지식을 500ms 이내에 처리하는 딥테크 RAG 엔진입니다.",
+       size=15, color=MUTED, font=FONT)
+    chip(s, Inches(0.8), Inches(5.8), "github.com/aiegoo/aeogeo")
+    chip(s, Inches(4.0), Inches(5.8), "elbee.yogaman.club", color=GOLD)
+    chip(s, Inches(6.6), Inches(5.8), "hello@yogaman.club", color=TEAL)
     footer(s, page, total)
 
 
