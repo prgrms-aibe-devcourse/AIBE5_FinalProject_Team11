@@ -809,8 +809,9 @@ for (const [a,b,c] of TRIS) {
 // ── Holographic floor grid ────────────────────────────────────────────────────
 {
   const grid = new THREE.GridHelper(10, 28, 0x00D4FF, 0x00D4FF);
-  grid.material.transparent = true;
-  grid.material.opacity     = 0.055;
+  Array.isArray(grid.material)
+    ? grid.material.forEach(m => { m.transparent = true; m.opacity = 0.055; })
+    : (grid.material.transparent = true, grid.material.opacity = 0.055);
   grid.position.y = 0.01;
   scene.add(grid);
 }
