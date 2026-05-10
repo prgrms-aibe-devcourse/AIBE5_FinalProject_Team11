@@ -524,26 +524,31 @@ rimL.position.set(-3, 3, -1); scene.add(rimL);
 
 // ── Joint positions — Runner's Lunge, right foot forward (Y-up, Z-forward) ───
 // Joint positions — Runner's Lunge, right foot forward, side-profile view
-// Camera is on +X axis → body lies in Y-Z plane
-// 90° at right knee: thigh horizontal (r_hip.Y ≈ r_knee.Y), shin vertical (r_knee.Z ≈ r_ankle.Z)
+// Runner's Lunge Pose (Right leg forward)
+// Camera is on +X axis looking toward origin (body is in Y-Z plane)
+// +Y = up, +Z = forward (toward the front foot)
 const J = {
-  head:       new THREE.Vector3( 0.02,  3.82,  0.00),
-  neck:       new THREE.Vector3( 0.02,  3.32,  0.06),
-  r_shoulder: new THREE.Vector3( 0.28,  2.96,  0.14),
-  l_shoulder: new THREE.Vector3(-0.28,  2.96, -0.04),
-  r_elbow:    new THREE.Vector3( 0.36,  2.44,  0.36),
-  l_elbow:    new THREE.Vector3(-0.36,  2.40, -0.10),
-  r_wrist:    new THREE.Vector3( 0.44,  1.82,  0.58),
-  l_wrist:    new THREE.Vector3(-0.44,  1.78,  0.10),
-  mid_hip:    new THREE.Vector3( 0.02,  1.12,  0.06),
-  r_hip:      new THREE.Vector3( 0.20,  1.06,  0.10),  // hip at knee height → thigh horizontal
-  l_hip:      new THREE.Vector3(-0.18,  1.06, -0.06),
-  // Right (front) leg — 90° angle: shin vertical, thigh horizontal
-  r_knee:     new THREE.Vector3( 0.20,  1.06,  0.90),  // same Y as r_hip  → thigh is horizontal
-  r_ankle:    new THREE.Vector3( 0.20,  0.04,  0.90),  // same Z as r_knee → shin is vertical
-  // Left (back) leg — extended back, knee near ground
-  l_knee:     new THREE.Vector3(-0.14,  0.26, -0.86),
-  l_ankle:    new THREE.Vector3(-0.10,  0.04, -1.40),
+  head:       new THREE.Vector3( 0.00,  3.80,  0.10),
+  neck:       new THREE.Vector3( 0.00,  3.35,  0.10),
+  chest:      new THREE.Vector3( 0.00,  2.95,  0.12),
+  spine_mid:  new THREE.Vector3( 0.00,  2.45,  0.10),
+  r_shoulder: new THREE.Vector3( 0.28,  3.05,  0.18),
+  l_shoulder: new THREE.Vector3(-0.28,  3.05,  0.02),
+  // Arms overhead (slightly forward)
+  r_elbow:    new THREE.Vector3( 0.35,  3.55,  0.30),
+  l_elbow:    new THREE.Vector3(-0.35,  3.55,  0.18),
+  r_wrist:    new THREE.Vector3( 0.40,  3.85,  0.44),
+  l_wrist:    new THREE.Vector3(-0.40,  3.85,  0.34),
+  // Hips
+  mid_hip:    new THREE.Vector3( 0.00,  1.65,  0.05),
+  r_hip:      new THREE.Vector3( 0.20,  1.62,  0.20),
+  l_hip:      new THREE.Vector3(-0.20,  1.62, -0.08),
+  // Right (front) leg — true 90° L-shape: thigh forward, shin vertical
+  r_knee:     new THREE.Vector3( 0.22,  1.10,  1.05),
+  r_ankle:    new THREE.Vector3( 0.22,  0.10,  1.05),  // same Z as r_knee → shin straight down
+  // Left (back) leg — extended, knee near floor
+  l_knee:     new THREE.Vector3(-0.18,  0.28, -0.85),
+  l_ankle:    new THREE.Vector3(-0.15,  0.08, -1.40),
 };
 
 // ── Materials ─────────────────────────────────────────────────────────────────
@@ -617,11 +622,17 @@ scene.add(sk);
 
 // Bones
 const BONES = [
-  ['head','neck'],['neck','r_shoulder'],['neck','l_shoulder'],
+  // Head + spine chain
+  ['head','neck'],
+  ['neck','chest'],['chest','spine_mid'],['spine_mid','mid_hip'],
+  // Shoulders
+  ['neck','r_shoulder'],['neck','l_shoulder'],
+  // Arms overhead
   ['r_shoulder','r_elbow'],['r_elbow','r_wrist'],
   ['l_shoulder','l_elbow'],['l_elbow','l_wrist'],
-  ['neck','mid_hip'],
+  // Hips
   ['mid_hip','r_hip'],['mid_hip','l_hip'],
+  // Legs
   ['r_hip','r_knee'],['r_knee','r_ankle'],
   ['l_hip','l_knee'],['l_knee','l_ankle'],
 ];
@@ -654,10 +665,10 @@ for (const [name, pos] of Object.entries(J)) {
 
 // ── Spine — TubeGeometry with gradient ShaderMaterial ────────────────────────
 {
-  const mid = J.neck.clone().lerp(J.mid_hip, 0.5);
-  mid.z -= 0.06;
-  const curve  = new THREE.CatmullRomCurve3([J.neck.clone(), mid, J.mid_hip.clone()]);
-  const tubeGeo = new THREE.TubeGeometry(curve, 14, 0.030, 10, false);
+  const curve  = new THREE.CatmullRomCurve3([
+    J.neck.clone(), J.chest.clone(), J.spine_mid.clone(), J.mid_hip.clone(),
+  ]);
+  const tubeGeo = new THREE.TubeGeometry(curve, 20, 0.030, 10, false);
 
   const spineMat = new THREE.ShaderMaterial({
     vertexShader: `
@@ -685,8 +696,8 @@ for (const [name, pos] of Object.entries(J)) {
 
 // ── Holographic mesh triangles ────────────────────────────────────────────────
 const TRIS = [
-  ['neck','r_shoulder','mid_hip'],
-  ['neck','l_shoulder','mid_hip'],
+  ['chest','r_shoulder','spine_mid'],
+  ['chest','l_shoulder','spine_mid'],
   ['r_shoulder','r_elbow','r_hip'],
   ['l_shoulder','l_elbow','l_hip'],
   ['mid_hip','r_hip','r_knee'],
