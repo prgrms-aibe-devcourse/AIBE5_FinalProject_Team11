@@ -18,7 +18,8 @@ html, body {
 /* ── Three.js canvas — full screen, z:0 ──────────────────────────────────── */
 #three {
   position:fixed; inset:0; z-index:0;
-  /* Subtle chromatic aberration hint */
+  /* Procedural sunset — painted by JS onto this element's background */
+  background: linear-gradient(160deg,#0C0918 0%,#180E2B 22%,#2C1A0D 50%,#3C2206 78%,#180905 100%);
   filter:saturate(1.18) contrast(1.06);
 }
 
@@ -464,84 +465,67 @@ import { OutputPass }       from 'three/addons/postprocessing/OutputPass.js';
 
 // ── Renderer ─────────────────────────────────────────────────────────────────
 const canvas   = document.getElementById('three');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
+const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: true,
+  alpha: true,                        // transparent clear — background comes from CSS
+  powerPreference: 'high-performance',
+});
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
-renderer.outputColorSpace    = THREE.SRGBColorSpace;
-renderer.toneMapping        = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.15;
-console.log('YogaQ HUD — renderer created', renderer.info.render);
+renderer.setClearColor(0x000000, 0);  // fully transparent — CSS gradient shows through
+// NOTE: do NOT set renderer.outputColorSpace here — OutputPass handles it
+// NOTE: do NOT set renderer.toneMapping here — it conflicts with ACESFilmic inside OutputPass
+console.log('YogaQ HUD — renderer created, alpha:true');
 
 // ── Scene ─────────────────────────────────────────────────────────────────────
 const scene = new THREE.Scene();
 scene.fog   = new THREE.FogExp2(0x050810, 0.07);
 
-// ── Procedural sunset background texture ──────────────────────────────────────
+// ── Scene background: painted onto CSS, WebGL is transparent on top ───────────
+// Background is the CSS gradient on #three. We paint supplemental scene
+// atmosphere via a large translucent background plane that Three.js can bloom.
 {
-  const bw = 1920, bh = 1080;
-  const bc  = document.createElement('canvas');
-  bc.width  = bw; bc.height = bh;
-  const ctx = bc.getContext('2d');
+  // Warm upper-right glow plane (simulates window light)
+  const glowGeo = new THREE.PlaneGeometry(22, 14);
+  const glowMat = new THREE.MeshBasicMaterial({
+    color: 0xFF7820,
+    transparent: true, opacity: 0.09,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+  });
+  const gp = new THREE.Mesh(glowGeo, glowMat);
+  gp.position.set(5, 2, -8);
+  scene.add(gp);
 
-  // Base sunset gradient
-  const bg = ctx.createLinearGradient(0, 0, bw, bh);
-  bg.addColorStop(0,    '#0C0918');
-  bg.addColorStop(0.22, '#180E2B');
-  bg.addColorStop(0.50, '#2C1A0D');
-  bg.addColorStop(0.78, '#3C2206');
-  bg.addColorStop(1,    '#180905');
-  ctx.fillStyle = bg; ctx.fillRect(0, 0, bw, bh);
-
-  // Warm window bloom — upper right
-  const wb = ctx.createRadialGradient(1480, 340, 0, 1480, 340, 800);
-  wb.addColorStop(0,   'rgba(255,148,50,0.42)');
-  wb.addColorStop(0.35,'rgba(255,90,20,0.16)');
-  wb.addColorStop(1,   'rgba(0,0,0,0)');
-  ctx.fillStyle = wb; ctx.fillRect(0, 0, bw, bh);
-
-  // Secondary cool ambient — left
-  const ab = ctx.createRadialGradient(200, 280, 0, 200, 280, 650);
-  ab.addColorStop(0, 'rgba(28,18,55,0.32)');
-  ab.addColorStop(1, 'rgba(0,0,0,0)');
-  ctx.fillStyle = ab; ctx.fillRect(0, 0, bw, bh);
-
-  // Floor darkening
-  const fl = ctx.createLinearGradient(0, 620, 0, bh);
-  fl.addColorStop(0, 'rgba(0,0,0,0)');
-  fl.addColorStop(1, 'rgba(4,3,10,0.94)');
-  ctx.fillStyle = fl; ctx.fillRect(0, 620, bw, bh - 620);
-
-  // Yoga mat (perspective ellipse)
-  ctx.save();
-  ctx.translate(960, 950); ctx.scale(2.0, 0.22);
-  const mg = ctx.createRadialGradient(0, 0, 0, 0, 0, 380);
-  mg.addColorStop(0,   'rgba(28,52,36,0.98)');
-  mg.addColorStop(0.75,'rgba(18,38,24,0.92)');
-  mg.addColorStop(1,   'rgba(10,22,14,0.80)');
-  ctx.fillStyle = mg;
-  ctx.beginPath(); ctx.ellipse(0, 0, 380, 380, 0, 0, Math.PI * 2); ctx.fill();
-  ctx.restore();
-
-  // Subtle window frame lines
-  ctx.strokeStyle = 'rgba(255,160,60,0.08)'; ctx.lineWidth = 1.5;
-  ctx.beginPath(); ctx.moveTo(1340, 0);   ctx.lineTo(1340, 820); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(1340, 0);   ctx.lineTo(bw, 0);    ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(1340, 410); ctx.lineTo(bw, 410);  ctx.stroke();
-
-  // Subtle athlete silhouette (hazy shape where skeleton will sit)
-  const as = ctx.createRadialGradient(960, 520, 0, 960, 520, 320);
-  as.addColorStop(0,   'rgba(30,22,10,0.45)');
-  as.addColorStop(0.6, 'rgba(20,15,6,0.18)');
-  as.addColorStop(1,   'rgba(0,0,0,0)');
-  ctx.fillStyle = as; ctx.fillRect(0, 0, bw, bh);
-
-  scene.background = new THREE.CanvasTexture(bc);
+  // Floor plane (yoga mat area)
+  const floorGeo = new THREE.PlaneGeometry(12, 8);
+  const floorMat = new THREE.MeshBasicMaterial({
+    color: 0x0A1A0E,
+    transparent: true, opacity: 0.65,
+    depthWrite: false,
+  });
+  const fp = new THREE.Mesh(floorGeo, floorMat);
+  fp.rotation.x = -Math.PI / 2;
+  fp.position.y = -0.05;
+  scene.add(fp);
 }
 
 // ── Camera ────────────────────────────────────────────────────────────────────
 const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 100);
 camera.position.set(1.6, 2.5, 6.8);
 camera.lookAt(0.1, 1.9, 0);
+
+// ── Diagnostic cube — bright magenta, always visible, remove when satisfied ──
+{
+  const diag = new THREE.Mesh(
+    new THREE.BoxGeometry(0.55, 0.55, 0.55),
+    new THREE.MeshBasicMaterial({ color: 0xFF00FF }),
+  );
+  diag.position.set(0.1, 1.9, 0); // exactly where camera looks
+  scene.add(diag);
+  console.log('YogaQ HUD — diagnostic cube added at (0.1, 1.9, 0)');
+}
 
 // ── Lights ────────────────────────────────────────────────────────────────────
 scene.add(new THREE.AmbientLight(0x10182A, 1.2));
