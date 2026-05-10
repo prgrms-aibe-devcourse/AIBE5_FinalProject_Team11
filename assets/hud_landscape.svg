@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1920 1080" width="1920" height="1080">
+
+<defs>
+  <!-- Glow filters -->
+  <filter id="glow-cyan" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="4" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="glow-red" x="-40%" y="-40%" width="180%" height="180%">
+    <feGaussianBlur stdDeviation="6" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="glow-green" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="3" result="blur"/>
+    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="softshadow">
+    <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.6"/>
+  </filter>
+  <filter id="blur-bg">
+    <feGaussianBlur stdDeviation="2"/>
+  </filter>
+
+  <!-- Sunset gradient background -->
+  <linearGradient id="sunset" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%"   stop-color="#0D0A1A"/>
+    <stop offset="30%"  stop-color="#1A0E2E"/>
+    <stop offset="60%"  stop-color="#2D1B0E"/>
+    <stop offset="85%"  stop-color="#3D2408"/>
+    <stop offset="100%" stop-color="#1A0A05"/>
+  </linearGradient>
+
+  <!-- Floor gradient -->
+  <linearGradient id="floor-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%"  stop-color="#2A1A0A" stop-opacity="0.9"/>
+    <stop offset="100%" stop-color="#0D0806" stop-opacity="1"/>
+  </linearGradient>
+
+  <!-- Window light bloom -->
+  <radialGradient id="window-bloom" cx="72%" cy="35%" r="40%">
+    <stop offset="0%"  stop-color="#FF8C3A" stop-opacity="0.28"/>
+    <stop offset="60%" stop-color="#FF5500" stop-opacity="0.08"/>
+    <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+  </radialGradient>
+
+  <!-- Panel glass gradient -->
+  <linearGradient id="glass-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%"   stop-color="#FFFFFF" stop-opacity="0.06"/>
+    <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.01"/>
+  </linearGradient>
+
+  <!-- Skeleton mesh gradient -->
+  <radialGradient id="mesh-glow" cx="50%" cy="45%" r="50%">
+    <stop offset="0%"  stop-color="#00D4FF" stop-opacity="0.25"/>
+    <stop offset="100%" stop-color="#00D4FF" stop-opacity="0"/>
+  </radialGradient>
+
+  <!-- Spine gradient -->
+  <linearGradient id="spine-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%"   stop-color="#A855F7"/>
+    <stop offset="50%"  stop-color="#00D4FF"/>
+    <stop offset="100%" stop-color="#00CC77"/>
+  </linearGradient>
+
+  <!-- Red strobe animation -->
+  <animate id="strobe" attributeName="opacity"
+    values="1;0.15;1;0.15;1" dur="0.7s" repeatCount="indefinite"/>
+
+  <!-- Pulse animation for kill-switch border -->
+  <style>
+    .strobe { animation: strobe 0.7s infinite; }
+    @keyframes strobe { 0%,100%{opacity:1} 50%{opacity:0.18} }
+    .pulse-green { animation: pulse-g 1.4s infinite; }
+    @keyframes pulse-g { 0%,100%{opacity:0.7} 50%{opacity:1} }
+    .pulse-cyan  { animation: pulse-c 2s infinite; }
+    @keyframes pulse-c { 0%,100%{opacity:0.5} 50%{opacity:1} }
+    .scan-line   { animation: scan 3s linear infinite; }
+    @keyframes scan { from{transform:translateY(-200px)} to{transform:translateY(1300px)} }
+  </style>
+
+  <!-- Mat texture gradient -->
+  <linearGradient id="mat-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%"   stop-color="#1A2A20" stop-opacity="0.95"/>
+    <stop offset="50%"  stop-color="#1E3226" stop-opacity="0.98"/>
+    <stop offset="100%" stop-color="#152218" stop-opacity="0.95"/>
+  </linearGradient>
+
+  <!-- Holographic grid pattern -->
+  <pattern id="holo-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <line x1="40" y1="0" x2="0" y2="40" stroke="#00D4FF" stroke-width="0.3" opacity="0.15"/>
+    <line x1="0"  y1="0" x2="40" y2="40" stroke="#00D4FF" stroke-width="0.3" opacity="0.08"/>
+  </pattern>
+</defs>
+
+
+<!-- ── Background scene ── -->
+<rect width="1920" height="1080" fill="url(#sunset)"/>
+
+<!-- Floor plane -->
+<ellipse cx="960" cy="1080" rx="1400" ry="340"
+         fill="url(#floor-grad)" opacity="0.95"/>
+
+<!-- Yoga mat -->
+<ellipse cx="860" cy="830" rx="420" ry="55"
+         fill="url(#mat-grad)" opacity="0.92"/>
+<ellipse cx="860" cy="830" rx="418" ry="53"
+         fill="none" stroke="#2E4A38" stroke-width="2" opacity="0.6"/>
+
+<!-- Window ambient bloom (simulated sunset light) -->
+<rect width="1920" height="1080" fill="url(#window-bloom)"/>
+
+<!-- Ambient floor reflection -->
+<ellipse cx="860" cy="870" rx="300" ry="28"
+         fill="#FF6622" opacity="0.06"/>
+
+<!-- Atmospheric haze -->
+<rect width="1920" height="1080"
+      fill="url(#holo-grid)" opacity="0.40"/>
+
+<!-- Subtle scan line -->
+<rect class="scan-line" x="0" y="0" width="1920" height="3"
+      fill="#00D4FF" opacity="0.06"/>
+
+
+<!-- ── Peripheral green colour wash (INFO) ── -->
+<rect width="1920" height="1080"
+      fill="rgba(0,204,119,0.045)" pointer-events="none"/>
+
+
+<!-- ── 3-D Holographic Skeleton ── -->
+<g filter="url(#softshadow)">
+  <ellipse cx="860" cy="540" rx="200" ry="280" fill="url(#mesh-glow)" opacity="0.9"/>
+  <path d="M 868,345 L 940,380 L 855,534 Z" fill="#00D4FF" fill-opacity="0.04" stroke="#00D4FF" stroke-width="0.6" opacity="0.55"/><path d="M 868,345 L 790,395 L 855,534 Z" fill="#00D4FF" fill-opacity="0.04" stroke="#00D4FF" stroke-width="0.6" opacity="0.55"/><path d="M 940,380 L 980,460 L 855,534 Z" fill="#00D4FF" fill-opacity="0.04" stroke="#00D4FF" stroke-width="0.6" opacity="0.55"/><path d="M 790,395 L 745,468 L 855,534 Z" fill="#00D4FF" fill-opacity="0.04" stroke="#00D4FF" stroke-width="0.6" opacity="0.55"/><path d="M 855,534 L 900,530 L 990,680 Z" fill="#00D4FF" fill-opacity="0.04" stroke="#00D4FF" stroke-width="0.6" opacity="0.55"/><path d="M 855,534 L 810,540 L 710,700 Z" fill="#00D4FF" fill-opacity="0.04" stroke="#00D4FF" stroke-width="0.6" opacity="0.55"/><path d="M 900,530 L 990,680 L 1060,790 Z" fill="#00D4FF" fill-opacity="0.04" stroke="#00D4FF" stroke-width="0.6" opacity="0.55"/><path d="M 810,540 L 710,700 L 660,820 Z" fill="#00D4FF" fill-opacity="0.04" stroke="#00D4FF" stroke-width="0.6" opacity="0.55"/>
+  <polyline points="855,534 855,345" fill="none" stroke="#A855F7" stroke-width="1.8" opacity="0.55" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 4"/>
+  <polyline points="1060,790 990,680 981.6,666.8" fill="none" stroke="#00CC77" stroke-width="2.5" opacity="0.65" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="8 5"/><polygon points="983,666 997,666 990,652" fill="#00CC77" opacity="0.75"/>
+  <polyline points="660,820 710,700" fill="none" stroke="#F59E0B" stroke-width="2.2" opacity="0.6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6 4"/>
+  <line x1="868" y1="345" x2="855" y2="534" stroke="url(#spine-grad)" stroke-width="5" opacity="0.80" filter="url(#glow-cyan)" stroke-linecap="round"/>
+  <polyline points="870,290 868,345" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="868,345 940,380" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="868,345 790,395" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="940,380 980,460" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="980,460 1008,530" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="790,395 745,468" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="745,468 718,534" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="868,345 855,534" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="855,534 900,530" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="855,534 810,540" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="900,530 990,680" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="990,680 1060,790" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="810,540 710,700" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" /><polyline points="710,700 660,820" fill="none" stroke="#00D4FF" stroke-width="2.2" opacity="0.82" stroke-linejoin="round" stroke-linecap="round" />
+  <circle cx="870" cy="290" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="868" cy="345" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="940" cy="380" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="790" cy="395" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="980" cy="460" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="745" cy="468" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="1008" cy="530" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="718" cy="534" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="900" cy="530" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="810" cy="540" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="855" cy="534" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="990" cy="680" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="1060" cy="790" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="710" cy="700" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/><circle cx="660" cy="820" r="5" fill="#00D4FF" opacity="0.9" filter="url(#glow-cyan)"/>
+  <circle cx="870" cy="268" r="28" fill="rgba(0,212,255,0.08)" stroke="#00D4FF" stroke-width="1.8" filter="url(#glow-cyan)" opacity="0.85"/>
+  <path d="M 942.9 658.0 A 52 52 0 0 1 1019.8 637.4" fill="none" stroke="#F59E0B" stroke-width="3.5" stroke-linecap="round"/><text x="1054" y="670" dy="0" font-size="20" fill="#F59E0B" font-weight="800" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >91°</text>
+  <line x1="710" y1="700" x2="658" y2="758" stroke="#F59E0B" stroke-width="2.5" opacity="0.85" marker-end="url(#arr-amber)"/><text x="636" y="782" dy="0" font-size="18" fill="#F59E0B" font-weight="800" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Lower</text>
+</g>
+
+
+<!-- ── Kill-Switch Banner ── -->
+<g class="strobe">
+  <rect x="540" y="22" width="840" height="76" fill="rgba(6,12,22,0.65)" stroke="none" stroke-width="0" rx="16" ry="16" opacity="1"  /><rect x="540" y="22" width="840" height="40" fill="url(#glass-grad)" stroke="none" stroke-width="0" rx="16" ry="0" opacity="1"  /><rect x="540" y="22" width="840" height="76" fill="none" stroke="#FF3B30" stroke-width="2.5" rx="16" ry="16" opacity="1"  /><path d="M 540,36 L 540,22 L 554,22" fill="none" stroke="#FF3B30" stroke-width="1.2"/><path d="M 1366,22 L 1380,22 L 1380,36" fill="none" stroke="#FF3B30" stroke-width="1.2"/><path d="M 540,84 L 540,98 L 554,98" fill="none" stroke="#FF3B30" stroke-width="1.2"/><path d="M 1366,98 L 1380,98 L 1380,84" fill="none" stroke="#FF3B30" stroke-width="1.2"/>
+  <rect x="540" y="22" width="840" height="76"
+        fill="rgba(255,59,48,0.10)" rx="16"/>
+</g>
+<!-- Icon + text always visible regardless of strobe -->
+<rect x="554" y="40" width="96" height="40" fill="#FF3B30" stroke="none" stroke-width="0" rx="6" ry="6" opacity="1"  /><text x="602.0" y="64.32" dy="0" font-size="12" fill="#F0F6FC" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >CRITICAL</text>
+<text x="990" y="46" dy="0" font-size="23" fill="#FF3B30" font-weight="900" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" filter="url(#glow-red)">STOP IMMEDIATELY — KNEE STRESS DETECTED</text>
+<text x="990" y="74" dy="0" font-size="14" fill="#FF9990" font-weight="500" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Knee shear exceeds 20°  ·  Abort pose immediately</text>
+<line x1="554" y1="97" x2="1366" y2="97" stroke="#FF3B30" stroke-width="0.8" opacity="0.7" />
+
+
+<!-- ── Left: Pose Info ── -->
+<rect x="28" y="118" width="310" height="360" fill="rgba(6,12,22,0.65)" stroke="none" stroke-width="0" rx="16" ry="16" opacity="1"  /><rect x="28" y="118" width="310" height="40" fill="url(#glass-grad)" stroke="none" stroke-width="0" rx="16" ry="0" opacity="1"  /><rect x="28" y="118" width="310" height="360" fill="none" stroke="#00D4FF" stroke-width="1.5" rx="16" ry="16" opacity="1"  /><path d="M 28,132 L 28,118 L 42,118" fill="none" stroke="#00D4FF" stroke-width="1.2"/><path d="M 324,118 L 338,118 L 338,132" fill="none" stroke="#00D4FF" stroke-width="1.2"/><path d="M 28,464 L 28,478 L 42,478" fill="none" stroke="#00D4FF" stroke-width="1.2"/><path d="M 324,478 L 338,478 L 338,464" fill="none" stroke="#00D4FF" stroke-width="1.2"/>
+<line x1="42" y1="119" x2="324" y2="119" stroke="#00D4FF" stroke-width="1" opacity="0.4" /><text x="44" y="140" dy="0" font-size="15" fill="#00D4FF" font-weight="700" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >CURRENT POSE</text>
+<text x="183" y="192" dy="0" font-size="22" fill="#F0F6FC" font-weight="800" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Runner's Lunge</text>
+<text x="183" y="218" dy="0" font-size="13" fill="#8B949E" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Anjaneyasana — Right Forward</text>
+<line x1="48" y1="232" x2="318" y2="232" stroke="#00D4FF" stroke-width="0.5" opacity="0.3" />
+
+<text x="52" y="256" dy="0" font-size="12" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Front Knee Angle</text>
+<text x="322" y="256" dy="0" font-size="18" fill="#00CC77" font-weight="800" text-anchor="end" font-family="Inter,Arial,sans-serif" opacity="1" filter="url(#glow-green)">91°</text>
+
+<text x="52" y="286" dy="0" font-size="12" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Torso Lean</text>
+<text x="322" y="286" dy="0" font-size="18" fill="#00CC77" font-weight="800" text-anchor="end" font-family="Inter,Arial,sans-serif" opacity="1" >8°</text>
+
+<text x="52" y="316" dy="0" font-size="12" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Back Knee Height</text>
+<text x="322" y="316" dy="0" font-size="16" fill="#F59E0B" font-weight="800" text-anchor="end" font-family="Inter,Arial,sans-serif" opacity="1" >LOW</text>
+
+<line x1="48" y1="334" x2="318" y2="334" stroke="#00D4FF" stroke-width="0.5" opacity="0.3" />
+
+<text x="183" y="358" dy="0" font-size="13" fill="#8B949E" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >PHASE  3 / 5</text>
+<rect x="113" y="376" width="140" height="34" fill="#A855F7" stroke="none" stroke-width="0" rx="8" ry="8" opacity="1"  /><text x="183.0" y="397.68" dy="0" font-size="13" fill="#F0F6FC" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >HOLD PHASE</text>
+
+<text x="183" y="438" dy="0" font-size="12" fill="#8B949E" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Alignment</text>
+<text x="183" y="458" dy="0" font-size="12" fill="#F0F6FC" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Spine lengthening, hips level</text>
+
+
+<!-- ── Warning panel ── -->
+<rect x="28" y="494" width="310" height="108" fill="rgba(6,12,22,0.65)" stroke="none" stroke-width="0" rx="16" ry="16" opacity="1"  /><rect x="28" y="494" width="310" height="40" fill="url(#glass-grad)" stroke="none" stroke-width="0" rx="16" ry="0" opacity="1"  /><rect x="28" y="494" width="310" height="108" fill="none" stroke="#F59E0B" stroke-width="1.5" rx="16" ry="16" opacity="1"  /><path d="M 28,508 L 28,494 L 42,494" fill="none" stroke="#F59E0B" stroke-width="1.2"/><path d="M 324,494 L 338,494 L 338,508" fill="none" stroke="#F59E0B" stroke-width="1.2"/><path d="M 28,588 L 28,602 L 42,602" fill="none" stroke="#F59E0B" stroke-width="1.2"/><path d="M 324,602 L 338,602 L 338,588" fill="none" stroke="#F59E0B" stroke-width="1.2"/>
+<rect x="28" y="494" width="310" height="108"
+      fill="rgba(245,158,11,0.08)" rx="16"/>
+<rect x="42" y="510" width="90" height="30" fill="#F59E0B" stroke="none" stroke-width="0" rx="5" ry="5" opacity="1"  /><text x="87.0" y="528.96" dy="0" font-size="11" fill="#000" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >WARNING</text>
+<text x="183" y="552" dy="0" font-size="22" fill="#F59E0B" font-weight="900" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Back knee lower</text>
+<text x="183" y="578" dy="0" font-size="12" fill="#C8860A" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Drop left knee toward the mat</text>
+
+
+<!-- ── Info / encouragement panel ── -->
+<g class="pulse-green">
+<rect x="28" y="616" width="310" height="96" fill="rgba(6,12,22,0.65)" stroke="none" stroke-width="0" rx="16" ry="16" opacity="1"  /><rect x="28" y="616" width="310" height="40" fill="url(#glass-grad)" stroke="none" stroke-width="0" rx="16" ry="0" opacity="1"  /><rect x="28" y="616" width="310" height="96" fill="none" stroke="#00CC77" stroke-width="1.5" rx="16" ry="16" opacity="1"  /><path d="M 28,630 L 28,616 L 42,616" fill="none" stroke="#00CC77" stroke-width="1.2"/><path d="M 324,616 L 338,616 L 338,630" fill="none" stroke="#00CC77" stroke-width="1.2"/><path d="M 28,698 L 28,712 L 42,712" fill="none" stroke="#00CC77" stroke-width="1.2"/><path d="M 324,712 L 338,712 L 338,698" fill="none" stroke="#00CC77" stroke-width="1.2"/>
+<rect x="28" y="616" width="310" height="96"
+      fill="rgba(0,204,119,0.07)" rx="16"/>
+</g>
+<rect x="42" y="632" width="66" height="28" fill="#00CC77" stroke="none" stroke-width="0" rx="5" ry="5" opacity="1"  /><text x="75.0" y="649.96" dy="0" font-size="11" fill="#000" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >INFO</text>
+<text x="183" y="670" dy="0" font-size="22" fill="#00CC77" font-weight="900" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" filter="url(#glow-green)">Perfect depth</text>
+<text x="183" y="694" dy="0" font-size="12" fill="#009955" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Inhale · lengthen · breathe deeper</text>
+
+
+<!-- ── Right: Biometrics ── -->
+<rect x="1582" y="118" width="310" height="600" fill="rgba(6,12,22,0.65)" stroke="none" stroke-width="0" rx="16" ry="16" opacity="1"  /><rect x="1582" y="118" width="310" height="40" fill="url(#glass-grad)" stroke="none" stroke-width="0" rx="16" ry="0" opacity="1"  /><rect x="1582" y="118" width="310" height="600" fill="none" stroke="#00D4FF" stroke-width="1.5" rx="16" ry="16" opacity="1"  /><path d="M 1582,132 L 1582,118 L 1596,118" fill="none" stroke="#00D4FF" stroke-width="1.2"/><path d="M 1878,118 L 1892,118 L 1892,132" fill="none" stroke="#00D4FF" stroke-width="1.2"/><path d="M 1582,704 L 1582,718 L 1596,718" fill="none" stroke="#00D4FF" stroke-width="1.2"/><path d="M 1878,718 L 1892,718 L 1892,704" fill="none" stroke="#00D4FF" stroke-width="1.2"/>
+<line x1="1596" y1="119" x2="1878" y2="119" stroke="#00D4FF" stroke-width="1" opacity="0.4" /><text x="1598" y="140" dy="0" font-size="15" fill="#00D4FF" font-weight="700" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >BIOMETRICS</text>
+
+<!-- Knee arc gauge -->
+<path d="M 1800.6 391.6 A 90 90 0 1 1 1800.6 264.4" fill="none" stroke="#21262D" stroke-width="12" stroke-linecap="round"/>
+<path d="M 1800.6 391.6 A 90 90 0 0 1 1647.0 325.5" fill="none" stroke="#00CC77" stroke-width="12" stroke-linecap="round"/>
+<line x1="1737.0" y1="254.0" x2="1737.0" y2="222.0" stroke="#00D4FF" stroke-width="3"/>
+<text x="1737" y="320" dy="0" font-size="36" fill="#00CC77" font-weight="900" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" filter="url(#glow-green)">91°</text>
+<text x="1737" y="356" dy="0" font-size="11" fill="#8B949E" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >FRONT KNEE</text>
+<text x="1737" y="374" dy="0" font-size="11" fill="#8B949E" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Target: 90°</text>
+
+<line x1="1602" y1="434" x2="1872" y2="434" stroke="#00D4FF" stroke-width="0.5" opacity="0.3" />
+
+<!-- Stability bar -->
+<text x="1602" y="460" dy="0" font-size="13" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Stability</text>
+<text x="1872" y="460" dy="0" font-size="13" fill="#00CC77" font-weight="700" text-anchor="end" font-family="Inter,Arial,sans-serif" opacity="1" >82%</text>
+<rect x="1602" y="472" width="270" height="14" fill="#21262D" stroke="none" stroke-width="0" rx="7" ry="14" opacity="1"  />
+<rect x="1602" y="472" width="221" height="14" fill="#00CC77" stroke="none" stroke-width="0" rx="7" ry="14" opacity="1"  />
+
+<!-- Wobble bar -->
+<text x="1602" y="506" dy="0" font-size="13" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Wobble</text>
+<text x="1872" y="506" dy="0" font-size="13" fill="#F59E0B" font-weight="700" text-anchor="end" font-family="Inter,Arial,sans-serif" opacity="1" >0.08 r/s</text>
+<rect x="1602" y="518" width="270" height="14" fill="#21262D" stroke="none" stroke-width="0" rx="7" ry="14" opacity="1"  />
+<rect x="1602" y="518" width="143" height="14" fill="#F59E0B" stroke="none" stroke-width="0" rx="7" ry="14" opacity="1"  />
+
+<line x1="1602" y1="546" x2="1872" y2="546" stroke="#00D4FF" stroke-width="0.5" opacity="0.3" />
+
+<!-- Pi latency chip -->
+<text x="1602" y="570" dy="0" font-size="13" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Pi Latency</text>
+<text x="1872" y="570" dy="0" font-size="15" fill="#00D4FF" font-weight="800" text-anchor="end" font-family="Inter,Arial,sans-serif" opacity="1" >18 ms</text>
+
+<text x="1602" y="598" dy="0" font-size="13" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Inference FPS</text>
+<text x="1872" y="598" dy="0" font-size="15" fill="#00D4FF" font-weight="800" text-anchor="end" font-family="Inter,Arial,sans-serif" opacity="1" >30 fps</text>
+
+<text x="1602" y="628" dy="0" font-size="13" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Model</text>
+<text x="1872" y="628" dy="0" font-size="13" fill="#8B949E" font-weight="normal" text-anchor="end" font-family="Inter,Arial,sans-serif" opacity="1" >MoveNet/Hailo</text>
+
+<line x1="1602" y1="644" x2="1872" y2="644" stroke="#00D4FF" stroke-width="0.5" opacity="0.3" />
+
+<text x="1737" y="674" dy="0" font-size="12" fill="#8B949E" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Session Timer</text>
+<text x="1737" y="702" dy="0" font-size="24" fill="#F0F6FC" font-weight="800" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >00:02:37</text>
+
+
+<!-- ── Bottom bar ── -->
+<rect x="28" y="740" width="1864" height="100" fill="rgba(6,12,22,0.65)" stroke="none" stroke-width="0" rx="16" ry="16" opacity="1"  /><rect x="28" y="740" width="1864" height="40" fill="url(#glass-grad)" stroke="none" stroke-width="0" rx="16" ry="0" opacity="1"  /><rect x="28" y="740" width="1864" height="100" fill="none" stroke="#00D4FF" stroke-width="1" rx="16" ry="16" opacity="1"  /><path d="M 28,754 L 28,740 L 42,740" fill="none" stroke="#00D4FF" stroke-width="1.2"/><path d="M 1878,740 L 1892,740 L 1892,754" fill="none" stroke="#00D4FF" stroke-width="1.2"/><path d="M 28,826 L 28,840 L 42,840" fill="none" stroke="#00D4FF" stroke-width="1.2"/><path d="M 1878,840 L 1892,840 L 1892,826" fill="none" stroke="#00D4FF" stroke-width="1.2"/>
+
+<!-- Hold timer -->
+<rect x="44" y="754" width="120" height="28" fill="#00CC77" stroke="none" stroke-width="0" rx="5" ry="5" opacity="1"  /><text x="104.0" y="771.96" dy="0" font-size="11" fill="#000" font-weight="700" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >HOLD 500 ms</text>
+<path d="M 220.0 752.0 A 38 38 0 1 1 220.0 752.0" fill="none" stroke="#21262D" stroke-width="8" stroke-linecap="round"/><path d="M 220.0 752.0 A 38 38 0 1 1 190.7 814.2" fill="none" stroke="#00CC77" stroke-width="8" stroke-linecap="round"/><text x="220" y="796" dy="0" font-size="18" fill="#00CC77" font-weight="900" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >320</text><text x="220" y="812" dy="0" font-size="10" fill="#8B949E" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >ms</text>
+
+<line x1="298" y1="756" x2="298" y2="824" stroke="#00D4FF" stroke-width="0.5" opacity="0.3" />
+
+<!-- Main cue text (72pt visual weight) -->
+<text x="960" y="784" dy="0" font-size="42" fill="#00CC77" font-weight="900" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" filter="url(#glow-green)">Perfect depth</text>
+<text x="960" y="816" dy="0" font-size="16" fill="#00CC7799" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Inhale · lengthen spine · breathe deeper</text>
+
+<line x1="1592" y1="756" x2="1592" y2="824" stroke="#00D4FF" stroke-width="0.5" opacity="0.3" />
+
+<!-- Debounce indicator -->
+<text x="1752" y="784" dy="0" font-size="12" fill="#8B949E" font-weight="normal" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >Next cue</text>
+<text x="1752" y="810" dy="0" font-size="22" fill="#00D4FF" font-weight="800" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >1.7 s</text>
+
+
+<!-- ── Status bar ── -->
+<text x="48" y="16" dy="0" font-size="12" fill="#00CC77" font-weight="700" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Pi  CONNECTED</text>
+<circle cx="36" cy="10" r="5" fill="#00CC77" stroke="none" stroke-width="2"/>
+<text x="960" y="16" dy="0" font-size="13" fill="#8B949E" font-weight="600" text-anchor="middle" font-family="Inter,Arial,sans-serif" opacity="1" >RUNNER'S LUNGE HUD  ·  Cue Overlay System  v1.0</text>
+<text x="1872" y="16" dy="0" font-size="12" fill="#8B949E" font-weight="normal" text-anchor="end" font-family="Inter,Arial,sans-serif" opacity="1" >00:02:37</text>
+
+<circle cx="1350" cy="762" r="5" fill="#00D4FF"/><text x="1364" y="766" dy="0" font-size="11" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Skeleton overlay</text><circle cx="1350" cy="780" r="5" fill="#00CC77"/><text x="1364" y="784" dy="0" font-size="11" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Ideal vector rail</text><circle cx="1350" cy="798" r="5" fill="#F59E0B"/><text x="1364" y="802" dy="0" font-size="11" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Correction arrow</text><circle cx="1350" cy="816" r="5" fill="#A855F7"/><text x="1364" y="820" dy="0" font-size="11" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Torso guide</text><circle cx="1350" cy="834" r="5" fill="#FF3B30"/><text x="1364" y="838" dy="0" font-size="11" fill="#8B949E" font-weight="normal" text-anchor="start" font-family="Inter,Arial,sans-serif" opacity="1" >Kill-switch border</text>
+</svg>
