@@ -106,12 +106,7 @@ html, body {
 
 /* ── Kill-Switch Banner ──────────────────────────────────────────────────── */
 #ks {
-  left:50%; transform:translateX(-50%);
-  top:22px; width:860px; height:84px;
-  border-color:rgba(255,59,48,0.85);
-  background:rgba(40,5,4,0.84);
-  display:flex; align-items:center; gap:18px; padding:0 24px;
-  animation:ks-strobe 0.72s ease-in-out infinite;
+  display:none; /* demo shows good form — no kill event active */
 }
 @keyframes ks-strobe {
   0%,100% {
@@ -515,37 +510,40 @@ scene.fog   = new THREE.FogExp2(0x050810, 0.032); // light fog — keep skeleton
 
 // ── Camera ────────────────────────────────────────────────────────────────────
 const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 100);
-camera.position.set(1.6, 2.5, 6.8);
-camera.lookAt(0.1, 1.9, 0);
+camera.position.set(6.0, 2.2, 0.2);   // side view — perpendicular to sagittal plane
+camera.lookAt(0, 1.9, 0.2);
 
 // ── Lights ────────────────────────────────────────────────────────────────────
 scene.add(new THREE.AmbientLight(0x10182A, 1.2));
 const sun = new THREE.DirectionalLight(0xFF8C3A, 0.55);
 sun.position.set(8, 5, -3); scene.add(sun);
 const fill = new THREE.PointLight(0x00D4FF, 1.4, 10);
-fill.position.set(0, 2.5, 4); scene.add(fill);
+fill.position.set(5, 2.5, 1); scene.add(fill);  // light from camera side
 const rimL = new THREE.PointLight(0xA855F7, 0.35, 8);
 rimL.position.set(-3, 3, -1); scene.add(rimL);
 
 // ── Joint positions — Runner's Lunge, right foot forward (Y-up, Z-forward) ───
+// Joint positions — Runner's Lunge, right foot forward, side-profile view
+// Camera is on +X axis → body lies in Y-Z plane
+// 90° at right knee: thigh horizontal (r_hip.Y ≈ r_knee.Y), shin vertical (r_knee.Z ≈ r_ankle.Z)
 const J = {
-  head:       new THREE.Vector3( 0.06,  4.00, -0.08),
-  neck:       new THREE.Vector3( 0.04,  3.45,  0.00),
-  r_shoulder: new THREE.Vector3( 0.60,  3.14,  0.18),
-  l_shoulder: new THREE.Vector3(-0.52,  3.14, -0.14),
-  r_elbow:    new THREE.Vector3( 0.80,  2.58,  0.32),
-  l_elbow:    new THREE.Vector3(-0.76,  2.58, -0.20),
-  r_wrist:    new THREE.Vector3( 0.90,  1.98,  0.45),
-  l_wrist:    new THREE.Vector3(-0.90,  1.94,  0.10),
-  mid_hip:    new THREE.Vector3( 0.05,  2.20, -0.04),
-  r_hip:      new THREE.Vector3( 0.34,  2.14,  0.20),
-  l_hip:      new THREE.Vector3(-0.26,  2.14, -0.30),
-  // Right (front) leg — knee bent at 91°
-  r_knee:     new THREE.Vector3( 0.46,  1.10,  0.88),
-  r_ankle:    new THREE.Vector3( 0.46,  0.04,  1.32),
-  // Left (back) leg — extended back
-  l_knee:     new THREE.Vector3(-0.18,  0.44, -1.08),
-  l_ankle:    new THREE.Vector3(-0.14,  0.04, -1.82),
+  head:       new THREE.Vector3( 0.02,  3.82,  0.00),
+  neck:       new THREE.Vector3( 0.02,  3.32,  0.06),
+  r_shoulder: new THREE.Vector3( 0.28,  2.96,  0.14),
+  l_shoulder: new THREE.Vector3(-0.28,  2.96, -0.04),
+  r_elbow:    new THREE.Vector3( 0.36,  2.44,  0.36),
+  l_elbow:    new THREE.Vector3(-0.36,  2.40, -0.10),
+  r_wrist:    new THREE.Vector3( 0.44,  1.82,  0.58),
+  l_wrist:    new THREE.Vector3(-0.44,  1.78,  0.10),
+  mid_hip:    new THREE.Vector3( 0.02,  1.12,  0.06),
+  r_hip:      new THREE.Vector3( 0.20,  1.06,  0.10),  // hip at knee height → thigh horizontal
+  l_hip:      new THREE.Vector3(-0.18,  1.06, -0.06),
+  // Right (front) leg — 90° angle: shin vertical, thigh horizontal
+  r_knee:     new THREE.Vector3( 0.20,  1.06,  0.90),  // same Y as r_hip  → thigh is horizontal
+  r_ankle:    new THREE.Vector3( 0.20,  0.04,  0.90),  // same Z as r_knee → shin is vertical
+  // Left (back) leg — extended back, knee near ground
+  l_knee:     new THREE.Vector3(-0.14,  0.26, -0.86),
+  l_ankle:    new THREE.Vector3(-0.10,  0.04, -1.40),
 };
 
 // ── Materials ─────────────────────────────────────────────────────────────────
